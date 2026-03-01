@@ -28,6 +28,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 // Optional test endpoint
-app.MapGet("/", () => "School Admission API is running...");
+app.MapGet("/", () => "School Admission Web API is running...");
 
 app.Run();
