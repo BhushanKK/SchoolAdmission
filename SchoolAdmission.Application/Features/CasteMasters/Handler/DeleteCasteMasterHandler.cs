@@ -22,7 +22,7 @@ public class DeleteCasteMasterHandler
         if (entity == null)
             return false;
 
-        _repository.Delete(entity);
+        await _repository.DeleteAsync(entity);
         await _repository.SaveChangesAsync();
 
         return true;

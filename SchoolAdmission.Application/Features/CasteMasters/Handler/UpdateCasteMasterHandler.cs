@@ -25,7 +25,7 @@ public class UpdateCasteMasterHandler
         entity.CategoryId = request.CategoryId;
         entity.Caste = request.Caste;
 
-        _repository.Update(entity);
+        await _repository.UpdateAsync(entity);
         await _repository.SaveChangesAsync();
 
         return true;
