@@ -16,10 +16,7 @@ public class ApplicationDbContext : DbContext
     {
         modelBuilder.Entity<CasteMaster>(entity =>
         {
-            // Map to existing table
-            entity.ToTable("casteaster");
-
-            // Primary key
+            entity.ToTable("CasteMaster");
             entity.HasKey(e => e.CasteId);
         });
 
