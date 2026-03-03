@@ -3,21 +3,12 @@ using SchoolAdmission.Application.Common.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class UpdateCasteMasterHandler
+public class UpdateCasteMasterHandler(ICasteMasterRepository repository)
     : IRequestHandler<UpdateCasteMasterCommand, bool>
 {
-    private readonly ICasteMasterRepository _repository;
-
-    public UpdateCasteMasterHandler(ICasteMasterRepository repository)
+    public async Task<bool> Handle(UpdateCasteMasterCommand request, CancellationToken cancellationToken)
     {
-        _repository = repository;
-    }
-
-    public async Task<bool> Handle(
-        UpdateCasteMasterCommand request,
-        CancellationToken cancellationToken)
-    {
-        var entity = await _repository.GetByIdAsync(request.CasteId);
+        var entity = await repository.GetByIdAsync(request.CasteId);
 
         if (entity == null)
             return false;
@@ -25,8 +16,8 @@ public class UpdateCasteMasterHandler
         entity.CategoryId = request.CategoryId;
         entity.Caste = request.Caste;
 
-        await _repository.UpdateAsync(entity);
-        await _repository.SaveChangesAsync();
+        await repository.UpdateAsync(entity);
+        await repository.SaveChangesAsync();
 
         return true;
     }

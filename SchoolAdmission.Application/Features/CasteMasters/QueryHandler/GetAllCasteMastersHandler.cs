@@ -4,21 +4,12 @@ using SchoolAdmission.Application.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
 
-public class GetAllCasteMastersHandler 
+public class GetAllCasteMastersHandler(ICasteMasterRepository repository)
     : IRequestHandler<GetAllCasteMastersQuery, List<CasteMasterDto>>
 {
-    private readonly ICasteMasterRepository _repository;
-
-    public GetAllCasteMastersHandler(ICasteMasterRepository repository)
+    public async Task<List<CasteMasterDto>> Handle(GetAllCasteMastersQuery request, CancellationToken cancellationToken)
     {
-        _repository = repository;
-    }
-
-    public async Task<List<CasteMasterDto>> Handle(
-        GetAllCasteMastersQuery request,
-        CancellationToken cancellationToken)
-    {
-        var data = await _repository.GetAllAsync();
+        var data = await repository.GetAllAsync();
 
         return data.Select(x => new CasteMasterDto
         {
