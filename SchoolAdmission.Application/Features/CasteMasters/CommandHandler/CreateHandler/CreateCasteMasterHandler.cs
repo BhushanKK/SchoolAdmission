@@ -4,15 +4,8 @@ using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class CreateCasteMasterHandler
-    : IRequestHandler<CreateCasteMasterCommand, int>
+public class CreateCasteMasterHandler(ICasteMasterRepository repository) : IRequestHandler<CreateCasteMasterCommand, int>
 {
-    private readonly ICasteMasterRepository _repository;
-
-    public CreateCasteMasterHandler(ICasteMasterRepository repository)
-    {
-        _repository = repository;
-    }
 
     public async Task<int> Handle(
         CreateCasteMasterCommand request,
@@ -24,8 +17,8 @@ public class CreateCasteMasterHandler
             Caste = request.Caste
         };
 
-        await _repository.AddAsync(entity);
-        await _repository.SaveChangesAsync();
+        await repository.AddAsync(entity);
+        await repository.SaveChangesAsync();
 
         return entity.CasteId;
     }
