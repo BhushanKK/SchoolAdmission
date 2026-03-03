@@ -43,7 +43,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// ✅ Optional test endpoint MUST be before app.Run()
+// Optional test endpoint
 app.MapGet("/", () => "School Admission API is running...");
 
 try
