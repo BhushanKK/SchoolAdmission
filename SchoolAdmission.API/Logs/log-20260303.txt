@@ -169,3 +169,5 @@ System.InvalidOperationException: No service for type 'MediatR.IRequestHandler`2
 2026-03-03 12:51:34.506 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license. (User:)
 2026-03-03 12:51:39.606 +05:30 [INF] HTTP POST /api/castemaster responded 201 in 5188.6027 ms (User:)
 2026-03-03 12:52:04.364 +05:30 [INF] HTTP GET /api/castemaster responded 200 in 2108.1625 ms (User:)
+2026-03-03 12:58:38.963 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software MediatR. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license. (User:)
+2026-03-03 12:58:42.715 +05:30 [INF] HTTP GET /api/castemaster responded 200 in 3762.9928 ms (User:)

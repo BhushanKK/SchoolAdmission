@@ -23,10 +23,10 @@ public class CasteMasterRepository : ICasteMasterRepository
     public async Task AddAsync(CasteMaster caste)
         => await _context.CasteMasters.AddAsync(caste);
 
-    public void Update(CasteMaster caste)
+    public async Task UpdateAsync(CasteMaster caste)
         => _context.CasteMasters.Update(caste);
 
-    public void Delete(CasteMaster caste)
+    public async Task DeleteAsync(CasteMaster caste)
         => _context.CasteMasters.Remove(caste);
 
     public async Task SaveChangesAsync()
