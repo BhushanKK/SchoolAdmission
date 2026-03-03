@@ -1,10 +1,15 @@
-using Microsoft.EntityFrameworkCore;
-using SchoolAdmission.Infrastructure.Data;
 using Serilog;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
+using SchoolAdmission.Application;
+using SchoolAdmission.Application.Common.Interfaces;
+using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Repositories;
+using SchoolAdmission.API.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog
+// Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -12,50 +17,31 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Add services
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddControllers();
+// MediatR (Correct Registration)
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
-// Build app
+// Repository
+builder.Services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();
+
 var app = builder.Build();
 
-// Middleware pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<GlobalExceptionMiddleware>();
-
-app.UseHttpsRedirection();
-
 app.UseSerilogRequestLogging();
 
-app.UseAuthentication();
-app.UseAuthorization();
+app.MapCasteMasterEndpoints();
 
-app.MapControllers();
-
-// Optional test endpoint
-app.MapGet("/", () => "School Admission API is running...");
-
-try
-{
-    Log.Information("Application starting up");
-    app.Run(); // ✅ ONLY ONE Run()
-}
-catch (Exception ex)
-{
-    Log.Fatal(ex, "Application failed to start");
-}
-finally
-{
-    Log.CloseAndFlush();
-}
+app.Run();
