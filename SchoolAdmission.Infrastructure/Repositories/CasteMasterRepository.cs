@@ -1,34 +1,26 @@
 using Microsoft.EntityFrameworkCore;
-using SchoolAdmission.Application.Common.Interfaces;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
-public class CasteMasterRepository : ICasteMasterRepository
+public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterRepository
 {
-    private readonly ApplicationDbContext _context;
+    public async Task<List<CasteMaster>> GetAllAsync(CancellationToken cancellationToken)
+        => await context.CasteMasters
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
 
-    public CasteMasterRepository(ApplicationDbContext context)
-    {
-        _context = context;
-    }
+    public async Task<CasteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await context.CasteMasters
+            .FindAsync(new object[] { id }, cancellationToken);
 
-    public async Task<List<CasteMaster>> GetAllAsync()
-        => await _context.CasteMasters.ToListAsync();
+    public async Task AddAsync(CasteMaster caste, CancellationToken cancellationToken)
+        => await context.CasteMasters.AddAsync(caste, cancellationToken);
 
-    public async Task<CasteMaster?> GetByIdAsync(int id)
-        => await _context.CasteMasters.FindAsync(id);
+    public async Task Update(CasteMaster caste, CancellationToken cancellationToken)
+        => context.CasteMasters.Update(caste);
 
-    public async Task AddAsync(CasteMaster caste)
-        => await _context.CasteMasters.AddAsync(caste);
-
-    public async Task UpdateAsync(CasteMaster caste)
-        => _context.CasteMasters.Update(caste);
-
-    public async Task DeleteAsync(CasteMaster caste)
-        => _context.CasteMasters.Remove(caste);
-
-    public async Task SaveChangesAsync()
-        => await _context.SaveChangesAsync();
+    public async Task Delete(CasteMaster caste, CancellationToken cancellationToken)
+        => context.CasteMasters.Remove(caste);
 }
