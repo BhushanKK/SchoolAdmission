@@ -1,8 +1,6 @@
 using MediatR;
+using SchoolAdmission.Application.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public record CreateCasteMasterCommand(
-    int? CategoryId,
-    string? Caste
-) : IRequest<int>;
+public class CreateCasteMasterCommand : CasteMasterDto, IRequest<int>;

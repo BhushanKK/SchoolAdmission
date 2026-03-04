@@ -1,24 +1,16 @@
 using MediatR;
-using SchoolAdmission.Application.Common.Interfaces;
 using SchoolAdmission.Application.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
 
-public class GetCasteMasterByIdHandler
+public class GetCasteMasterByIdHandler(ICasteMasterRepository repository)
     : IRequestHandler<GetCasteMasterByIdQuery, CasteMasterDto?>
 {
-    private readonly ICasteMasterRepository _repository;
-
-    public GetCasteMasterByIdHandler(ICasteMasterRepository repository)
-    {
-        _repository = repository;
-    }
-
     public async Task<CasteMasterDto?> Handle(
         GetCasteMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetByIdAsync(request.Id);
+        var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
 
         if (entity == null)
             return null;

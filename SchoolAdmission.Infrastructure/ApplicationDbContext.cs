@@ -11,13 +11,19 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<CasteMaster> CasteMasters => Set<CasteMaster>();
-
+    public DbSet<CategoryMaster> CategoryMasters => Set<CategoryMaster>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>
         {
             entity.ToTable("CasteMaster");
             entity.HasKey(e => e.CasteId);
+        });
+
+        modelBuilder.Entity<CategoryMaster>(entity =>
+        {
+            entity.ToTable("CategoryMaster");
+            entity.HasKey(e => e.categoryId);
         });
 
         base.OnModelCreating(modelBuilder);

@@ -1,9 +1,6 @@
 using MediatR;
+using SchoolAdmission.Application.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public record UpdateCasteMasterCommand(
-    int CasteId,
-    int? CategoryId,
-    string? Caste
-) : IRequest<bool>;
+public class UpdateCasteMasterCommand : CasteMasterDto, IRequest<bool>;

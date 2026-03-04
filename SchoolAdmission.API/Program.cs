@@ -2,10 +2,13 @@ using Serilog;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Application;
-using SchoolAdmission.Application.Common.Interfaces;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Repositories;
 using SchoolAdmission.API.Endpoints;
+using SchoolAdmission.Application.Behaviors;
+using SchoolAdmission.Application.Mappings;
+using FluentValidation;
+using SchoolAdmission.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +31,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 // MediatR (Correct Registration)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
+
+builder.Services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandValidator>();
+
+// Add the validation pipeline BEFORE your TransactionBehavior
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
 // Repository
 builder.Services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();

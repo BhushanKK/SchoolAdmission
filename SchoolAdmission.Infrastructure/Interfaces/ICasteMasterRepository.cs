@@ -1,13 +1,14 @@
 using SchoolAdmission.Domain;
 
-namespace SchoolAdmission.Application.Common.Interfaces;
-
 public interface ICasteMasterRepository
 {
-    Task<List<CasteMaster>> GetAllAsync();
-    Task<CasteMaster?> GetByIdAsync(int id);
-    Task AddAsync(CasteMaster caste);
-    void Update(CasteMaster caste);
-    void Delete(CasteMaster caste);
-    Task SaveChangesAsync();
+    Task<List<CasteMaster>> GetAllAsync(CancellationToken cancellationToken);
+
+    Task<CasteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
+
+    Task AddAsync(CasteMaster caste, CancellationToken cancellationToken);
+
+    Task Update(CasteMaster caste, CancellationToken cancellationToken);
+
+    Task Delete(CasteMaster caste, CancellationToken cancellationToken);
 }
