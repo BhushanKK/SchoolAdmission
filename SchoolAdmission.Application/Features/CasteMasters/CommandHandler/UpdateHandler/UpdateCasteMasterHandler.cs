@@ -1,23 +1,23 @@
 using MediatR;
-using SchoolAdmission.Application.Common.Interfaces;
+using AutoMapper;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class UpdateCasteMasterHandler(ICasteMasterRepository repository)
+public class UpdateCasteMasterHandler(ICasteMasterRepository repository,IMapper mapper)
     : IRequestHandler<UpdateCasteMasterCommand, bool>
 {
     public async Task<bool> Handle(UpdateCasteMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.CasteId);
+        var entity = await repository.GetByIdAsync(request.CasteId, cancellationToken);
 
         if (entity == null)
             return false;
+    
+        entity.CasteId = request.CasteId;
 
-        entity.CategoryId = request.CategoryId;
-        entity.Caste = request.Caste;
+        mapper.Map(request, entity);
 
-        await repository.UpdateAsync(entity);
-        await repository.SaveChangesAsync();
+        await repository.Update(entity, cancellationToken);
 
         return true;
     }

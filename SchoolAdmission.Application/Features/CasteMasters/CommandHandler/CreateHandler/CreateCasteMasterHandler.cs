@@ -1,25 +1,17 @@
 using MediatR;
-using SchoolAdmission.Application.Common.Interfaces;
+using AutoMapper;
 using SchoolAdmission.Domain;
-
-namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
-
-public class CreateCasteMasterHandler(ICasteMasterRepository repository) : IRequestHandler<CreateCasteMasterCommand, int>
+using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Application.Features.CasteMasters.Commands;
+public class CreateCasteMasterCommandHandler(IMapper mapper,
+    ApplicationDbContext context) : IRequestHandler<CreateCasteMasterCommand, int>
 {
-
-    public async Task<int> Handle(
-        CreateCasteMasterCommand request,
-        CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateCasteMasterCommand request,CancellationToken cancellationToken)
     {
-        var entity = new CasteMaster
-        {
-            CategoryId = request.CategoryId,
-            Caste = request.Caste
-        };
+        var casteMaster = mapper.Map<CasteMaster>(request);
 
-        await repository.AddAsync(entity);
-        await repository.SaveChangesAsync();
-
-        return entity.CasteId;
+        await context.CasteMasters.AddAsync(casteMaster, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+        return casteMaster.CasteId;
     }
 }

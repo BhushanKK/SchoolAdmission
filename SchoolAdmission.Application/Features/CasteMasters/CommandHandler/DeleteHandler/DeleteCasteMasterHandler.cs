@@ -1,23 +1,19 @@
 using MediatR;
-using SchoolAdmission.Application.Common.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class DeleteCasteMasterHandler(ICasteMasterRepository repository)
-    : IRequestHandler<DeleteCasteMasterCommand, bool>
+public class DeleteCasteMasterCommandHandler(
+    ICasteMasterRepository repository
+) : IRequestHandler<DeleteCasteMasterCommand, bool>
 {
-    public async Task<bool> Handle(
-        DeleteCasteMasterCommand request,
-        CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCasteMasterCommand request,CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id);
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        if (entity == null)
+        if (entity is null)
             return false;
 
-        await repository.DeleteAsync(entity);
-        await repository.SaveChangesAsync();
-
+        await repository.Delete(entity,cancellationToken);
         return true;
     }
 }

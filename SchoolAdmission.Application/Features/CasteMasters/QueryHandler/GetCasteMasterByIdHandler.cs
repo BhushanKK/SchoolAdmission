@@ -1,5 +1,4 @@
 using MediatR;
-using SchoolAdmission.Application.Common.Interfaces;
 using SchoolAdmission.Application.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
@@ -11,7 +10,7 @@ public class GetCasteMasterByIdHandler(ICasteMasterRepository repository)
         GetCasteMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id);
+        var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
 
         if (entity == null)
             return null;
