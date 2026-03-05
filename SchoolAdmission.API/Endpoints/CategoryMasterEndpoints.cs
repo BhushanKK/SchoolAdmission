@@ -45,7 +45,7 @@ public static class CategoryMasterEndpoints
             command.CategoryId = id;
             var success = await mediator.Send(command);
 
-            return (bool)success
+            return (bool)success!
                 ? Results.Ok("Category updated successfully")
                 : Results.NotFound("Category not found");
         });

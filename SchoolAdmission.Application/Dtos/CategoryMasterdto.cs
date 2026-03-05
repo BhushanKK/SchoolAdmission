@@ -1,9 +1,8 @@
 namespace SchoolAdmission.Application.Dtos;
 
-public class CategoryMasterdto
+public class CategoryMasterDto
 {
     public int   CategoryId {get; set;}
-    public String?  Category {get; set;}
-
+    public string?  Category {get; set;}
 }
 
