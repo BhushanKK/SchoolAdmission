@@ -9,9 +9,10 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-
     public DbSet<CasteMaster> CasteMasters => Set<CasteMaster>();
     public DbSet<CategoryMaster> CategoryMasters => Set<CategoryMaster>();
+    
+    public DbSet<StandardMaster> StandardMasters => Set<StandardMaster>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>
@@ -24,6 +25,12 @@ public class ApplicationDbContext : DbContext
         {
             entity.ToTable("CategoryMaster");
             entity.HasKey(e => e.categoryId);
+        });
+
+        modelBuilder.Entity<StandardMaster>(entity =>
+        {
+            entity.ToTable("StandardMaster");
+            entity.HasKey(e => e.StandardId);
         });
 
         base.OnModelCreating(modelBuilder);

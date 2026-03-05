@@ -33,8 +33,10 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
 builder.Services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
+builder.Services.AddAutoMapper(typeof(StandardMasterProfile).Assembly);
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateStandardMasterCommandValidator>();
 
 // Add the validation pipeline BEFORE your TransactionBehavior
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
@@ -42,6 +44,7 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBe
 
 // Repository
 builder.Services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();
+builder.Services.AddScoped<IStandardMasterRepository, StandardMasterRepository>();
 
 var app = builder.Build();
 
@@ -54,5 +57,8 @@ if (app.Environment.IsDevelopment())
 app.UseSerilogRequestLogging();
 
 app.MapCasteMasterEndpoints();
+
+app.MapStandardMasterEndpoints();
+
 
 app.Run();
