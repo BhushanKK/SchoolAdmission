@@ -3,12 +3,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Application;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Infrastructure.Repositories;
-using SchoolAdmission.API.Endpoints;
 using SchoolAdmission.Application.Behaviors;
-using SchoolAdmission.Application.Mappings;
-using FluentValidation;
-using SchoolAdmission.Application.Validators;
+using SchoolAdmission.API.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,16 +28,21 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
-builder.Services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
-
-builder.Services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandValidator>();
-
 // Add the validation pipeline BEFORE your TransactionBehavior
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
 // Repository
-builder.Services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();
+builder.Services.AddApplicationServices();
+builder.Services.AddRepositories();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod());
+});
 
 var app = builder.Build();
 
@@ -51,8 +52,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 app.UseSerilogRequestLogging();
 
-app.MapCasteMasterEndpoints();
+app.MapMasterEndpoints();
+
+app.UseCors("AllowAll");
 
 app.Run();

@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Dtos;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Application.Features.CasteMasters.Queries;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -11,13 +11,15 @@ public static class CasteMasterEndpoints
 {
     public static void MapCasteMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/castemaster");
+        var group = app.MapGroup("/api/castemaster")
+        .WithTags("Caste Master")
+        .WithDescription("Endpoints for managing caste master data");
 
         // Lookup endpoint (for dropdowns, etc.)
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCasteMastersQuery());
-            return Results.Ok(ApiResponse<List<CasteMaster>>.SuccessResponse(result, "Caste retrieved successfully"));
+            return Results.Ok(ApiResponse<List<CasteMasterDto>>.SuccessResponse(result, "Caste retrieved successfully"));
         });
 
         // Get by Id

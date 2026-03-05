@@ -1,8 +1,9 @@
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 public interface ICasteMasterRepository
 {
-    Task<List<CasteMaster>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<CasteMasterDto>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<CasteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
 

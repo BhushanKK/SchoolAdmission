@@ -1,5 +1,5 @@
 using FluentValidation;
-using SchoolAdmission.Application.Dtos;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Validators;
 

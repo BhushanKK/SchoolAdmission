@@ -1,6 +1,6 @@
 using AutoMapper;
-using SchoolAdmission.Application.Dtos;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Mappings;
 

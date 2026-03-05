@@ -1,5 +1,5 @@
 using MediatR;
-using SchoolAdmission.Application.Dtos;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Queries;
 
