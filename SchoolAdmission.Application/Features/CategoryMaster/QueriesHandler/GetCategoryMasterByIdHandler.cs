@@ -4,9 +4,9 @@ using SchoolAdmission.Domain.Dtos;
 namespace SchoolAdmission.Application.Features.CategoryMasters.Queries;
 
 public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
-    : IRequestHandler<GetCategoryMasterByIdQuery, CategoryMasterDto?>
+    : IRequestHandler<GetCategoryMasterByIdQuery, CategoryMasterQueryDto?>
 {
-    public async Task<CategoryMasterDto?> Handle(
+    public async Task<CategoryMasterQueryDto?> Handle(
         GetCategoryMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
@@ -15,7 +15,7 @@ public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
         if (entity == null)
             return null;
 
-        return new CategoryMasterDto
+        return new CategoryMasterQueryDto
         {
             CategoryId= entity.categoryId,
             CategoryName = entity.Category

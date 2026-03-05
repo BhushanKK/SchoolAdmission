@@ -8,7 +8,7 @@ public class CasteMasterProfile : Profile
 {
     public CasteMasterProfile()
     {
-        CreateMap<CasteMasterDto, CasteMaster>()
+        CreateMap<CasteMasterCommandDto, CasteMaster>()
         .ForMember(dest => dest.CasteId, opt => opt.Ignore());;
     }
 }

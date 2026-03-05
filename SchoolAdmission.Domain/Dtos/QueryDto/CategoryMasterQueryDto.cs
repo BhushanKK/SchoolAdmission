@@ -1,10 +1,7 @@
-using System.Text.Json.Serialization;
-
 namespace SchoolAdmission.Domain.Dtos;
 
-public class CategoryMasterDto
+public class CategoryMasterQueryDto
 {
-    [JsonIgnore]
     public int CategoryId { get; set; }
     public string? CategoryName { get; set; }
 }

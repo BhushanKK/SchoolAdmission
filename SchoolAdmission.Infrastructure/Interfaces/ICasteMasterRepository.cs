@@ -3,9 +3,11 @@ using SchoolAdmission.Domain.Dtos;
 
 public interface ICasteMasterRepository
 {
-    Task<List<CasteMasterDto>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<CasteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<CasteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
+
+    Task<CasteMasterQueryDto?> GetByIdWithCategoryAsync(int id, CancellationToken cancellationToken);
 
     Task AddAsync(CasteMaster caste, CancellationToken cancellationToken);
 

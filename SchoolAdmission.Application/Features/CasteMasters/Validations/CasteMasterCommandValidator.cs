@@ -3,7 +3,7 @@ using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Validators;
 
-public class CreateCasteMasterCommandValidator : AbstractValidator<CasteMasterDto>
+public class CreateCasteMasterCommandValidator : AbstractValidator<CasteMasterCommandDto>
 {
     public CreateCasteMasterCommandValidator()
     {

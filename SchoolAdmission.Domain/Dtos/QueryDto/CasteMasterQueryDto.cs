@@ -1,8 +1,6 @@
-using System.Text.Json.Serialization;
-
 namespace SchoolAdmission.Domain.Dtos;
 
-public class CasteMasterDto
+public class CasteMasterQueryDto
 {
     public int CasteId { get; set; }
     public int? CategoryId { get; set; }
