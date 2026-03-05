@@ -1,6 +1,6 @@
 using FluentValidation;
+using MediatR;
 using SchoolAdmission.Application.Mappings;
-using SchoolAdmission.Application.Validators;
 using SchoolAdmission.Infrastructure.Repositories;
 
 namespace SchoolAdmission.API.Extensions;
@@ -13,7 +13,9 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
 
         // FluentValidation
-        services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandValidator>();
+        services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterCommandHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandHandler>();
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
     }

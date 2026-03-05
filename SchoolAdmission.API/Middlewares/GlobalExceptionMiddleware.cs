@@ -1,65 +1,27 @@
-using System.Net;
+using FluentValidation;
 using System.Text.Json;
-using SchoolAdmission.Domain.ResponseModels;
 
-public class GlobalExceptionMiddleware(RequestDelegate next, ILogger<GlobalExceptionMiddleware> logger, IHostEnvironment env)
+public class ExceptionHandlingMiddleware(RequestDelegate next)
 {
+    private readonly RequestDelegate _next = next;
+
     public async Task InvokeAsync(HttpContext context)
     {
         try
         {
-            await next(context);
+            await _next(context);
         }
-        catch (Exception ex)
+        catch (ValidationException ex)
         {
-            logger.LogError(ex,
-                "Unhandled exception occurred. TraceId: {TraceId}",
-                context.TraceIdentifier);
+            context.Response.StatusCode = StatusCodes.Status400BadRequest;
+            context.Response.ContentType = "application/json";
 
-            await HandleExceptionAsync(context, ex);
+            var errors = ex.Errors.Select(e => e.ErrorMessage);
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(new
+            {
+                errors
+            }));
         }
-    }
-
-    private async Task HandleExceptionAsync(HttpContext context, Exception ex)
-    {
-        context.Response.ContentType = "application/json";
-
-        var response = new ApiErrorResponse
-        {
-            TraceId = context.TraceIdentifier
-        };
-
-        switch (ex)
-        {
-            case UnauthorizedAccessException:
-                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                response.Message = "Unauthorized access.";
-                break;
-
-            case ArgumentException:
-                context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                response.Message = ex.Message;
-                break;
-
-            case KeyNotFoundException:
-                context.Response.StatusCode = (int)HttpStatusCode.NotFound;
-                response.Message = ex.Message;
-                break;
-
-            default:
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                response.Message = "An unexpected error occurred.";
-
-                // Show detailed error only in Development
-                if (env.IsDevelopment())
-                {
-                    response.Details = ex.ToString();
-                }
-                break;
-        }
-
-        var json = JsonSerializer.Serialize(response);
-
-        await context.Response.WriteAsync(json);
     }
 }
