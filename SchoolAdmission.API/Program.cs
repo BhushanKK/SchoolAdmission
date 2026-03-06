@@ -36,6 +36,7 @@ builder.Services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
 builder.Services.AddAutoMapper(typeof(StandardMasterProfile).Assembly);
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterCommandValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateStandardMasterCommandValidator>();
 
 // Add the validation pipeline BEFORE your TransactionBehavior
@@ -44,6 +45,7 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBe
 
 // Repository
 builder.Services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();
+builder.Services.AddScoped<ICategoryMasterRepository, ICategoryMasterRepository>();
 builder.Services.AddScoped<IStandardMasterRepository, StandardMasterRepository>();
 
 var app = builder.Build();
@@ -58,7 +60,17 @@ app.UseSerilogRequestLogging();
 
 app.MapCasteMasterEndpoints();
 
+app.MapCategoryMasterEndpoints();
+
 app.MapStandardMasterEndpoints();
 
 
 app.Run();
+
+internal interface ICategoryMasterRepository
+{
+}
+
+internal class CreateCategoryMasterCommandValidator
+{
+}
