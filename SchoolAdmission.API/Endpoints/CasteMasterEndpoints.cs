@@ -46,12 +46,25 @@ public static class CasteMasterEndpoints
         // Update
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCasteMasterCommand command, IMediator mediator) =>
         {
-            command.CasteId = id; // Ensure the ID from the route is used
+            command.CasteId = id;
             var success = await mediator.Send(command);
 
-            return success
-                ? Results.Ok(ApiResponse<object>.SuccessResponse(null, "Caste updated successfully"))
-                : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
+            if ((bool)success!)
+            {
+                return Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Caste updated successfully",
+                    Data = id
+                });
+            }
+
+            return Results.NotFound(new
+            {
+                Success = false,
+                Message = "Caste not found",
+                Data = (int?)null
+            });
         });
 
         // Delete
@@ -60,8 +73,18 @@ public static class CasteMasterEndpoints
             var success = await mediator.Send(new DeleteCasteMasterCommand(id));
 
             return success
-                ? Results.Ok(ApiResponse<object>.SuccessResponse(null, "Caste deleted successfully"))
-                : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
+                ? Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Caste deleted successfully",
+                    Data = id
+                })
+                : Results.NotFound(new
+                {
+                    Success = false,
+                    Message = "Caste not found",
+                    Data = (int?)null
+                });
         });
     }
 }

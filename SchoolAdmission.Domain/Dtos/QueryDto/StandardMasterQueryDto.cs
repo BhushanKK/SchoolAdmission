@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-
 namespace SchoolAdmission.Domain.Dtos;
 
 public class StandardMasterQueryDto
