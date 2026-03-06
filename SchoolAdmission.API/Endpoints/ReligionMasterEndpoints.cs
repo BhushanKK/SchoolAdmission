@@ -1,7 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Domain;
 using SchoolAdmission.Application.Features.Religions.Commands;
 using SchoolAdmission.Application.Features.Religions.Queries;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -17,7 +19,7 @@ public static class ReligionMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllReligionMastersQuery());
-            return Results.Ok(result);
+            return Results.Ok(ApiResponse<List<ReligionMaster>>.SuccessResponse(result, "Religion retrieved successfully"));
         });
 
         // GET BY ID
@@ -25,9 +27,12 @@ public static class ReligionMasterEndpoints
         {
             var result = await mediator.Send(new GetReligionMasterByIdQuery(id));
 
-            return result is null
-                ? Results.NotFound("Religion not found")
-                : Results.Ok(result);
+            if (result is null)
+                return Results.NotFound(ApiResponse<ReligionMasterQueryDto>.FailureResponse("Religion not found"));
+
+            return Results.Ok(
+                ApiResponse<ReligionMasterQueryDto>.SuccessResponse
+                (result, "Religion retrieved successfully"));
         });
 
         // CREATE

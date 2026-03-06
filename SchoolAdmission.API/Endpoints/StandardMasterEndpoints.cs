@@ -2,6 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Application.Features.StandardMasters.Queries;
+using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -17,7 +19,7 @@ public static class StandardMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllStandardMastersQuery());
-            return Results.Ok(result);
+            return Results.Ok(ApiResponse<List<StandardMaster>>.SuccessResponse(result, "Standard retrieved successfully"));
         });
 
         // GET BY ID
@@ -25,9 +27,10 @@ public static class StandardMasterEndpoints
         {
             var result = await mediator.Send(new GetStandardMasterByIdQuery(id));
 
-            return result is null
-                ? Results.NotFound("Standard not found")
-                : Results.Ok(result);
+            if (result is null)
+                return Results.NotFound(ApiResponse<StandardMasterQueryDto>.FailureResponse("Standard not found"));
+
+            return Results.Ok(ApiResponse<StandardMasterQueryDto>.SuccessResponse(result, "Standard retrieved successfully"));
         });
 
         // CREATE

@@ -41,6 +41,12 @@ public class ApplicationDbContext : DbContext
             entity.HasKey(e => e.ReligionId);
         });
 
+        modelBuilder.Entity<BranchMaster>(entity =>
+        {
+            entity.ToTable("BranchMaster");
+            entity.HasKey(e => e.branchId);
+        });
+
         base.OnModelCreating(modelBuilder);
     }
 }

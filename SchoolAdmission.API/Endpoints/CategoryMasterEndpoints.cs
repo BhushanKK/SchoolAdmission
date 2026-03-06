@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Features.CategoryMasters.Commands;
-using SchoolAdmission.Application.Features.CategoryMasters.Queries;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Application.Features.CategoryMasters.Commands;
+using SchoolAdmission.Application.Features.CategoryMasters.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 
