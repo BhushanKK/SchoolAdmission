@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
 
-namespace SchoolAdmission.Application.Dtos;
+namespace SchoolAdmission.Domain.Dtos;
 
-public class CasteMasterDto
+public class CasteMasterCommandDto
 {
     [JsonIgnore]
     public int CasteId { get; set; }

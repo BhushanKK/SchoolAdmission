@@ -1,7 +1,7 @@
 using MediatR;
-using SchoolAdmission.Application.Dtos;
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 
 public record GetAllStandardMastersQuery()
-    : IRequest<List<StandardMasterDto>>;
+    : IRequest<List<StandardMaster>>;

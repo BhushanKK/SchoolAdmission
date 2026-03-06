@@ -1,27 +1,30 @@
 using FluentValidation;
 using MediatR;
 
-namespace SchoolAdmission.Application.Behaviors;
-
-public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
+public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull
 {
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
+
     public async Task<TResponse> Handle(
         TRequest request,
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        if (validators.Any())
+        if (_validators.Any())
         {
             var context = new ValidationContext<TRequest>(request);
 
-            var failures = validators
-                .Select(v => v.Validate(context))
-                .SelectMany(result => result.Errors)
+            var validationResults = await Task.WhenAll(
+                _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+
+            var failures = validationResults
+                .SelectMany(r => r.Errors)
                 .Where(f => f != null)
                 .ToList();
 
-            if (failures.Any())
+            if (failures.Count != 0)
                 throw new ValidationException(failures);
         }
 

@@ -9,56 +9,59 @@ public static class StandardMasterEndpoints
 {
     public static void MapStandardMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/standardmaster");
+        var group = app.MapGroup("/api/standardmasters")
+        .WithTags("Standard Master")
+        .WithDescription("Endpoints for managing standard master data");
 
-        // Get All
+        // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllStandardMastersQuery());
             return Results.Ok(result);
         });
 
-        // Get By Id
+        // GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new GetStandardMasterByIdQuery(id));
 
-            if (result == null)
-                return Results.NotFound(new { Message = "Standard not found" });
-
-            return Results.Ok(result);
+            return result is null
+                ? Results.NotFound("Standard not found")
+                : Results.Ok(result);
         });
 
-        // Create
-        group.MapPost("/", async (CreateStandardMasterCommand command, IMediator mediator) =>
+        // CREATE
+        group.MapPost("/", async ([FromBody] CreateStandardMasterCommand command, IMediator mediator) =>
         {
             var id = await mediator.Send(command);
-            return Results.Created($"/api/standardmaster/{id}", id);
+
+            return Results.Ok(new
+            {
+                Success = true,
+                Message = "Category created successfully",
+                Data = id
+            });
         });
 
-        // Update
-        group.MapPut("/{id:int}", async (int id, UpdateStandardMasterCommand command, IMediator mediator) =>
+        // UPDATE
+        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateStandardMasterCommand command, IMediator mediator) =>
         {
-            if (id != command.Id)
-                return Results.BadRequest(new { Message = "Id mismatch" });
-
+            command.StandardId = id;
             var success = await mediator.Send(command);
 
-            if (!success)
-                return Results.NotFound(new { Message = "Standard not found" });
-
-            return Results.NoContent();
+            return (bool)success!
+                ? Results.Ok("Standard updated successfully")
+                : Results.NotFound("Standard not found");
         });
 
-        // Delete
+        // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var success = await mediator.Send(new DeleteStandardMasterCommand(id));
 
-            if (!success)
-                return Results.NotFound(new { Message = "Standard not found" });
-
-            return Results.NoContent();
+            return success
+                ? Results.Ok("Standard deleted successfully")
+                : Results.NotFound("Standard not found");
         });
     }
 }

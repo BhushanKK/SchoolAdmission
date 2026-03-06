@@ -1,9 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Dtos;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Application.Features.CasteMasters.Queries;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -11,13 +10,15 @@ public static class CasteMasterEndpoints
 {
     public static void MapCasteMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/castemaster");
+        var group = app.MapGroup("/api/castemaster")
+        .WithTags("Caste Master")
+        .WithDescription("Endpoints for managing caste master data");
 
         // Lookup endpoint (for dropdowns, etc.)
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCasteMastersQuery());
-            return Results.Ok(ApiResponse<List<CasteMaster>>.SuccessResponse(result, "Caste retrieved successfully"));
+            return Results.Ok(ApiResponse<List<CasteMasterQueryDto>>.SuccessResponse(result, "Caste retrieved successfully"));
         });
 
         // Get by Id
@@ -26,8 +27,8 @@ public static class CasteMasterEndpoints
             var result = await mediator.Send(new GetCasteMasterByIdQuery(id));
 
             return result is null
-                ? Results.NotFound(ApiResponse<CasteMasterDto>.FailureResponse("Caste not found"))
-                : Results.Ok(ApiResponse<CasteMasterDto>.SuccessResponse(result, "Caste retrieved successfully"));
+                ? Results.NotFound(ApiResponse<CasteMasterQueryDto>.FailureResponse("Caste not found"))
+                : Results.Ok(ApiResponse<CasteMasterQueryDto>.SuccessResponse(result, "Caste retrieved successfully"));
         });
 
         // Create
