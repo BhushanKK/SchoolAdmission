@@ -17,6 +17,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateStandardMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateReligionMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateFeesStructureHandler>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
@@ -29,6 +30,7 @@ public static class ServiceExtensions
         services.AddScoped<ICategoryMasterRepository, CategoryMasterRepository>();
         services.AddScoped<IStandardMasterRepository, StandardMasterRepository>();
         services.AddScoped<IReligionMasterRepository, ReligionMasterRepository>();
+        services.AddScoped<IFeesStructureDetailsRepository, FeesStructureDetailsRepository>();
         return services;
     }
 }
