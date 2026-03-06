@@ -66,11 +66,3 @@ app.MapStandardMasterEndpoints();
 
 
 app.Run();
-
-internal interface ICategoryMasterRepository
-{
-}
-
-internal class CreateCategoryMasterCommandValidator
-{
-}
