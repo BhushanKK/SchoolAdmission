@@ -23,8 +23,6 @@ public static class StandardMasterEndpoints
 
             return Results.Ok(result);
 
-            return Results.Ok(ApiResponse<List<StandardMaster>>.SuccessResponse(result, "Standard retrieved successfully"));
-
         });
 
         // GET BY ID
