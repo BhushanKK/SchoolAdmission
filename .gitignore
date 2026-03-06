@@ -1,0 +1,21 @@
+# Build folders
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Logs
+Logs/
+*.log
+
+# OS files
+Thumbs.db
+
+# Environment specific
+appsettings.Development.json
+
+# Publish output
+publish/
