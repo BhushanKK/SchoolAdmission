@@ -13,9 +13,10 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
 
         // FluentValidation
-        services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterCommandHandler>();
-        services.AddValidatorsFromAssemblyContaining<CreateCasteMasterCommandHandler>();
-        services.AddValidatorsFromAssemblyContaining<CreateStandardMasterCommandHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateStandardMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateReligionMasterHandler>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
@@ -27,7 +28,7 @@ public static class ServiceExtensions
         services.AddScoped<ICasteMasterRepository, CasteMasterRepository>();
         services.AddScoped<ICategoryMasterRepository, CategoryMasterRepository>();
         services.AddScoped<IStandardMasterRepository, StandardMasterRepository>();
-
+        services.AddScoped<IReligionMasterRepository, ReligionMasterRepository>();
         return services;
     }
 }

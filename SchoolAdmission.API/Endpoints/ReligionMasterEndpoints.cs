@@ -1,52 +1,52 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Features.StandardMasters.Commands;
-using SchoolAdmission.Application.Features.StandardMasters.Queries;
+using SchoolAdmission.Application.Features.Religions.Commands;
+using SchoolAdmission.Application.Features.Religions.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 
-public static class StandardMasterEndpoints
+public static class ReligionMasterEndpoints
 {
-    public static void MapStandardMasterEndpoints(this IEndpointRouteBuilder app)
+    public static void MapReligionMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/standardmasters")
-        .WithTags("Standard Master")
-        .WithDescription("Endpoints for managing standard master data");
+        var group = app.MapGroup("/api/religionmasters")
+        .WithTags("Religion Master")
+        .WithDescription("Endpoints for managing religion master data");
 
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllStandardMastersQuery());
+            var result = await mediator.Send(new GetAllReligionMastersQuery());
             return Results.Ok(result);
         });
 
         // GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetStandardMasterByIdQuery(id));
+            var result = await mediator.Send(new GetReligionMasterByIdQuery(id));
 
             return result is null
-                ? Results.NotFound("Standard not found")
+                ? Results.NotFound("Religion not found")
                 : Results.Ok(result);
         });
 
         // CREATE
-        group.MapPost("/", async ([FromBody] CreateStandardMasterCommand command, IMediator mediator) =>
+        group.MapPost("/", async ([FromBody] CreateReligionMasterCommand command, IMediator mediator) =>
         {
             var id = await mediator.Send(command);
 
             return Results.Ok(new
             {
                 Success = true,
-                Message = "Standard created successfully",
+                Message = "Religion created successfully",
                 Data = id
             });
         });
 
         // UPDATE
-        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateStandardMasterCommand command, IMediator mediator) =>
+        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateReligionMasterCommand command, IMediator mediator) =>
         {
-            command.StandardId = id;
+            command.ReligionId = id;
             var success = await mediator.Send(command);
 
             if ((bool)success!)
@@ -54,7 +54,7 @@ public static class StandardMasterEndpoints
                 return Results.Ok(new
                 {
                     Success = true,
-                    Message = "Standard updated successfully",
+                    Message = "Religion updated successfully",
                     Data = id
                 });
             }
@@ -62,7 +62,7 @@ public static class StandardMasterEndpoints
             return Results.NotFound(new
             {
                 Success = false,
-                Message = "Standard not found",
+                Message = "Religion not found",
                 Data = (int?)null
             });
         });
@@ -70,14 +70,14 @@ public static class StandardMasterEndpoints
         // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var success = await mediator.Send(new DeleteStandardMasterCommand(id));
+            var success = await mediator.Send(new DeleteReligionMasterCommand(id));
 
             if (success)
             {
                 return Results.Ok(new
                 {
                     Success = true,
-                    Message = "Standard deleted successfully",
+                    Message = "Religion deleted successfully",
                     Data = id
                 });
             }
@@ -85,7 +85,7 @@ public static class StandardMasterEndpoints
             return Results.NotFound(new
             {
                 Success = false,
-                Message = "Standard not found",
+                Message = "Religion not found",
                 Data = (int?)null
             });
         });

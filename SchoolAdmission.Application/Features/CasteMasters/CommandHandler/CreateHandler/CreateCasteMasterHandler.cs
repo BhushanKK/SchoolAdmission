@@ -3,7 +3,7 @@ using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
-public class CreateCasteMasterCommandHandler(IMapper mapper,
+public class CreateCasteMasterHandler(IMapper mapper,
     ApplicationDbContext context) : IRequestHandler<CreateCasteMasterCommand, int>
 {
     public async Task<int> Handle(CreateCasteMasterCommand request,CancellationToken cancellationToken)
