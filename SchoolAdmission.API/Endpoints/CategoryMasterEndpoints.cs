@@ -2,6 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.CategoryMasters.Commands;
 using SchoolAdmission.Application.Features.CategoryMasters.Queries;
+using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -17,7 +19,7 @@ public static class CategoryMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCategoryMastersQuery());
-            return Results.Ok(result);
+            return Results.Ok(ApiResponse<List<CategoryMaster>>.SuccessResponse(result, "Category retrieved successfully"));
         });
 
         // GET BY ID
@@ -26,8 +28,8 @@ public static class CategoryMasterEndpoints
             var result = await mediator.Send(new GetCategoryMasterByIdQuery(id));
 
             return result is null
-                ? Results.NotFound("Category not found")
-                : Results.Ok(result);
+                ? Results.NotFound(ApiResponse<CategoryMasterQueryDto>.FailureResponse("Category not found"))
+                : Results.Ok(ApiResponse<CategoryMasterQueryDto>.SuccessResponse(result, "Category retrieved successfully"));
         });
 
         // CREATE
@@ -49,9 +51,22 @@ public static class CategoryMasterEndpoints
             command.CategoryId = id;
             var success = await mediator.Send(command);
 
-            return (bool)success!
-                ? Results.Ok("Category updated successfully")
-                : Results.NotFound("Category not found");
+            if ((bool)success!)
+            {
+                return Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Category updated successfully",
+                    Data = id
+                });
+            }
+
+            return Results.NotFound(new
+            {
+                Success = false,
+                Message = "Category not found",
+                Data = (int?)null
+            });
         });
 
         // DELETE
@@ -59,9 +74,22 @@ public static class CategoryMasterEndpoints
         {
             var success = await mediator.Send(new DeleteCategoryMasterCommand(id));
 
-            return success
-                ? Results.Ok("Category deleted successfully")
-                : Results.NotFound("Category not found");
+            if (success)
+            {
+                return Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Category deleted successfully",
+                    Data = id
+                });
+            }
+
+            return Results.NotFound(new
+            {
+                Success = false,
+                Message = "Category not found",
+                Data = (int?)null
+            });
         });
     }
 }

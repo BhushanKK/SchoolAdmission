@@ -49,9 +49,22 @@ public static class StandardMasterEndpoints
             command.StandardId = id;
             var success = await mediator.Send(command);
 
-            return (bool)success!
-                ? Results.Ok("Standard updated successfully")
-                : Results.NotFound("Standard not found");
+            if ((bool)success!)
+            {
+                return Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Standard updated successfully",
+                    Data = id
+                });
+            }
+
+            return Results.NotFound(new
+            {
+                Success = false,
+                Message = "Standard not found",
+                Data = (int?)null
+            });
         });
 
         // DELETE
@@ -59,9 +72,22 @@ public static class StandardMasterEndpoints
         {
             var success = await mediator.Send(new DeleteStandardMasterCommand(id));
 
-            return success
-                ? Results.Ok("Standard deleted successfully")
-                : Results.NotFound("Standard not found");
+            if (success)
+            {
+                return Results.Ok(new
+                {
+                    Success = true,
+                    Message = "Standard deleted successfully",
+                    Data = id
+                });
+            }
+
+            return Results.NotFound(new
+            {
+                Success = false,
+                Message = "Standard not found",
+                Data = (int?)null
+            });
         });
     }
 }
