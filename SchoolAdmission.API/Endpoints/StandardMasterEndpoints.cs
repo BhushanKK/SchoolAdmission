@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Application.Features.StandardMasters.Queries;
-
-
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 
@@ -37,11 +35,6 @@ public static class StandardMasterEndpoints
                 ? Results.NotFound("Standard not found")
                 : Results.Ok(result);
 
-            if (result is null)
-                return Results.NotFound(ApiResponse<StandardMasterQueryDto>.FailureResponse("Standard not found"));
-
-            return Results.Ok(ApiResponse<StandardMasterQueryDto>.SuccessResponse(result, "Standard retrieved successfully"));
-
         });
 
         // CREATE
@@ -68,23 +61,6 @@ public static class StandardMasterEndpoints
                 ? Results.Ok("Standard updated successfully")
                 : Results.NotFound("Standard not found");
 
-            if ((bool)success!)
-            {
-                return Results.Ok(new
-                {
-                    Success = true,
-                    Message = "Standard updated successfully",
-                    Data = id
-                });
-            }
-
-            return Results.NotFound(new
-            {
-                Success = false,
-                Message = "Standard not found",
-                Data = (int?)null
-            });
-
         });
 
         // DELETE
@@ -94,23 +70,6 @@ public static class StandardMasterEndpoints
             return success
                 ? Results.Ok("Standard deleted successfully")
                 : Results.NotFound("Standard not found");
-
-            if (success)
-            {
-                return Results.Ok(new
-                {
-                    Success = true,
-                    Message = "Standard deleted successfully",
-                    Data = id
-                });
-            }
-
-            return Results.NotFound(new
-            {
-                Success = false,
-                Message = "Standard not found",
-                Data = (int?)null
-            });
 
         });
     }

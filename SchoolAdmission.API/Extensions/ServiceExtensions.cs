@@ -18,7 +18,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<CreateStandardMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateReligionMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateFeesStructureHandler>();
-        services.AddValidatorsFromAssemblyContaining<CreateDivisionMastereHandler>();
+        //services.AddValidatorsFromAssemblyContaining<CreateDivisionMastereHandler>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

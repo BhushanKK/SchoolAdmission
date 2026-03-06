@@ -54,30 +54,10 @@ public static class CasteMasterEndpoints
                 ? Results.Ok(ApiResponse<object>.SuccessResponse(null, "Caste updated successfully"))
                 : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
 
-            command.CasteId = id;
-            var success = await mediator.Send(command);
-
-            if ((bool)success!)
-            {
-                return Results.Ok(new
-                {
-                    Success = true,
-                    Message = "Caste updated successfully",
-                    Data = id
-                });
-            }
-
-            return Results.NotFound(new
-            {
-                Success = false,
-                Message = "Caste not found",
-                Data = (int?)null
-            });
-
         });
 
         // Delete
-        group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
+        group.MapDelete("/{id:int}", static async (int id, IMediator mediator) =>
         {
             var success = await mediator.Send(new DeleteCasteMasterCommand(id));
 
@@ -86,19 +66,7 @@ public static class CasteMasterEndpoints
                 ? Results.Ok(ApiResponse<object>.SuccessResponse(null, "Caste deleted successfully"))
                 : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
 
-                ? Results.Ok(new
-                {
-                    Success = true,
-                    Message = "Caste deleted successfully",
-                    Data = id
-                })
-                : Results.NotFound(new
-                {
-                    Success = false,
-                    Message = "Caste not found",
-                    Data = (int?)null
-                });
-
+                
         });
     }
 }
