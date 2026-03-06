@@ -10,6 +10,9 @@ public static class EndpointExtensions
         app.MapCategoryMasterEndpoints();
         app.MapStandardMasterEndpoints();
         app.MapDivisionMasterEndpoints();
+        app.MapReligionMasterEndpoints();
+        app.MapFeesStructureEndpoints();
+
         return app;
     }
 }

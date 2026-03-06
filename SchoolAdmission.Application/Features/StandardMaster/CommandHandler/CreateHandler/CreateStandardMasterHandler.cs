@@ -3,7 +3,8 @@ using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
-public class CreateStandardMasterCommandHandler(IMapper mapper,
+
+public class CreateStandardMasterHandler(IMapper mapper,
     ApplicationDbContext context) : IRequestHandler<CreateStandardMasterCommand, int>
 {
     public async Task<int> Handle(CreateStandardMasterCommand request,CancellationToken cancellationToken)

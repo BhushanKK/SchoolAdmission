@@ -9,11 +9,16 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
+
     public DbSet<CasteMaster> CasteMasters => Set<CasteMaster>();
     public DbSet<CategoryMaster> CategoryMasters => Set<CategoryMaster>();
-    
     public DbSet<StandardMaster> StandardMasters => Set<StandardMaster>();
     public DbSet<DivisionMaster> DivisionMasters => Set<DivisionMaster>();
+    public DbSet<BranchMaster> BranchMasters => Set<BranchMaster>();
+    public DbSet<ReligionMaster> ReligionMasters => Set<ReligionMaster>();
+    public DbSet<FeesStructureDetails> FeesStructureDetails => Set<FeesStructureDetails>();
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>
@@ -38,6 +43,24 @@ public class ApplicationDbContext : DbContext
         {
             entity.ToTable("DivisionMaster");
             entity.HasKey(e => e.DivisionId);
+        });
+
+        modelBuilder.Entity<ReligionMaster>(entity =>
+        {
+            entity.ToTable("ReligionMaster");
+            entity.HasKey(e => e.ReligionId);
+        });
+
+        modelBuilder.Entity<BranchMaster>(entity =>
+        {
+            entity.ToTable("BranchMaster");
+            entity.HasKey(e => e.branchId);
+        });
+
+        modelBuilder.Entity<FeesStructureDetails>(entity =>
+        {
+            entity.ToTable("FeesStructureDetails");
+            entity.HasKey(e => e.FeeId);
         });
 
         base.OnModelCreating(modelBuilder);

@@ -9,9 +9,9 @@ public static class CategoryMasterEndpoints
 {
     public static void MapCategoryMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/categorymasters")
+        var group = app.MapGroup("/api/Categorymasters")
         .WithTags("Category Master")
-        .WithDescription("Endpoints for managing category master data");
+        .WithDescription("Endpoints for managing Category master data");
 
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
