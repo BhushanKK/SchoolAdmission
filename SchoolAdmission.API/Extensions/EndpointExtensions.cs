@@ -12,6 +12,7 @@ public static class EndpointExtensions
         app.MapDivisionMasterEndpoints();
         app.MapReligionMasterEndpoints();
         app.MapFeesStructureEndpoints();
+        app.MapCommiteMasterEndpoints();
 
         return app;
     }
