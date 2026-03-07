@@ -1,16 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterRepository
 {
-    public async Task<List<CasteMaster>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.CasteMasters
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-
     public async Task<CasteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await context.CasteMasters
             .FindAsync(new object[] { id }, cancellationToken);
@@ -23,4 +19,36 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
 
     public async Task Delete(CasteMaster caste, CancellationToken cancellationToken)
         => context.CasteMasters.Remove(caste);
+
+    public async Task<List<CasteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var query = from caste in context.CasteMasters
+                    join category in context.CategoryMasters
+                        on caste.CategoryId equals category.categoryId
+                    select new CasteMasterQueryDto
+                    {
+                        CasteId = caste.CasteId,
+                        CategoryId = caste.CategoryId,
+                        CategoryName = category.Category,
+                        Caste = caste.Caste
+                    };
+
+        return await query.AsNoTracking().ToListAsync(cancellationToken);
+    }
+    public async Task<CasteMasterQueryDto?> GetByIdWithCategoryAsync(int id, CancellationToken cancellationToken)
+    {
+        var query = from caste in context.CasteMasters
+                    join category in context.CategoryMasters
+                        on caste.CategoryId equals category.categoryId
+                    where caste.CasteId == id
+                    select new CasteMasterQueryDto
+                    {
+                        CasteId = caste.CasteId,
+                        CategoryId = caste.CategoryId,
+                        CategoryName = category.Category,
+                        Caste = caste.Caste
+                    };
+
+        return await query.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+    }
 }

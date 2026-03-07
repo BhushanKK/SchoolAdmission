@@ -12,7 +12,6 @@ public class TransactionBehavior<TRequest, TResponse>(ApplicationDbContext conte
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        // Apply only to Commands
         if (!request.GetType().Name.EndsWith("Command"))
             return await next();
 
@@ -20,12 +19,9 @@ public class TransactionBehavior<TRequest, TResponse>(ApplicationDbContext conte
 
         try
         {
-            var response = await next(); // run the handler
-
-            // Commit all changes in one transaction
+            var response = await next();
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-
             return response;
         }
         catch

@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Application.Features.CategoryMasters.Commands;
+using SchoolAdmission.Application.Features.CategoryMasters.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -7,7 +9,9 @@ public static class CategoryMasterEndpoints
 {
     public static void MapCategoryMasterEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/categorymasters");
+        var group = app.MapGroup("/api/Categorymasters")
+        .WithTags("Category Master")
+        .WithDescription("Endpoints for managing Category master data");
 
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
@@ -60,37 +64,4 @@ public static class CategoryMasterEndpoints
                 : Results.NotFound("Category not found");
         });
     }
-
-    private class GetCategoryMasterByIdQuery : IRequest<object?>
-    {
-        public GetCategoryMasterByIdQuery(int id)
-        {
-            Id = id;
-        }
-
-        public int Id { get; }
-    }
-}
-
-internal class DeleteCategoryMasterCommand : IRequest<bool>
-{
-    private int id;
-
-    public DeleteCategoryMasterCommand(int id)
-    {
-        this.id = id;
-    }
-}
-
-internal class UpdateCategoryMasterCommand
-{
-    public int CategoryId { get; internal set; }
-}
-
-internal class CreateCategoryMasterCommand
-{
-}
-
-internal class GetAllCategoryMastersQuery : IRequest<object?>
-{
 }
