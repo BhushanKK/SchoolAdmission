@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Features.CasteMasters.Commands;
-using SchoolAdmission.Application.Features.CasteMasters.Queries;
+
 using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
@@ -50,7 +49,7 @@ public static class CasteMasterEndpoints
             command.CasteId = id; // Ensure the ID from the route is used
             var success = await mediator.Send(command);
 
-            return success
+            return (bool)success! 
                 ? Results.Ok(ApiResponse<object>.SuccessResponse(null, "Caste updated successfully"))
                 : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
 
@@ -68,5 +67,38 @@ public static class CasteMasterEndpoints
 
                 
         });
+    }
+
+    private class GetAllCasteMastersQuery : IRequest<List<CasteMasterQueryDto>?>
+    {
+    }
+
+    private class GetCasteMasterByIdQuery : IRequest<CasteMasterQueryDto?>
+    {
+        private int id;
+
+        public GetCasteMasterByIdQuery(int id)
+        {
+            this.id = id;
+        }
+    }
+
+    private class CreateCasteMasterCommand
+    {
+    }
+
+    private class UpdateCasteMasterCommand
+    {
+        public int CasteId { get; internal set; }
+    }
+}
+
+internal class DeleteCasteMasterCommand : IRequest<bool>
+{
+    private int id;
+
+    public DeleteCasteMasterCommand(int id)
+    {
+        this.id = id;
     }
 }
