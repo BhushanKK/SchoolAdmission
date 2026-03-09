@@ -1,13 +1,23 @@
 using MediatR;
+//using SchoolAdmission.Application.Interfaces;
 using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.DivisionMasters.Queries;
 
-public class GetDivisionMasterByIdHandler(IDivisionMasterRepository repository)
+public class GetDivisionMasterByIdHandler 
     : IRequestHandler<GetDivisionMasterByIdQuery, DivisionMasterQueryDto?>
 {
-    public async Task<DivisionMasterQueryDto?> Handle(GetDivisionMasterByIdQuery request,CancellationToken cancellationToken)
+    private readonly IDivisionMasterRepository _repository;
+
+    public GetDivisionMasterByIdHandler(IDivisionMasterRepository repository)
     {
-        return await repository.GetByIdWithCategoryAsync(request.Id,cancellationToken);
+        _repository = repository;
+    }
+
+    public async Task<DivisionMasterQueryDto?> Handle(
+        GetDivisionMasterByIdQuery request,
+        CancellationToken cancellationToken)
+    {
+        return await _repository.GetByIdWithAsync(request.Id, cancellationToken);
     }
 }

@@ -1,21 +1,28 @@
 using MediatR;
+//using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.DivisionMasters.Commands;
 
-public class DeleteDivisionMasterCommandHandler(
-    IDivisionMasterRepository repository
-) : IRequestHandler<DeleteDivisionMasterCommand, bool>
+public class DeleteDivisionMasterCommandHandler 
+    : IRequestHandler<DeleteDivisionMasterCommand, bool>
 {
+    private readonly IDivisionMasterRepository _repository;
+
+    public DeleteDivisionMasterCommandHandler(IDivisionMasterRepository repository)
+    {
+        _repository = repository;
+    }
+
     public async Task<bool> Handle(DeleteDivisionMasterCommand request, CancellationToken cancellationToken)
     {
-        // Get the entity by Id
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        // Get entity
+        var entity = await _repository.GetByIdAsync(request.Id, cancellationToken);
 
-        if (entity is null)
+        if (entity == null)
             return false;
 
-        // Delete using repository
-        await repository.Delete(entity, cancellationToken);
+        // Delete entity
+        await _repository.Delete(entity, cancellationToken);
 
         return true;
     }

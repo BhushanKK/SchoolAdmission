@@ -30,15 +30,20 @@ public class DivisionMasterRepository(ApplicationDbContext context) : IDivisionM
         throw new NotImplementedException();
     }
 
-    public async Task<DivisionMasterQueryDto?> GetByIdWithCategoryAsync(int id, CancellationToken cancellationToken)
-{
-    return await context.DivisionMasters
-        .Where(x => x.DivisionId == id)
-        .Select(x => new DivisionMasterQueryDto
-        {
-            DivisionId = x.DivisionId,
-            DivisionName = x.DivisionName
-        })
-        .FirstOrDefaultAsync(cancellationToken);
-}
+    public async Task<DivisionMasterQueryDto?> GetByIdWithAsync(int id, CancellationToken cancellationToken)
+    {
+        return await context.DivisionMasters
+            .Where(x => x.DivisionId == id)
+            .Select(x => new DivisionMasterQueryDto
+            {
+                DivisionId = x.DivisionId,
+                DivisionName = x.DivisionName
+            })
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<DivisionMasterQueryDto?> GetByIdWithDivisionAsync(int id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

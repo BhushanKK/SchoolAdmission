@@ -1,6 +1,6 @@
 namespace SchoolAdmission.Domain;
 
-public class CommiteMaster
+public class CommiteMaster : AuditableEntity
 {
     public int CommiteeId { get; set; }
     public required string CommiteeName { get; set; }

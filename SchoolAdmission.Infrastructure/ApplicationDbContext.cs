@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<ReligionMaster> ReligionMasters => Set<ReligionMaster>();
     public DbSet<FeesStructureDetails> FeesStructureDetails => Set<FeesStructureDetails>();
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
+    public DbSet<SchoolMaster> SchoolMasters => Set<SchoolMaster>();
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +69,12 @@ public class ApplicationDbContext : DbContext
         {
             entity.ToTable("CommiteMaster");
             entity.HasKey(e => e.CommiteeId);
+        });
+
+        modelBuilder.Entity<SchoolMaster>(entity =>
+        {
+            entity.ToTable("SchoolMaster");
+            entity.HasKey(e => e.SchoolId);
         });
 
         base.OnModelCreating(modelBuilder);
