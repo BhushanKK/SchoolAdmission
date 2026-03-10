@@ -1,8 +1,9 @@
-namespace SchoolAdmission.Domain;
+namespace SchoolAdmission.Domain.Dtos;
 
-public class BranchMaster : AuditableEntity
+public class BranchMasterQueryDto
 {
     public int BranchId { get; set; }
+    
     public string? BranchName { get; set; }
+    
 }
-

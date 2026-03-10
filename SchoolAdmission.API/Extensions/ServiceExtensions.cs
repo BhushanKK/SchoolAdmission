@@ -23,6 +23,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<CreateDivisionMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateCommiteMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateSchoolMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateBranchMasterHandler>();
 
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
@@ -39,6 +40,7 @@ public static class ServiceExtensions
         services.AddScoped<IFeesStructureDetailsRepository, FeesStructureDetailsRepository>();
         services.AddScoped<ICommiteMasterRepository, CommiteMasterRepository>();
         services.AddScoped<ISchoolMasterRepository, SchoolMasterRepository>();
+        services.AddScoped<IBranchMasterRepository, BranchMasterRepository>();
 
         return services;
     }

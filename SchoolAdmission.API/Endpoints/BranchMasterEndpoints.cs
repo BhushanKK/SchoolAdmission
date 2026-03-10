@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Application.Features.BranchMasters.Commands;
+using SchoolAdmission.Application.Features.BranchMasters.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -14,7 +16,7 @@ public static class BranchMasterEndpoints
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllBranchMastersQuery());
+            var result = await mediator.Send(new GetAllBranchMasterQuery());
             return Results.Ok(result);
         });
 
@@ -24,7 +26,7 @@ public static class BranchMasterEndpoints
             var result = await mediator.Send(new GetBranchMasterByIdQuery(id));
 
             return result is null
-                ? Results.NotFound("Branch not found")
+                ? Results.NotFound("BranchName not found")
                 : Results.Ok(result);
         });
 
@@ -48,8 +50,8 @@ public static class BranchMasterEndpoints
             var success = await mediator.Send(command);
 
             return (bool)success!
-                ? Results.Ok("Branch updated successfully")
-                : Results.NotFound("Branch not found");
+                ? Results.Ok("Branch Id updated successfully")
+                : Results.NotFound("Branch Id not found");
         });
 
         // DELETE
@@ -61,38 +63,5 @@ public static class BranchMasterEndpoints
                 ? Results.Ok("Branch deleted successfully")
                 : Results.NotFound("Branch not found");
         });
-    }
-
-    private class CreateBranchMasterCommand
-    {
-    }
-
-    private class GetAllBranchMastersQuery : IRequest<object?>
-    {
-    }
-}
-
-internal class DeleteBranchMasterCommand : IRequest<bool>
-{
-    private int id;
-
-    public DeleteBranchMasterCommand(int id)
-    {
-        this.id = id;
-    }
-}
-
-internal class UpdateBranchMasterCommand
-{
-    public int BranchId { get; internal set; }
-}
-
-internal class GetBranchMasterByIdQuery : IRequest<object?>
-{
-    private int id;
-
-    public GetBranchMasterByIdQuery(int id)
-    {
-        this.id = id;
     }
 }

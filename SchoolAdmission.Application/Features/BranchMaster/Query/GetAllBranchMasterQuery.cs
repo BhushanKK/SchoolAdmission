@@ -3,5 +3,5 @@ using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
 
-public record GetAllBranchMastersQuery()
-    : IRequest<List<BranchMaster>>; 
+public record GetAllBranchMasterQuery()
+    : IRequest<List<BranchMaster>>;

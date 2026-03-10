@@ -14,6 +14,7 @@ public static class EndpointExtensions
         app.MapFeesStructureEndpoints();
         app.MapCommiteMasterEndpoints();
         app.MapSchoolMasterEndpoints();
+        app.MapBranchMasterEndpoints();
 
         return app;
     }

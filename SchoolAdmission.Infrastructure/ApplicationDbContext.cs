@@ -56,7 +56,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<BranchMaster>(entity =>
         {
             entity.ToTable("BranchMaster");
-            entity.HasKey(e => e.branchId);
+            entity.HasKey(e => e.BranchId);
         });
 
         modelBuilder.Entity<FeesStructureDetails>(entity =>
