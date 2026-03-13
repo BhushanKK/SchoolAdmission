@@ -4,13 +4,16 @@ using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Validators;
 
-public class CreateStandardMasterCommandValidator : AbstractValidator<StandardMasterCommandDto>
+public class CreateStandardMasterCommandValidator : AbstractValidator<CreateStandardMasterCommand>
 {
-    public CreateStandardMasterCommandValidator()
+    public CreateStandardMasterCommandValidator(IStandardMasterRepository repository)
     {
         RuleFor(x => x.StandardName)
             .NotEmpty().WithMessage("Standard name is required")
-            .MaximumLength(50).WithMessage("Standard name must not exceed 50 characters");
+            .MaximumLength(100)
+            .MustAsync(async (StandardName, ct) =>
+            !await repository.IsExistsAsync(StandardName, ct))
+            .WithMessage("STandard  already exists.");
     }
 }
 

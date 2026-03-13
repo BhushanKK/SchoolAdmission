@@ -6,11 +6,14 @@ namespace SchoolAdmission.Application.Validators
     // Validator for CreateDivisionMasterCommand
     public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivisionMasterCommand>
     {
-        public CreateDivisionMasterCommandValidator()
+        public CreateDivisionMasterCommandValidator(IDivisionMasterRepository repository)
         {
             RuleFor(x => x.DivisionName)
                 .NotEmpty().WithMessage("Division name is required")
-                .MaximumLength(100);
+                .MaximumLength(100)
+                .MustAsync(async (DivisionName, ct) =>
+                !await repository.IsExistsAsync(DivisionName, ct))
+                .WithMessage("Division already exists.");
         }
     }
 
@@ -27,4 +30,6 @@ namespace SchoolAdmission.Application.Validators
                 .MaximumLength(100);
         }
     }
+
+    
 }

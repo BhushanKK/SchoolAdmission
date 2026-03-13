@@ -29,7 +29,6 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
                     {
                         CasteId = caste.CasteId,
                         CategoryId = caste.CategoryId,
-                        CategoryName = category.Category,
                         Caste = caste.Caste
                     };
 
@@ -45,10 +44,15 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
                     {
                         CasteId = caste.CasteId,
                         CategoryId = caste.CategoryId,
-                        CategoryName = category.Category,
                         Caste = caste.Caste
                     };
 
         return await query.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<bool> IsExistsAsync(string caste, CancellationToken cancellationToken)
+    {
+        return await context.CasteMasters
+        .AnyAsync(x => x.Caste == caste, cancellationToken);
     }
 }

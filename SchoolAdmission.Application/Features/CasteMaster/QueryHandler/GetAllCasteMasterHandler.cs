@@ -13,7 +13,8 @@ public class GetAllCasteMasterHandler(ICasteMasterRepository repository)
         return data.Select(x => new CasteMaster
         {
             CasteId = x.CasteId,
-            CategoryId = x.CategoryId
+            CategoryId = x.CategoryId,
+            Caste = x.Caste
         }).ToList();
     }
 }

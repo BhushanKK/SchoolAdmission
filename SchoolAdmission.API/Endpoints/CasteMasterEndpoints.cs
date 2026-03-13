@@ -1,5 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Application.Features.CasteMasters.Commands;
+using SchoolAdmission.Application.Features.CasteMasters.Queries;
 
 using SchoolAdmission.Domain.Dtos;
 
@@ -16,8 +18,8 @@ public static class CasteMasterEndpoints
         // Lookup endpoint (for dropdowns, etc.)
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllCasteMastersQuery());
-            return Results.Ok(ApiResponse<List<CasteMasterQueryDto>>.SuccessResponse(result, "Caste retrieved successfully"));
+            var result = await mediator.Send(new GetAllCasteMasterQuery());
+            return Results.Ok(result);
         });
 
         // Get by Id
@@ -34,6 +36,7 @@ public static class CasteMasterEndpoints
         group.MapPost("/", async ([FromBody] CreateCasteMasterCommand command, IMediator mediator) =>
         {
             var id = await mediator.Send(command);
+
             return Results.Ok(new
             {
                 success = true,
@@ -67,38 +70,10 @@ public static class CasteMasterEndpoints
 
                 
         });
+
+        
     }
 
-    private class GetAllCasteMastersQuery : IRequest<List<CasteMasterQueryDto>?>
-    {
-    }
-
-    private class GetCasteMasterByIdQuery : IRequest<CasteMasterQueryDto?>
-    {
-        private int id;
-
-        public GetCasteMasterByIdQuery(int id)
-        {
-            this.id = id;
-        }
-    }
-
-    private class CreateCasteMasterCommand
-    {
-    }
-
-    private class UpdateCasteMasterCommand
-    {
-        public int CasteId { get; internal set; }
-    }
+     
 }
 
-internal class DeleteCasteMasterCommand : IRequest<bool>
-{
-    private int id;
-
-    public DeleteCasteMasterCommand(int id)
-    {
-        this.id = id;
-    }
-}

@@ -5,11 +5,13 @@ namespace SchoolAdmission.Application.Validators;
 
 public class CreateCategoryMasterCommandValidator : AbstractValidator<CreateCategoryMasterCommand>
 {
-    public CreateCategoryMasterCommandValidator()
+    public CreateCategoryMasterCommandValidator(ICategoryMasterRepository repository)
     {
         RuleFor(x => x.Category)
             .NotEmpty().WithMessage("Category name is required")
-            .MaximumLength(100);
+            .MaximumLength(100)
+            .MustAsync(async (Category, ct) => !await repository.IsExistsAsync(Category, ct))
+            .WithMessage("Category already exists.");
     }
 }
 

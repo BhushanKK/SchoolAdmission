@@ -4,13 +4,15 @@ using SchoolAdmission.Application.Features.Religions.Commands;
 
 namespace SchoolAdmission.Application.Validators;
 
-public class CreateReligionMasterCommandValidator : AbstractValidator<ReligionMasterCommandDto>
+public class CreateReligionMasterCommandValidator : AbstractValidator<CreateReligionMasterCommand>
 {
-    public CreateReligionMasterCommandValidator()
+    public CreateReligionMasterCommandValidator(IReligionMasterRepository repository)
     {
         RuleFor(x => x.Religion)
-            .NotEmpty().WithMessage("Religion name is required")
-            .MaximumLength(50).WithMessage("Religion name must not exceed 50 characters");
+            .NotEmpty()
+            .MustAsync(async (religion, ct) =>
+                !await repository.IsExistsAsync(religion, ct))
+            .WithMessage("Religion already exists.");
     }
 }
 

@@ -5,11 +5,14 @@ namespace SchoolAdmission.Application.Validators;
 
 public class CreateCommiteMasterCommandValidator : AbstractValidator<CreateCommiteMasterCommand>
 {
-    public CreateCommiteMasterCommandValidator()
+    public CreateCommiteMasterCommandValidator(ICommiteMasterRepository repository)
     {
         RuleFor(x => x.CommiteeName)
             .NotEmpty().WithMessage("Commitee name is required")
-            .MaximumLength(100);
+            .MaximumLength(100)
+            .MustAsync(async (CommiteeName, ct) =>
+                !await repository.IsExistsAsync(CommiteeName, ct))
+            .WithMessage("Commite Name already exists.");
 
         RuleFor(x => x.Status)
             .NotNull().WithMessage("Status is required");

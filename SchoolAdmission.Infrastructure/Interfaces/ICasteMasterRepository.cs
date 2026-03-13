@@ -14,4 +14,8 @@ public interface ICasteMasterRepository
     Task Update(CasteMaster caste, CancellationToken cancellationToken);
 
     Task Delete(CasteMaster caste, CancellationToken cancellationToken);
+
+    Task<bool> IsExistsAsync(string caste, CancellationToken cancellationToken);
+    
+
 }

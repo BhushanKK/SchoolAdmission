@@ -14,4 +14,6 @@ public interface ISchoolMasterRepository
     Task Update(SchoolMaster school, CancellationToken cancellationToken);
 
     Task Delete(SchoolMaster school, CancellationToken cancellationToken);
+
+    Task<bool> IsExistsAsync(string SchoolName, CancellationToken cancellationToken);
 }

@@ -46,5 +46,11 @@ namespace SchoolAdmission.Infrastructure.Repositories
             }
             return 0;
         }
+
+        public async Task<bool> IsExistsAsync(string Religion, CancellationToken cancellationToken)
+        {
+            return await context.ReligionMasters
+            .AnyAsync(x => x.Religion == Religion, cancellationToken);
+        }
     }
 }

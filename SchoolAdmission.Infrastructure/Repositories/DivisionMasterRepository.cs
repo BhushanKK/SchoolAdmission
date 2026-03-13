@@ -25,6 +25,12 @@ public class DivisionMasterRepository(ApplicationDbContext context) : IDivisionM
     public async Task Delete(DivisionMaster Division, CancellationToken cancellationToken)
         => context.DivisionMasters.Remove(Division);
 
+    public async Task<bool> IsExistsAsync(string DivisionName, CancellationToken cancellationToken)
+    {
+        return await context.DivisionMasters
+        .AnyAsync(x => x.DivisionName == DivisionName, cancellationToken);
+    }
+
     Task<List<DivisionMasterQueryDto>> IDivisionMasterRepository.GetAllAsync(CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

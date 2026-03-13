@@ -15,4 +15,6 @@ public interface IDivisionMasterRepository
     Task Update(DivisionMaster division, CancellationToken cancellationToken);
 
     Task Delete(DivisionMaster division, CancellationToken cancellationToken);
+
+    Task<bool> IsExistsAsync(string DivisionName, CancellationToken cancellationToken);
 }

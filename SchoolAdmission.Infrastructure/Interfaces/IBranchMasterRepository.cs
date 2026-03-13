@@ -11,4 +11,6 @@ public interface IBranchMasterRepository
     Task Update(BranchMaster branch, CancellationToken cancellationToken);
 
     Task Delete(BranchMaster branch, CancellationToken cancellationToken);
+
+    Task<bool> IsExistsAsync(string BranchName, CancellationToken cancellationToken);
 }

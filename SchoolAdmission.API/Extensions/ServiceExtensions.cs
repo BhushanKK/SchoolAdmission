@@ -11,7 +11,7 @@ public static class ServiceExtensions
     {
         // AutoMapper
         services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
-        services.AddAutoMapper(typeof(CommiteMasterProfile).Assembly);
+        //services.AddAutoMapper(typeof(CommiteMasterProfile).Assembly);
 
 
         // FluentValidation

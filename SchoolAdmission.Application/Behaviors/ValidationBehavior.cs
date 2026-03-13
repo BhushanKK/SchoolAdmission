@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using FluentValidation.Results;
 
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
@@ -13,19 +14,18 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         CancellationToken cancellationToken)
     {
         if (_validators.Any())
+{
+        var context = new ValidationContext<TRequest>(request);
+        var failures = new List<ValidationFailure>();
+
+        foreach (var validator in _validators)
         {
-            var context = new ValidationContext<TRequest>(request);
+            var result = await validator.ValidateAsync(context, cancellationToken);
+            failures.AddRange(result.Errors);
+        }
 
-            var validationResults = await Task.WhenAll(
-                _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-
-            var failures = validationResults
-                .SelectMany(r => r.Errors)
-                .Where(f => f != null)
-                .ToList();
-
-            if (failures.Count != 0)
-                throw new ValidationException(failures);
+        if (failures.Count != 0)
+            throw new ValidationException(failures);
         }
 
         return await next();

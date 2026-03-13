@@ -14,4 +14,6 @@ public interface ICommiteMasterRepository
     Task Update(CommiteMaster Commite, CancellationToken cancellationToken);
 
     Task Delete(CommiteMaster Commite, CancellationToken cancellationToken);
+
+    Task<bool> IsExistsAsync(string CommiteeName, CancellationToken cancellationToken);
 }

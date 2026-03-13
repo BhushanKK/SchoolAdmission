@@ -23,4 +23,10 @@ public class BranchMasterRepository(ApplicationDbContext context) : IBranchMaste
 
     public async Task Delete(BranchMaster branch, CancellationToken cancellationToken)
         => context.BranchMasters.Remove(branch);
+
+    public async Task<bool> IsExistsAsync(string BranchName, CancellationToken cancellationToken)
+    {
+        return await context.BranchMasters
+        .AnyAsync(x => x.BranchName == BranchName, cancellationToken);
+    }
 }

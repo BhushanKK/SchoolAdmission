@@ -73,6 +73,12 @@ namespace SchoolAdmission.Infrastructure.Repositories
             _context.CommiteMasters.Remove(division);
         }
 
+        public async Task<bool> IsExistsAsync(string CommiteeName, CancellationToken cancellationToken)
+        {
+            return await _context.CommiteMasters
+            .AnyAsync(x => x.CommiteeName == CommiteeName, cancellationToken);
+        }
+
         // Optional: implement later if needed
         public Task<CommiteMasterQueryDto?> GetByIdWithCommiteAsync(int id, CancellationToken cancellationToken)
         {

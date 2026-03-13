@@ -6,11 +6,14 @@ namespace SchoolAdmission.Application.Validators
     // Validator for CreateSchoolMasterCommand
     public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchoolMasterCommand>
     {
-        public CreateSchoolMasterCommandValidator()
+        public CreateSchoolMasterCommandValidator(ISchoolMasterRepository repository)
         {
             RuleFor(x => x.SchoolName)
                 .NotEmpty().WithMessage("School name is required")
-                .MaximumLength(100);
+                .MaximumLength(100)
+                .MustAsync(async (SchoolName, ct) =>
+                    !await repository.IsExistsAsync(SchoolName, ct))
+                .WithMessage("School Name already exists.");
             
             
         }

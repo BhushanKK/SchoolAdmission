@@ -5,11 +5,17 @@ namespace SchoolAdmission.Application.Validators;
 
 public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMasterCommand>
 {
-    public CreateCasteMasterCommandValidator()
+    public CreateCasteMasterCommandValidator(ICasteMasterRepository repository)
     {
         RuleFor(x => x.CasteId)
             .NotEmpty().WithMessage("Caste id is required");
-            
+
+
+        RuleFor(x => x.Caste)
+            .NotEmpty().WithMessage("Caste name is required")
+            .MaximumLength(100)
+            .MustAsync(async (caste, ct) =>!await repository.IsExistsAsync(caste, ct))
+            .WithMessage("Caste already exists.");
     }
 }
 

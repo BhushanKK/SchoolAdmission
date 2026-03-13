@@ -15,27 +15,37 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
         => await context.StandardMasters
             .FindAsync(new object[] { id }, cancellationToken);
 
-    public async Task AddAsync(StandardMaster standard, CancellationToken cancellationToken)
-        => await context.StandardMasters.AddAsync(standard, cancellationToken);
+    public async Task<int> AddAsync(StandardMaster entity, CancellationToken cancellationToken = default)
+        {
+            await context.StandardMasters.AddAsync(entity, cancellationToken);
+            return await context.SaveChangesAsync(cancellationToken);
+        }
 
-    public async Task Update(StandardMaster standard, CancellationToken cancellationToken)
-        => context.StandardMasters.Update(standard);
+        // Update
+    public async Task<int> UpdateAsync(StandardMaster entity, CancellationToken cancellationToken = default)
+        {
+            context.StandardMasters.Update(entity);
+            return await context.SaveChangesAsync(cancellationToken);
+        }
 
-    public async Task Delete(StandardMaster standard, CancellationToken cancellationToken)
-        => context.StandardMasters.Remove(standard);
-
-    Task<int> IStandardMasterRepository.AddAsync(StandardMaster entity, CancellationToken cancellationToken)
+    public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+            var entity = await context.StandardMasters.FindAsync(new object[] { id }, cancellationToken);
+            if (entity != null)
+            {
+                context.StandardMasters.Remove(entity);
+                return await context.SaveChangesAsync(cancellationToken);
+            }
+            return 0;
     }
 
-    public Task<int> UpdateAsync(StandardMaster entity, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string StandardName, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await context.StandardMasters
+        .AnyAsync(x => x.StandardName == StandardName, cancellationToken);
     }
 
-    public Task<int> DeleteAsync(int id, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
+    
+
+    
 }

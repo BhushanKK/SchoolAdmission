@@ -18,7 +18,8 @@ public class GetCasteMasterByIdHandler(ICasteMasterRepository repository)
         return new CasteMasterQueryDto
         {
             CasteId= entity.CasteId,
-            CategoryId = entity.CategoryId
+            CategoryId = entity.CategoryId,
+            Caste= entity.Caste
         };
     }
 }

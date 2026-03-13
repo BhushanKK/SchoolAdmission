@@ -12,4 +12,5 @@ public interface IFeesStructureDetailsRepository
     Task UpdateAsync(FeesStructureDetails fee, CancellationToken cancellationToken);
 
     Task DeleteAsync(FeesStructureDetails fee, CancellationToken cancellationToken);
+
 }

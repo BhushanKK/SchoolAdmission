@@ -59,5 +59,11 @@ namespace SchoolAdmission.Infrastructure.Repositories
             context.SchoolMasters.Remove(school);
             await context.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task<bool> IsExistsAsync(string SchoolName, CancellationToken cancellationToken)
+        {
+            return await context.SchoolMasters
+            .AnyAsync(x => x.SchoolName == SchoolName, cancellationToken);
+        }
     }
 }

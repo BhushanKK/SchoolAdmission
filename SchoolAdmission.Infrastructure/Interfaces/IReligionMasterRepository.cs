@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 public interface IReligionMasterRepository
 {
@@ -7,4 +8,5 @@ public interface IReligionMasterRepository
     Task<int> AddAsync(ReligionMaster entity, CancellationToken cancellationToken);
     Task<int> UpdateAsync(ReligionMaster entity, CancellationToken cancellationToken);
     Task<int> DeleteAsync(int id, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string Religion, CancellationToken cancellationToken);
 }

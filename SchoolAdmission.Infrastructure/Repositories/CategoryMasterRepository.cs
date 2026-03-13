@@ -13,14 +13,35 @@ public class CategoryMasterRepository(ApplicationDbContext context) : ICategoryM
 
     public async Task<CategoryMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await context.CategoryMasters
-            .FindAsync(new object[] { id }, cancellationToken);
+            .FirstOrDefaultAsync(x => x.categoryId == id, cancellationToken);
 
     public async Task AddAsync(CategoryMaster category, CancellationToken cancellationToken)
         => await context.CategoryMasters.AddAsync(category, cancellationToken);
 
-    public async Task Update(CategoryMaster category, CancellationToken cancellationToken)
-        => context.CategoryMasters.Update(category);
+    public Task Update(CategoryMaster category, CancellationToken cancellationToken)
+    {
+        context.CategoryMasters.Update(category);
+        return Task.CompletedTask;
+    }
 
-    public async Task Delete(CategoryMaster category, CancellationToken cancellationToken)
-        => context.CategoryMasters.Remove(category);
+    public Task Delete(CategoryMaster category, CancellationToken cancellationToken)
+    {
+        context.CategoryMasters.Remove(category);
+        return Task.CompletedTask;
+    }
+
+    public async Task<bool> IsExistsAsync(string Category, CancellationToken cancellationToken)
+    {
+        return await context.CategoryMasters
+        .AnyAsync(x => x.Category == Category, cancellationToken);
+    }
+
+    public async Task<bool> IsExist(string category, CancellationToken cancellationToken)
+    {
+    return await context.CategoryMasters
+        .AnyAsync(x => x.Category != null &&
+                       x.Category.Equals(category, StringComparison.OrdinalIgnoreCase),
+                       cancellationToken);
+    }
+
 }

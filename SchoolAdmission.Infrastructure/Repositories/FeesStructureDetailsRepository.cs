@@ -55,5 +55,6 @@ namespace SchoolAdmission.Infrastructure.Repositories
             context.FeesStructureDetails.Remove(entity);
             await context.SaveChangesAsync(cancellationToken);
         }
+
     }
 }
