@@ -12,7 +12,7 @@ public static class CategoryMasterEndpoints
     {
         var group = app.MapGroup("/api/Categorymasters")
         .WithTags("Category Master")
-        .RequireAuthorization(new AuthorizeAttribute { Roles = "1" })
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing Category master data");
 
         // GET ALL
