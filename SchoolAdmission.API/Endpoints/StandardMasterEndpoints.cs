@@ -12,6 +12,7 @@ public static class StandardMasterEndpoints
     {
         var group = app.MapGroup("/api/standardmasters")
         .WithTags("Standard Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing standard master data");
 
         // GET ALL

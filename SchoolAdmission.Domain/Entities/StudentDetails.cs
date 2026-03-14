@@ -5,9 +5,9 @@ public class StudentDetails : AuditableEntity
 
     public long? RegistrationNo { get; set; }
 
-    public long SchoolId { get; set; }
+    public long? SchoolId { get; set; }
 
-    public long AcademicYearId { get; set; }
+    public long? AcademicYearId { get; set; } 
 
     public long? FinancialYearId { get; set; }
 
@@ -16,12 +16,6 @@ public class StudentDetails : AuditableEntity
     public string? MiddleName { get; set; }
 
     public string? LastName { get; set; }
-
-    public string? FirstNameEn { get; set; }
-
-    public string? MiddleNameEn { get; set; }
-
-    public string? LastNameEn { get; set; }
 
     public bool? Gender { get; set; }
 
@@ -46,8 +40,6 @@ public class StudentDetails : AuditableEntity
     public bool? IsHandicapped { get; set; }
 
     public bool? IsBpl { get; set; }
-
-    public int? BplType { get; set; }
 
     public string? Photo { get; set; }
     public int? BranchId { get; set; }
