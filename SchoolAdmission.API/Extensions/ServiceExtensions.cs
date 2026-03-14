@@ -48,6 +48,8 @@ public static class ServiceExtensions
         services.AddScoped<ICommiteMasterRepository, CommiteMasterRepository>();
         services.AddScoped<ISchoolMasterRepository, SchoolMasterRepository>();
         services.AddScoped<IBranchMasterRepository, BranchMasterRepository>();
+        services.AddScoped<IStudentDetailsRepository, StudentDetailsRepository>();
+        services.AddScoped<IUserLoginRepository, UserLoginRepository>();
 
         return services;
     }

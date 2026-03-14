@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Entities;
 
 namespace SchoolAdmission.Infrastructure.Data;
 
@@ -19,7 +20,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<FeesStructureDetails> FeesStructureDetails => Set<FeesStructureDetails>();
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
     public DbSet<SchoolMaster> SchoolMasters => Set<SchoolMaster>();
-
+    public DbSet<StudentDetails> StudentDetails => Set<StudentDetails>();
+    public DbSet<Roles> Roles => Set<Roles>();
+    public DbSet<Administration> Administrations => Set<Administration>();
+    public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>
@@ -74,6 +78,30 @@ public class ApplicationDbContext : DbContext
         {
             entity.ToTable("SchoolMaster");
             entity.HasKey(e => e.SchoolId);
+        });
+
+        modelBuilder.Entity<StudentDetails>(entity =>
+        {
+            entity.ToTable("StudentDetails");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<Roles>(entity =>
+        {
+            entity.ToTable("Roles");
+            entity.HasKey(e => e.RoleId);
+        });
+
+        modelBuilder.Entity<Administration>(entity =>
+        {
+            entity.ToTable("Administration");
+            entity.HasKey(e => e.AdminId);
+        });
+
+        modelBuilder.Entity<UsersLogin>(entity =>
+        {
+            entity.ToTable("UsersLogin");
+            entity.HasKey(e => e.UserId);
         });
 
         base.OnModelCreating(modelBuilder);
