@@ -1,5 +1,4 @@
 using FluentValidation;
-using SchoolAdmission.Application.Features.CategoryMasters.Commands;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 
 namespace SchoolAdmission.Application.Validators;

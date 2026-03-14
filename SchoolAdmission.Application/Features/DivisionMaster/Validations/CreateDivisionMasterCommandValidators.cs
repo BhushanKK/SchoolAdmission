@@ -1,35 +1,34 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.DivisionMasters.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
-namespace SchoolAdmission.Application.Validators
+namespace SchoolAdmission.Application.Validators;
+
+// Validator for CreateDivisionMasterCommand
+public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivisionMasterCommand>
 {
-    // Validator for CreateDivisionMasterCommand
-    public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivisionMasterCommand>
+    public CreateDivisionMasterCommandValidator(IDivisionMasterRepository repository)
     {
-        public CreateDivisionMasterCommandValidator(IDivisionMasterRepository repository)
-        {
-            RuleFor(x => x.DivisionName)
-                .NotEmpty().WithMessage("Division name is required")
-                .MaximumLength(100)
-                .MustAsync(async (DivisionName, ct) =>
-                !await repository.IsExistsAsync(DivisionName, ct))
-                .WithMessage("Division already exists.");
-        }
+        RuleFor(x => x.DivisionName)
+            .NotEmpty().WithMessage("Division name is required")
+            .MaximumLength(100)
+            .MustAsync(async (DivisionName, ct) =>
+            !await repository.IsExistsAsync(DivisionName, ct))
+            .WithMessage("Division already exists.");
     }
-
-    // Validator for UpdateDivisionMasterCommand
-    public class UpdateDivisionMasterCommandValidator : AbstractValidator<UpdateDivisionMasterCommand>
-    {
-        public UpdateDivisionMasterCommandValidator()
-        {
-            RuleFor(x => x.DivisionId)
-                .GreaterThan(0).WithMessage("Valid Division Id is required");
-
-            RuleFor(x => x.DivisionName)
-                .NotEmpty().WithMessage("Division name is required")
-                .MaximumLength(100);
-        }
-    }
-
-    
 }
+
+// Validator for UpdateDivisionMasterCommand
+public class UpdateDivisionMasterCommandValidator : AbstractValidator<UpdateDivisionMasterCommand>
+{
+    public UpdateDivisionMasterCommandValidator()
+    {
+        RuleFor(x => x.DivisionId)
+            .GreaterThan(0).WithMessage("Valid Division Id is required");
+
+        RuleFor(x => x.DivisionName)
+            .NotEmpty().WithMessage("Division name is required")
+            .MaximumLength(100);
+    }
+}
+

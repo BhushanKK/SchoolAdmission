@@ -1,5 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -9,7 +10,6 @@ public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMa
     {
         RuleFor(x => x.CasteId)
             .NotEmpty().WithMessage("Caste id is required");
-
 
         RuleFor(x => x.Caste)
             .NotEmpty().WithMessage("Caste name is required")
@@ -27,7 +27,6 @@ public class UpdateCasteMasterCommandValidator : AbstractValidator<UpdateCasteMa
             .GreaterThan(0).WithMessage("Valid Caste Id is required");
 
         RuleFor(x => x.CategoryId)
-            .NotEmpty().WithMessage("Category Id is required");
-            
+            .NotEmpty().WithMessage("Category Id is required");            
     }
 }

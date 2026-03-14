@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Application.Features.StandardMasters.Queries;
-using SchoolAdmission.Domain;
-using SchoolAdmission.Domain.Dtos;
 
 
 namespace SchoolAdmission.API.Endpoints;

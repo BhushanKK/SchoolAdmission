@@ -1,5 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.CategoryMasters.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 

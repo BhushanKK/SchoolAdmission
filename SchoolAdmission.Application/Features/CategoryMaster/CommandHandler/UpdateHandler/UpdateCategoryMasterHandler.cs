@@ -1,5 +1,6 @@
 using MediatR;
 using AutoMapper;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 

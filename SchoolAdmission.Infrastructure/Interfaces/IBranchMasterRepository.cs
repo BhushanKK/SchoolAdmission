@@ -1,5 +1,6 @@
 using SchoolAdmission.Domain;
 
+namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IBranchMasterRepository
 {
     Task<List<BranchMaster>> GetAllAsync(CancellationToken cancellationToken);

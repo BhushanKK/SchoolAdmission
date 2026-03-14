@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 

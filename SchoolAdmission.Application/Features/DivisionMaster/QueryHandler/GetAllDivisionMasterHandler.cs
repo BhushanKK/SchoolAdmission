@@ -1,6 +1,7 @@
 using MediatR;
 using SchoolAdmission.Application.Features.DivisionMasters.Queries;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 public class GetAllDivisionMastersHandler(IDivisionMasterRepository repository) : IRequestHandler<GetAllDivisionMastersQuery, List<DivisionMasterQueryDto>>
 {

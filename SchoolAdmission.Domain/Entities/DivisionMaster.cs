@@ -1,8 +1,7 @@
-namespace SchoolAdmission.Domain
+namespace SchoolAdmission.Domain;
+
+public class DivisionMaster
 {
-    public class DivisionMaster
-    {
-        public int DivisionId { get; set; }
-        public string? DivisionName { get; set; }
-    }
+    public int DivisionId { get; set; }
+    public string? DivisionName { get; set; }
 }

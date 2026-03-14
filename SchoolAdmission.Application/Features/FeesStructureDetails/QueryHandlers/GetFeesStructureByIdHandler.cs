@@ -1,5 +1,6 @@
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.FeesStructureDetails.Queries;
 

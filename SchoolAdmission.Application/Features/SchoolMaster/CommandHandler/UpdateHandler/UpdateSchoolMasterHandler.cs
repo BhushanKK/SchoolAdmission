@@ -1,34 +1,26 @@
 using MediatR;
 using AutoMapper;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Commands;
 
-public class UpdateSchoolMasterCommandHandler 
-    : IRequestHandler<UpdateSchoolMasterCommand, bool>
+public class UpdateSchoolMasterCommandHandler(
+    ISchoolMasterRepository repository,
+    IMapper mapper)
+        : IRequestHandler<UpdateSchoolMasterCommand, bool>
 {
-    private readonly ISchoolMasterRepository _repository;
-    private readonly IMapper _mapper;
-
-    public UpdateSchoolMasterCommandHandler(
-        ISchoolMasterRepository repository,
-        IMapper mapper)
-    {
-        _repository = repository;
-        _mapper = mapper;
-    }
-
     public async Task<bool> Handle(
         UpdateSchoolMasterCommand request,
         CancellationToken cancellationToken)
     {
-        var entity = await _repository.GetEntityByIdAsync(request.SchoolId, cancellationToken);
+        var entity = await repository.GetEntityByIdAsync(request.SchoolId, cancellationToken);
 
         if (entity == null)
             return false;
 
-        _mapper.Map(request, entity);
+        mapper.Map(request, entity);
 
-        await _repository.Update(entity, cancellationToken);
+        await repository.Update(entity, cancellationToken);
 
         return true;
     }

@@ -20,7 +20,6 @@ public class ApplicationDbContext : DbContext
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
     public DbSet<SchoolMaster> SchoolMasters => Set<SchoolMaster>();
 
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>

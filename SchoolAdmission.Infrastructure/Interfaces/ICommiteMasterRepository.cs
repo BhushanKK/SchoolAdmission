@@ -1,6 +1,7 @@
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 
+namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICommiteMasterRepository
 {
     Task<List<CommiteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken);
@@ -11,9 +12,9 @@ public interface ICommiteMasterRepository
 
     Task AddAsync(CommiteMaster Commite, CancellationToken cancellationToken);
 
-    Task Update(CommiteMaster Commite, CancellationToken cancellationToken);
+    Task UpdateAsync(CommiteMaster Commite, CancellationToken cancellationToken);
 
-    Task Delete(CommiteMaster Commite, CancellationToken cancellationToken);
+    Task DeleteAsync(CommiteMaster Commite, CancellationToken cancellationToken);
 
     Task<bool> IsExistsAsync(string CommiteeName, CancellationToken cancellationToken);
 }

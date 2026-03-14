@@ -1,6 +1,6 @@
 using FluentValidation;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Application.Features.Religions.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 

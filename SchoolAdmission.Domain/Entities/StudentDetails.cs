@@ -1,0 +1,54 @@
+namespace SchoolAdmission.Domain.Entities;
+public class StudentDetails : AuditableEntity
+{
+    public Guid StudentId { get; set; }
+
+    public long? RegistrationNo { get; set; }
+
+    public long SchoolId { get; set; }
+
+    public long AcademicYearId { get; set; }
+
+    public long? FinancialYearId { get; set; }
+
+    public string? FirstName { get; set; }
+
+    public string? MiddleName { get; set; }
+
+    public string? LastName { get; set; }
+
+    public string? FirstNameEn { get; set; }
+
+    public string? MiddleNameEn { get; set; }
+
+    public string? LastNameEn { get; set; }
+
+    public bool? Gender { get; set; }
+
+    public DateOnly? DOB { get; set; }
+
+    public string? SaralId { get; set; }
+
+    public string? AadharNo { get; set; }
+
+    public string? Nationality { get; set; }
+
+    public string? MotherTongue { get; set; }
+
+    public long? ReligionId { get; set; }
+
+    public long? CasteId { get; set; }
+
+    public long? CategoryId { get; set; }
+
+    public bool? IsMinority { get; set; }
+
+    public bool? IsHandicapped { get; set; }
+
+    public bool? IsBpl { get; set; }
+
+    public int? BplType { get; set; }
+
+    public string? Photo { get; set; }
+    public int? BranchId { get; set; }
+}

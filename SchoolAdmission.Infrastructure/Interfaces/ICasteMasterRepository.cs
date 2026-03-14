@@ -1,6 +1,7 @@
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 
+namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICasteMasterRepository
 {
     Task<List<CasteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken);

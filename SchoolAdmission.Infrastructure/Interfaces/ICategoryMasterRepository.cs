@@ -1,6 +1,6 @@
 using SchoolAdmission.Domain;
 
-
+namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICategoryMasterRepository
 {
     Task<List<CategoryMaster>> GetAllAsync(CancellationToken cancellationToken);
@@ -16,5 +16,4 @@ public interface ICategoryMasterRepository
     Task<bool> IsExist(string name, CancellationToken cancellationToken);
 
     Task<bool> IsExistsAsync(string Category, CancellationToken cancellationToken);
-
 }

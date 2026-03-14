@@ -2,9 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Queries;
-using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
-using SchoolAdmission.Infrastructure.Repositories;
 
 namespace SchoolAdmission.API.Endpoints;
 
