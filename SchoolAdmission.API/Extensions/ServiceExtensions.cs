@@ -50,6 +50,7 @@ public static class ServiceExtensions
         services.AddScoped<IBranchMasterRepository, BranchMasterRepository>();
         services.AddScoped<IStudentDetailsRepository, StudentDetailsRepository>();
         services.AddScoped<IUserLoginRepository, UserLoginRepository>();
+        services.AddScoped<IJwtRepository, JwtRepository>();
 
         return services;
     }
