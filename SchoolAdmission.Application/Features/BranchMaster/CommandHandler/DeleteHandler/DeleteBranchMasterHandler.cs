@@ -1,8 +1,9 @@
 using MediatR;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository)
+public class DeleteBranchMasterHandler(IBranchMasterRepository repository)
     : IRequestHandler<DeleteBranchMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteBranchMasterCommand request,CancellationToken cancellationToken)
@@ -12,7 +13,7 @@ public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository
         if (entity is null)
             return false;
 
-        await repository.Delete(entity,cancellationToken);
+        await repository.DeleteAsync(entity,cancellationToken);
         return true;
     }
 }

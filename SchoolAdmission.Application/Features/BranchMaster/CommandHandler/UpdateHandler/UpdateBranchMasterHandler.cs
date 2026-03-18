@@ -1,5 +1,6 @@
 using MediatR;
 using AutoMapper;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
@@ -17,7 +18,7 @@ public class UpdateBranchMasterHandler(IBranchMasterRepository repository,IMappe
 
         mapper.Map(request, entity);
 
-        await repository.Update(entity, cancellationToken);
+        await repository.UpdateAsync(entity, cancellationToken);
 
         return true;
     }

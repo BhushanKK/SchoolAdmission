@@ -1,5 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.CategoryMasters.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -14,7 +15,6 @@ public class CreateCategoryMasterCommandValidator : AbstractValidator<CreateCate
             .WithMessage("Category already exists.");
     }
 }
-
 public class UpdateCategoryMasterCommandValidator : AbstractValidator<UpdateCategoryMasterCommand>
 {
     public UpdateCategoryMasterCommandValidator()

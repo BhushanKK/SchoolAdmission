@@ -1,10 +1,9 @@
 using FluentValidation;
-using SchoolAdmission.Application.Features.CategoryMasters.Commands;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 
 namespace SchoolAdmission.Application.Validators;
 
-public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesStructureCommand>
+public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesStructureDetailCommand>
 {
     public CreateFeesStructureCommandValidator()
     {
@@ -20,7 +19,7 @@ public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesS
     }
 }
 
-public class UpdateFeesStructureCommandValidator : AbstractValidator<UpdateFeesStructureCommand>
+public class UpdateFeesStructureCommandValidator : AbstractValidator<UpdateFeesStructureDetailCommand>
 {
     public UpdateFeesStructureCommandValidator()
     {

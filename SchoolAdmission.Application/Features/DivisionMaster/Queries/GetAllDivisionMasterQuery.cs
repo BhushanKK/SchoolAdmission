@@ -1,7 +1,7 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.DivisionMasters.Queries;
 
 public record GetAllDivisionMastersQuery()
-    : IRequest<List<DivisionMasterQueryDto>>;
+    : IRequest<List<DivisionMaster>>;

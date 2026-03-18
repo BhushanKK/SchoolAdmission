@@ -1,7 +1,7 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Queries;
 
 public record GetAllCommiteMastersQuery()
-    : IRequest<List<CommiteMasterQueryDto>>;
+    : IRequest<List<CommiteMaster>>;

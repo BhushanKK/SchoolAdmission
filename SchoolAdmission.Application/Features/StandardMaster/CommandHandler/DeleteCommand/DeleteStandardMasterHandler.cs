@@ -1,10 +1,10 @@
 using MediatR;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Commands;
 
-public class DeleteStandardMasterCommandHandler(
-    IStandardMasterRepository repository
-) : IRequestHandler<DeleteStandardMasterCommand, bool>
+public class DeleteStandardMasterHandler(IStandardMasterRepository repository) 
+: IRequestHandler<DeleteStandardMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteStandardMasterCommand request, CancellationToken cancellationToken)
     {

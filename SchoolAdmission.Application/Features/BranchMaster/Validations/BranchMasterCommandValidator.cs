@@ -1,5 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.BranchMasters.Commands;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -11,7 +12,7 @@ public class CreateBranchMasterCommandValidator : AbstractValidator<CreateBranch
             .NotEmpty().WithMessage("Branch name is required")
             .MaximumLength(100)
             .MustAsync(async (branchName, ct) =>
-                !await repository.IsExistsAsync(branchName, ct))
+                branchName !=null && !await repository.IsExistsAsync(branchName, ct))
             .WithMessage("Branch already exists.");
     }
 }
@@ -25,6 +26,6 @@ public class UpdateBranchMasterCommandValidator : AbstractValidator<UpdateBranch
 
         RuleFor(x => x.BranchName)
             .NotEmpty().WithMessage("Branch name is required")
-            .MaximumLength(100);
+            .MaximumLength(100).WithMessage("Branch name must not exceed 100 characters");
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -38,14 +39,9 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
             }
             return 0;
     }
-
     public async Task<bool> IsExistsAsync(string StandardName, CancellationToken cancellationToken)
     {
         return await context.StandardMasters
         .AnyAsync(x => x.StandardName == StandardName, cancellationToken);
-    }
-
-    
-
-    
+    }    
 }

@@ -1,5 +1,6 @@
 using SchoolAdmission.Domain;
 
+namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IStandardMasterRepository
 {
     Task<List<StandardMaster>> GetAllAsync(CancellationToken cancellationToken);

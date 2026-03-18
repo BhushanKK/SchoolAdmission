@@ -1,8 +1,7 @@
-namespace SchoolAdmission.Domain
+namespace SchoolAdmission.Domain;
+
+public class ReligionMaster : AuditableEntity
 {
-    public class ReligionMaster : AuditableEntity
-    {
-        public int ReligionId { get; set; }
-        public string? Religion { get; set; }
-    }
+    public int ReligionId { get; set; }
+    public string? Religion { get; set; }
 }

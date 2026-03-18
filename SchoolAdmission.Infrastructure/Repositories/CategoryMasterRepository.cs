@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -18,17 +19,11 @@ public class CategoryMasterRepository(ApplicationDbContext context) : ICategoryM
     public async Task AddAsync(CategoryMaster category, CancellationToken cancellationToken)
         => await context.CategoryMasters.AddAsync(category, cancellationToken);
 
-    public Task Update(CategoryMaster category, CancellationToken cancellationToken)
-    {
-        context.CategoryMasters.Update(category);
-        return Task.CompletedTask;
-    }
+    public async Task UpdateAsync(CategoryMaster category, CancellationToken cancellationToken)
+        => context.CategoryMasters.Update(category);
 
-    public Task Delete(CategoryMaster category, CancellationToken cancellationToken)
-    {
-        context.CategoryMasters.Remove(category);
-        return Task.CompletedTask;
-    }
+    public async Task DeleteAsync(CategoryMaster category, CancellationToken cancellationToken)
+        => context.CategoryMasters.Remove(category);
 
     public async Task<bool> IsExistsAsync(string Category, CancellationToken cancellationToken)
     {
@@ -43,5 +38,4 @@ public class CategoryMasterRepository(ApplicationDbContext context) : ICategoryM
                        x.Category.Equals(category, StringComparison.OrdinalIgnoreCase),
                        cancellationToken);
     }
-
 }

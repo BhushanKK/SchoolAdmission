@@ -1,6 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 

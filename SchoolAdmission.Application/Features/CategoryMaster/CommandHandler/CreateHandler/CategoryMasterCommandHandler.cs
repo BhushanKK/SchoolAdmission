@@ -13,7 +13,5 @@ public class CreateCategoryMasterHandler(IMapper mapper,
         await context.CategoryMasters.AddAsync(categoryMaster, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         return categoryMaster.categoryId;
-
-
     }
 }

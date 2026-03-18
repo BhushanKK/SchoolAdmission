@@ -1,5 +1,6 @@
 using MediatR;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 

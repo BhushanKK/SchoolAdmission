@@ -1,8 +1,9 @@
 using MediatR;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Commands;
 
-public class DeleteSchoolMasterCommandHandler(
+public class DeleteSchoolMasterHandler(
     ISchoolMasterRepository repository
 ) : IRequestHandler<DeleteSchoolMasterCommand, bool>
 {
@@ -13,7 +14,7 @@ public class DeleteSchoolMasterCommandHandler(
         if (entity is null)
             return false;
 
-        await repository.Delete(entity,cancellationToken);
+        await repository.DeleteAsync(entity,cancellationToken);
         return true;
     }
 }

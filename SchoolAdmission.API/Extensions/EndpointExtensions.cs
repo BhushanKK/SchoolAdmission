@@ -15,6 +15,8 @@ public static class EndpointExtensions
         app.MapCommiteMasterEndpoints();
         app.MapSchoolMasterEndpoints();
         app.MapBranchMasterEndpoints();
+        app.MapStudentSignupEndpoints();
+        app.MapLoginEndpoints();
 
         return app;
     }

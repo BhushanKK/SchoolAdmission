@@ -1,12 +1,13 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.Religions.Queries;
 
 public class GetReligionMasterByIdHandler(IReligionMasterRepository repository)
-    : IRequestHandler<GetReligionMasterByIdQuery, ReligionMasterQueryDto?>
+    : IRequestHandler<GetReligionMasterByIdQuery, ReligionMaster?>
 {
-    public async Task<ReligionMasterQueryDto?> Handle(
+    public async Task<ReligionMaster?> Handle(
         GetReligionMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
@@ -15,7 +16,7 @@ public class GetReligionMasterByIdHandler(IReligionMasterRepository repository)
         if (entity == null)
             return null;
 
-        return new ReligionMasterQueryDto
+        return new ReligionMaster
         {
             ReligionId = entity.ReligionId,
             Religion = entity.Religion

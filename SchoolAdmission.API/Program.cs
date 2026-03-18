@@ -1,64 +1,97 @@
-using Serilog;
+using System.Text;
 using MediatR;
+using Serilog;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SchoolAdmission.Application;
-using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Behaviors;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.API.Extensions;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Serilog
+#region Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .CreateLogger();
 
 builder.Host.UseSerilog();
+#endregion
 
-// Swagger
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+#region Native OpenAPI (.NET 10)
+builder.Services.AddOpenApi();
+#endregion
 
-// DbContext
+#region DbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")));
+#endregion
 
-// MediatR (Correct Registration)
+#region MediatR
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(AssemblyReference).Assembly));
 
-// Add the validation pipeline BEFORE your TransactionBehavior
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+#endregion
 
-// Repository
+#region Services
 builder.Services.AddApplicationServices();
 builder.Services.AddRepositories();
+#endregion
 
-builder.Services.AddCors(options =>
+#region CORS
+builder.Services.AddCors(o =>
 {
-    options.AddPolicy("AllowAll", policy =>
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod());
+    o.AddPolicy("AllowAll", p =>
+        p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 });
+#endregion
+
+#region JWT
+
+var jwtKey = builder.Configuration["Jwt:Key"]
+             ?? throw new Exception("JWT Key missing");
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ClockSkew = TimeSpan.Zero,
+            IssuerSigningKey =
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+#endregion
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseCors("AllowAll");
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
-
-app.UseSerilogRequestLogging();
-
 app.MapMasterEndpoints();
-
-app.UseCors("AllowAll");
 
 app.Run();

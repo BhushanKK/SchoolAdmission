@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -18,10 +19,10 @@ public class BranchMasterRepository(ApplicationDbContext context) : IBranchMaste
     public async Task AddAsync(BranchMaster branch, CancellationToken cancellationToken)
         => await context.BranchMasters.AddAsync(branch, cancellationToken);
 
-    public async Task Update(BranchMaster branch, CancellationToken cancellationToken)
+    public async Task UpdateAsync(BranchMaster branch, CancellationToken cancellationToken)
         => context.BranchMasters.Update(branch);
 
-    public async Task Delete(BranchMaster branch, CancellationToken cancellationToken)
+    public async Task DeleteAsync(BranchMaster branch, CancellationToken cancellationToken)
         => context.BranchMasters.Remove(branch);
 
     public async Task<bool> IsExistsAsync(string BranchName, CancellationToken cancellationToken)
