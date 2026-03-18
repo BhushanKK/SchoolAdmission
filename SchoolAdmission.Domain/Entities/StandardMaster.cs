@@ -1,5 +1,4 @@
 namespace SchoolAdmission.Domain;
-
 public class StandardMaster : AuditableEntity
 {
     public int StandardId { get; set; }

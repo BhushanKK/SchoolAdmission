@@ -7,8 +7,7 @@ namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
 public class GetCasteMasterByIdHandler(ICasteMasterRepository repository)
     : IRequestHandler<GetCasteMasterByIdQuery, CasteMaster?>
 {
-    public async Task<CasteMaster?> Handle(
-        GetCasteMasterByIdQuery request,
+    public async Task<CasteMaster?> Handle(GetCasteMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);

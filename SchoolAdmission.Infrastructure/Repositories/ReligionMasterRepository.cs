@@ -7,7 +7,7 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class ReligionMasterRepository(ApplicationDbContext context) : IReligionMasterRepository
 {
-     // Get all
+    // Get all
     public async Task<List<ReligionMaster>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await context.ReligionMasters
@@ -47,6 +47,7 @@ public class ReligionMasterRepository(ApplicationDbContext context) : IReligionM
         }
         return 0;
     }
+
     public async Task<bool> IsExistsAsync(string Religion, CancellationToken cancellationToken)
     {
         return await context.ReligionMasters

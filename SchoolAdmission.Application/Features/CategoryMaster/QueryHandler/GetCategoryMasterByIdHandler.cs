@@ -7,8 +7,7 @@ namespace SchoolAdmission.Application.Features.CategoryMasters.Queries;
 public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
     : IRequestHandler<GetCategoryMasterByIdQuery, CategoryMaster?>
 {
-    public async Task<CategoryMaster?> Handle(
-        GetCategoryMasterByIdQuery request,
+    public async Task<CategoryMaster?> Handle(GetCategoryMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);

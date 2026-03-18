@@ -7,8 +7,7 @@ namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 public class GetStandardMasterByIdHandler(IStandardMasterRepository repository)
     : IRequestHandler<GetStandardMasterByIdQuery, StandardMaster?>
 {
-    public async Task<StandardMaster?> Handle(
-        GetStandardMasterByIdQuery request,
+    public async Task<StandardMaster?> Handle(GetStandardMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);

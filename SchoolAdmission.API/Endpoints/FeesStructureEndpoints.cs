@@ -60,7 +60,7 @@ public static class FeesStructureEndpoints
                     )
                 );
         });
-        
+
         // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateFeesStructureDetailCommand command, IMediator mediator) =>
         {

@@ -3,9 +3,8 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 
-public class DeleteCommiteMasterHandler(
-    ICommiteMasterRepository repository
-) : IRequestHandler<DeleteCommiteMasterCommand, bool>
+public class DeleteCommiteMasterHandler(ICommiteMasterRepository repository)
+ : IRequestHandler<DeleteCommiteMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteCommiteMasterCommand request,CancellationToken cancellationToken)
     {

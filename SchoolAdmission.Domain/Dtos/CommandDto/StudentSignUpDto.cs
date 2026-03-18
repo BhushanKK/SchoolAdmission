@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace SchoolAdmission.Domain.Entities;
+namespace SchoolAdmission.Domain.Dtos;
 
 public class StudentSignUpDto
 {

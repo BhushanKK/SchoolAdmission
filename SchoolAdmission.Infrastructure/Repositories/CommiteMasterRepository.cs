@@ -8,23 +8,10 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMasterRepository
 {
     // Get all CommiteMasters as entities
-    public async Task<List<CommiteMaster>> GetAllAsyncEntities(CancellationToken cancellationToken)
-    {
-        return await context.CommiteMasters
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-    }
-
-    // Get all CommiteMasters as DTOs
     public async Task<List<CommiteMaster>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.CommiteMasters
             .AsNoTracking()
-            .Select(x => new CommiteMaster
-            {
-                CommiteeId = x.CommiteeId,
-                CommiteeName = x.CommiteeName
-            })
             .ToListAsync(cancellationToken);
     }
 
@@ -33,19 +20,6 @@ public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMas
     {
         return await context.CommiteMasters
             .FindAsync(new object[] { id }, cancellationToken);
-    }
-
-    // Get by ID as DTO
-    public async Task<CommiteMaster?> GetByIdWithCommiteAsync(int id, CancellationToken cancellationToken)
-    {
-        return await context.CommiteMasters
-            .Where(x => x.CommiteeId == id)
-            .Select(x => new CommiteMaster
-            {
-                CommiteeId = x.CommiteeId,
-                CommiteeName = x.CommiteeName
-            })
-            .FirstOrDefaultAsync(cancellationToken);
     }
 
     // Add new CommiteMaster

@@ -7,8 +7,7 @@ namespace SchoolAdmission.Application.Features.CommiteMasters.Queries;
 public class GetCommiteMasterByIdHandler(ICommiteMasterRepository repository)
     : IRequestHandler<GetCommiteMasterByIdQuery, CommiteMaster?>
 {
-    public async Task<CommiteMaster?> Handle(
-        GetCommiteMasterByIdQuery request,
+    public async Task<CommiteMaster?> Handle(GetCommiteMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);

@@ -19,7 +19,6 @@ public static class StandardMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllStandardMastersQuery());
-
             return Results.Ok
             (
                 ApiResponse<List<StandardMaster>>

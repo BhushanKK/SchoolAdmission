@@ -1,4 +1,4 @@
-
+using System.Text.Json.Serialization;
 namespace SchoolAdmission.Domain.Dtos.CommandDto;
 public class AuthResultDto
 {

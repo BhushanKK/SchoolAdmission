@@ -7,8 +7,6 @@ public interface ICommiteMasterRepository
 
     Task<CommiteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
-    Task<CommiteMaster?> GetByIdWithCommiteAsync(int id, CancellationToken cancellationToken);
-
     Task AddAsync(CommiteMaster Commite, CancellationToken cancellationToken);
 
     Task UpdateAsync(CommiteMaster Commite, CancellationToken cancellationToken);

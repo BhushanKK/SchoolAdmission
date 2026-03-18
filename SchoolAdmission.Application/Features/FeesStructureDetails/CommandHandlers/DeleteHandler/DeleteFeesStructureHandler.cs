@@ -1,11 +1,11 @@
 using MediatR;
+using AutoMapper;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 
-public class DeleteFeesStructureHandler(
-    IFeesStructureDetailRepository repository
-) : IRequestHandler<DeleteFeesStructureDetailCommand, bool>
+public class DeleteFeesStructureHandler(IFeesStructureDetailRepository repository)
+ : IRequestHandler<DeleteFeesStructureDetailCommand, bool>
 {
     public async Task<bool> Handle(DeleteFeesStructureDetailCommand request, CancellationToken cancellationToken)
     {

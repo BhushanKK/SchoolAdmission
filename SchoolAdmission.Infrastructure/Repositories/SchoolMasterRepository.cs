@@ -7,7 +7,6 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMasterRepository
 {
-    
     public async Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await context.SchoolMasters

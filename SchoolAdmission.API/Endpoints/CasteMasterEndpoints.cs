@@ -12,23 +12,22 @@ public static class CasteMasterEndpoints
     {
         var group = app.MapGroup("/api/castemaster")
         .WithTags("Caste Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing caste master data");
 
         // Lookup endpoint (for dropdowns, etc.)
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCasteMasterQuery());
-            return result is null ?
-            Results.NotFound(ApiResponse<CasteMaster>.FailureResponse("Caste not found")) :
             Results.Ok
+            (
+                ApiResponse<List<CasteMaster>>
+                .SuccessResponse
                 (
-                    ApiResponse<List<CasteMaster>>
-                    .SuccessResponse
-                    (
-                        result, 
-                        "Caste retrieved successfully"
-                    )
-                );
+                    result, 
+                    "Caste retrieved successfully"
+                )
+            );
         });
 
         // Create

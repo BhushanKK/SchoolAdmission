@@ -11,16 +11,15 @@ public class GetBranchMasterByIdHandler(IBranchMasterRepository repository)
         GetBranchMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
             return null;
 
         return new BranchMaster
         {
-            BranchId= entity.BranchId,
+            BranchId = entity.BranchId,
             BranchName = entity.BranchName
         };
     }
 }
-          

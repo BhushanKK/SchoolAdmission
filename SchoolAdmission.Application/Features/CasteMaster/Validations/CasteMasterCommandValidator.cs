@@ -8,7 +8,6 @@ public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMa
 {
     public CreateCasteMasterCommandValidator(ICasteMasterRepository repository)
     {
-    
         RuleFor(x => x.Caste)
             .NotEmpty().WithMessage("Caste name is required")
             .MaximumLength(100)

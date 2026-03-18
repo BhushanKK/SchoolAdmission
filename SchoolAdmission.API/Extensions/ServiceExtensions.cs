@@ -20,6 +20,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(DivisionMasterProfile).Assembly);
         services.AddAutoMapper(typeof(FeesStructureDetailProfile).Assembly);
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
+        services.AddAutoMapper(typeof(FeesStructureDetailProfile).Assembly);
          
 
         // FluentValidation
