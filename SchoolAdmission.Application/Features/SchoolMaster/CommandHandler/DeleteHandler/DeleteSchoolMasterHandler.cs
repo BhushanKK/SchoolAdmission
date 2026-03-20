@@ -3,9 +3,8 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Commands;
 
-public class DeleteSchoolMasterCommandHandler(
-    ISchoolMasterRepository repository
-) : IRequestHandler<DeleteSchoolMasterCommand, bool>
+public class DeleteSchoolMasterHandler(ISchoolMasterRepository repository)
+ : IRequestHandler<DeleteSchoolMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteSchoolMasterCommand request,CancellationToken cancellationToken)
     {
@@ -14,7 +13,7 @@ public class DeleteSchoolMasterCommandHandler(
         if (entity is null)
             return false;
 
-        await repository.Delete(entity,cancellationToken);
+        await repository.DeleteAsync(entity,cancellationToken);
         return true;
     }
 }

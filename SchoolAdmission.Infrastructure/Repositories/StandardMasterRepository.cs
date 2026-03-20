@@ -39,14 +39,9 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
             }
             return 0;
     }
-
     public async Task<bool> IsExistsAsync(string StandardName, CancellationToken cancellationToken)
     {
         return await context.StandardMasters
         .AnyAsync(x => x.StandardName == StandardName, cancellationToken);
-    }
-
-    
-
-    
+    }    
 }

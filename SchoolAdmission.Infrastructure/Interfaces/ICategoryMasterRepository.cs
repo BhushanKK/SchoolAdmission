@@ -9,9 +9,9 @@ public interface ICategoryMasterRepository
 
     Task AddAsync(CategoryMaster category, CancellationToken cancellationToken);
 
-    Task Update(CategoryMaster category, CancellationToken cancellationToken);
+    Task UpdateAsync(CategoryMaster category, CancellationToken cancellationToken);
 
-    Task Delete(CategoryMaster category, CancellationToken cancellationToken);
+    Task DeleteAsync(CategoryMaster category, CancellationToken cancellationToken);
 
     Task<bool> IsExist(string name, CancellationToken cancellationToken);
 

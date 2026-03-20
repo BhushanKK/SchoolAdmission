@@ -1,5 +1,5 @@
 using MediatR;
-using SchoolAdmission.Domain.Entities;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.StudentDetails.Commands;
 

@@ -1,19 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
-public class FeesStructureDetailsRepository(ApplicationDbContext context) : IFeesStructureDetailsRepository
+public class FeesStructureDetailRepository(ApplicationDbContext context) : IFeesStructureDetailRepository
 {
-    // Get all
-    public async Task<List<FeesStructureQueryDto>> GetAllAsync(CancellationToken cancellationToken = default)
+// Get all
+    public async Task<List<FeesStructureDetail>> GetAllAsync(CancellationToken cancellationToken )
     {
         return await context.FeesStructureDetails
             .AsNoTracking()
-            .Select(f => new FeesStructureQueryDto
+            .Select(f => new FeesStructureDetail
             {
                 FeeId = f.FeeId,
                 FeeHeadDescription = f.FeeHeadDescription,
@@ -25,7 +24,7 @@ public class FeesStructureDetailsRepository(ApplicationDbContext context) : IFee
     }
 
     // Get by Id
-    public async Task<FeesStructureDetails?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<FeesStructureDetail?> GetByIdAsync(int id, CancellationToken cancellationToken )
     {
         var fee = await context.FeesStructureDetails
             .AsNoTracking()
@@ -37,24 +36,23 @@ public class FeesStructureDetailsRepository(ApplicationDbContext context) : IFee
     }
 
     // Add
-    public async Task AddAsync(FeesStructureDetails entity, CancellationToken cancellationToken = default)
+    public async Task AddAsync(FeesStructureDetail entity, CancellationToken cancellationToken = default)
     {
         await context.FeesStructureDetails.AddAsync(entity, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
     }
 
     // Update
-    public async Task UpdateAsync(FeesStructureDetails entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync(FeesStructureDetail entity, CancellationToken cancellationToken = default)
     {
         context.FeesStructureDetails.Update(entity);
         await context.SaveChangesAsync(cancellationToken);
     }
 
     // Delete
-    public async Task DeleteAsync(FeesStructureDetails entity, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(FeesStructureDetail entity, CancellationToken cancellationToken = default)
     {
         context.FeesStructureDetails.Remove(entity);
         await context.SaveChangesAsync(cancellationToken);
     }
-
 }

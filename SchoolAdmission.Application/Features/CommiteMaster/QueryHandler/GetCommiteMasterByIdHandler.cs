@@ -1,14 +1,13 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Queries;
 
 public class GetCommiteMasterByIdHandler(ICommiteMasterRepository repository)
-    : IRequestHandler<GetCommiteMasterByIdQuery, CommiteMasterQueryDto?>
+    : IRequestHandler<GetCommiteMasterByIdQuery, CommiteMaster?>
 {
-    public async Task<CommiteMasterQueryDto?> Handle(
-        GetCommiteMasterByIdQuery request,
+    public async Task<CommiteMaster?> Handle(GetCommiteMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
@@ -16,7 +15,7 @@ public class GetCommiteMasterByIdHandler(ICommiteMasterRepository repository)
         if (entity == null)
             return null;
 
-        return new CommiteMasterQueryDto
+        return new CommiteMaster
         {
             CommiteeId= entity.CommiteeId,
             CommiteeName = entity.CommiteeName

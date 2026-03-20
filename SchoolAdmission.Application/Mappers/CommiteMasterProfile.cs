@@ -1,17 +1,13 @@
 using AutoMapper;
 using SchoolAdmission.Domain;
-using SchoolAdmission.Application.Features.CommiteMasters.Commands;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Mappings;
-
 public class CommiteMasterProfile : Profile
 {
     public CommiteMasterProfile()
     {
-        
-        CreateMap<CreateCommiteMasterCommand, CommiteMaster>();
-
-        
-        CreateMap<UpdateCommiteMasterCommand, CommiteMaster>();
+        CreateMap<CommiteMasterCommandDto, CommiteMaster>()
+        .ForMember(dest => dest.CommiteeId, opt => opt.Ignore());
     }
 }

@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace SchoolAdmission.Domain.Dtos;
 
-public class FeesStructureQueryDto
+public class FeesStructureDetailCommandDto
 {
+    [JsonIgnore]
     public int FeeId { get; set; }
 
     public string? FeeHeadDescription { get; set; }

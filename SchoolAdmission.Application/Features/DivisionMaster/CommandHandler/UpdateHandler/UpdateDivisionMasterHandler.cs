@@ -18,7 +18,7 @@ public class UpdateDivisionMasterHandler(IDivisionMasterRepository repository,IM
 
         mapper.Map(request, entity);
 
-        await repository.Update(entity, cancellationToken);
+        await repository.UpdateAsync(entity, cancellationToken);
 
         return true;
     }

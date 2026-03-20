@@ -1,13 +1,13 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.FeesStructureDetails.Queries;
 
-public class GetFeesStructureByIdHandler(IFeesStructureDetailsRepository repository)
-    : IRequestHandler<GetFeesStructureByIdQuery, FeesStructureQueryDto?>
+public class GetFeesStructureByIdHandler(IFeesStructureDetailRepository repository)
+    : IRequestHandler<GetFeesStructureByIdQuery, FeesStructureDetail?>
 {
-    public async Task<FeesStructureQueryDto?> Handle(
+    public async Task<FeesStructureDetail?> Handle(
         GetFeesStructureByIdQuery request,
         CancellationToken cancellationToken)
     {
@@ -16,7 +16,7 @@ public class GetFeesStructureByIdHandler(IFeesStructureDetailsRepository reposit
         if (entity == null)
             return null;
 
-        return new FeesStructureQueryDto
+        return new FeesStructureDetail
         {
             FeeId = entity.FeeId,
             FeeHeadDescription = entity.FeeHeadDescription,

@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Application.Features.StandardMasters.Queries;
-
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -19,19 +19,15 @@ public static class StandardMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllStandardMastersQuery());
-
-            return Results.Ok(result);
-
-        });
-
-        // GET BY ID
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
-        {
-            var result = await mediator.Send(new GetStandardMasterByIdQuery(id));
-            return result is null
-                ? Results.NotFound("Standard not found")
-                : Results.Ok(result);
-
+            return Results.Ok
+            (
+                ApiResponse<List<StandardMaster>>
+                .SuccessResponse
+                (
+                    result, 
+                    "Standard retrieved successfully"
+                )
+            );       
         });
 
         // CREATE
@@ -47,12 +43,28 @@ public static class StandardMasterEndpoints
             });
         });
 
+         // GET BY ID
+        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetStandardMasterByIdQuery(id));
+            return result is null
+                ? Results.NotFound("Standard not found")
+                : Results.Ok
+                (
+                    ApiResponse<StandardMaster>
+                    .SuccessResponse
+                    (
+                        result, 
+                        "Standard retrieved successfully"
+                    )
+                );
+        });
+
         // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateStandardMasterCommand command, IMediator mediator) =>
         {
             command.StandardId = id;
             var success = await mediator.Send(command);
-
 
             return (bool)success!
                 ? Results.Ok("Standard updated successfully")

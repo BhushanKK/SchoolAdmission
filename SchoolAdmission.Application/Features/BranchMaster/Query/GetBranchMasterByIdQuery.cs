@@ -1,7 +1,6 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
-
 public record GetBranchMasterByIdQuery(int Id)
-    : IRequest<BranchMasterQueryDto?>;
+    : IRequest<BranchMaster?>;

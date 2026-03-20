@@ -1,4 +1,3 @@
-
 using MediatR;
 using SchoolAdmission.Domain.Dtos.CommandDto;
 

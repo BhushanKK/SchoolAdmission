@@ -3,7 +3,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository)
+public class DeleteCasteMasterHandler(ICasteMasterRepository repository)
     : IRequestHandler<DeleteCasteMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteCasteMasterCommand request,CancellationToken cancellationToken)
@@ -13,7 +13,7 @@ public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository)
         if (entity is null)
             return false;
 
-        await repository.Delete(entity,cancellationToken);
+        await repository.DeleteAsync(entity,cancellationToken);
         return true;
     }
 }
