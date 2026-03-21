@@ -64,7 +64,8 @@ public class TokenHandler(
             AccessToken = accessToken,
             RefreshToken = refreshToken,
             AccessTokenExpiry = user.AccessTokenExpiry.Value,
-            UserId = user.UserId
+            UserId = user.UserId,
+            EmailId = user.EmailId
         };
     }
 }

@@ -8,7 +8,8 @@ using SchoolAdmission.Application.Common.Exceptions;
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
 public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
-    IMapper mapper,ILogger logger,ApplicationDbContext context)
+    ICurrentUserRepository currentUser,
+    IMapper mapper,ILogger<UpdateBranchMasterHandler> logger,ApplicationDbContext context)
     : IRequestHandler<UpdateBranchMasterCommand, bool>
 {
     public async Task<bool> Handle(UpdateBranchMasterCommand request, CancellationToken cancellationToken)
@@ -24,6 +25,9 @@ public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
 
             mapper.Map(request, entity);
 
+            entity.ModifyBy = await currentUser.Email;
+            entity.ModifiedDate = DateTime.UtcNow;
+
             await repository.UpdateAsync(entity, cancellationToken);
 
             await context.SaveChangesAsync(cancellationToken);
@@ -32,10 +36,10 @@ public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
 
             return true;
         }
-        catch
+        catch(Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
-            logger.LogError("An error occurred while updating BranchMaster with Id {Id}", request.BranchId);
+            logger.LogError(ex.Message, "An error occurred while updating BranchMaster with Id {Id}", request.BranchId);
             throw new ApiException($"An error occurred while updating BranchMaster with Id {request.BranchId}");
         }
     }

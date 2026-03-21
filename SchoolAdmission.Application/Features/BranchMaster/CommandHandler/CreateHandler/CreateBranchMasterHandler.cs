@@ -6,9 +6,10 @@ using SchoolAdmission.Application.Features.BranchMasters.Commands;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using SchoolAdmission.Application.Common.Exceptions;
+using SchoolAdmission.Infrastructure.Interfaces;
 
-public class CreateBranchMasterHandler(IMapper mapper,ILogger logger,
-    ApplicationDbContext context) : IRequestHandler<CreateBranchMasterCommand, int>
+public class CreateBranchMasterHandler(IMapper mapper,ILogger<CreateBranchMasterHandler> logger,
+    ApplicationDbContext context,ICurrentUserRepository currentUser) : IRequestHandler<CreateBranchMasterCommand, int>
 {
     public async Task<int> Handle(CreateBranchMasterCommand request,CancellationToken cancellationToken)
     {
@@ -17,6 +18,8 @@ public class CreateBranchMasterHandler(IMapper mapper,ILogger logger,
         try
         {
             var branchMaster = mapper.Map<BranchMaster>(request);
+            branchMaster.EntryBy = await currentUser.Email;
+            branchMaster.EntryDate = DateTime.UtcNow;
             await context.BranchMasters.AddAsync(branchMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
             return branchMaster.BranchId;

@@ -11,6 +11,7 @@ public static class BranchMasterEndpoints
     {
         var group = app.MapGroup("/api/Branchmasters")
         .WithTags("Branch Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing Branch master data");
 
         // GET ALL

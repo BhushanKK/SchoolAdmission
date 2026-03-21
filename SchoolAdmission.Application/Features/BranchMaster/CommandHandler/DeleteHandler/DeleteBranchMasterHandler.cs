@@ -8,7 +8,7 @@ namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
 public class DeleteBranchMasterCommandHandler(
     IBranchMasterRepository repository,
-    ILogger logger,
+    ILogger<DeleteBranchMasterCommandHandler> logger,
     ApplicationDbContext context)
     : IRequestHandler<DeleteBranchMasterCommand, bool>
 {
