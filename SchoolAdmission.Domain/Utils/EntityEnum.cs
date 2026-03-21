@@ -1,0 +1,15 @@
+namespace SchoolAdmission.Domain.Utils;
+public enum EntityEnum
+{
+    BranchMaster,
+    CasteMaster,
+    ReligionMaster,
+    StudentDetails,
+    Administration,
+    CategoryMaster,
+    CommiteeMaster,
+    SchoolMaster,
+    StandardMaster,
+    SubjectMaster,
+    UserLogin   
+}
