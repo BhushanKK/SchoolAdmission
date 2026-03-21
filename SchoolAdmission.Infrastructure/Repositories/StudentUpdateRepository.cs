@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Entities;
+using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
@@ -14,7 +15,7 @@ public class StudentUpdateRepository(ApplicationDbContext context) : IStudentUpd
 
         await using var command = connection.CreateCommand();
 
-        command.CommandText = "USP_UpdateStudentDetails";
+        command.CommandText = StoreProcedureConstants.UpdateStudentDetails;
         command.CommandType = CommandType.StoredProcedure;
         var efTransaction = context.Database.CurrentTransaction;
         if (efTransaction != null)
