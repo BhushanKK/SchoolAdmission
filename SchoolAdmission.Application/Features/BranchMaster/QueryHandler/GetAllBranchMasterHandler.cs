@@ -5,16 +5,16 @@ using SchoolAdmission.Infrastructure.Interfaces;
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
 
 public class GetAllBranchMasterHandler(IBranchMasterRepository repository)
-    : IRequestHandler<GetAllBranchMasterQuery, List<BranchMaster>>
+    : IRequestHandler<GetAllBranchMasterQuery, ApiResponse<List<BranchMaster>>>
 {
-    public async Task<List<BranchMaster>> Handle(GetAllBranchMasterQuery request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<BranchMaster>>> Handle(GetAllBranchMasterQuery request, CancellationToken cancellationToken)
     {
         var data = await repository.GetAllAsync(cancellationToken);
 
-        return data.Select(x => new BranchMaster
+        return ApiResponse<List<BranchMaster>>.SuccessResponse(data.Select(x => new BranchMaster
         {
             BranchId = x.BranchId,
             BranchName = x.BranchName
-        }).ToList();
+        }).ToList(), "Data retrieved successfully", 200);
     }
 }

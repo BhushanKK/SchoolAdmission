@@ -5,22 +5,22 @@ using SchoolAdmission.Infrastructure.Interfaces;
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
 
 public class GetBranchMasterByIdHandler(IBranchMasterRepository repository)
-    : IRequestHandler<GetBranchMasterByIdQuery, BranchMasterQueryDto?>
+    : IRequestHandler<GetBranchMasterByIdQuery, ApiResponse<BranchMasterQueryDto?>>
 {
-    public async Task<BranchMasterQueryDto?> Handle(
+    public async Task<ApiResponse<BranchMasterQueryDto?>> Handle(
         GetBranchMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
 
         if (entity == null)
-            return null;
+            return ApiResponse<BranchMasterQueryDto?>.FailureResponse("BranchMaster not found", 404);
 
-        return new BranchMasterQueryDto
+        return ApiResponse<BranchMasterQueryDto?>.SuccessResponse(new BranchMasterQueryDto
         {
             BranchId= entity.BranchId,
             BranchName = entity.BranchName
-        };
+        }, "Data retrieved successfully", 200);
     }
 }
           

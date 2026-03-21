@@ -17,52 +17,38 @@ public static class BranchMasterEndpoints
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllBranchMasterQuery());
-            return Results.Ok(result);
+            var response = await mediator.Send(new GetAllBranchMasterQuery());
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetBranchMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound("BranchName not found")
-                : Results.Ok(result);
+            var response = await mediator.Send(new GetBranchMasterByIdQuery(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // CREATE
         group.MapPost("/", async ([FromBody] CreateBranchMasterCommand command, IMediator mediator) =>
         {
-            var id = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Branch created successfully",
-                Data = id
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // UPDATE
-        group.MapPut("/{id:int}", async (int id, [FromBody] UpdateBranchMasterCommand command, IMediator mediator) =>
+        group.MapPut("/{id:int}", async (int id,
+            [FromBody] UpdateBranchMasterCommand command,IMediator mediator) =>
         {
             command.BranchId = id;
-            var success = await mediator.Send(command);
-
-            return (bool)success!
-                ? Results.Ok("Branch Id updated successfully")
-                : Results.NotFound("Branch Id not found");
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var success = await mediator.Send(new DeleteBranchMasterCommand(id));
-
-            return success
-                ? Results.Ok("Branch deleted successfully")
-                : Results.NotFound("Branch not found");
+            var response = await mediator.Send(new DeleteBranchMasterCommand(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }

@@ -2,4 +2,4 @@ using MediatR;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public record DeleteBranchMasterCommand(int Id) : IRequest<bool>;
+public record DeleteBranchMasterCommand(int Id) : IRequest<ApiResponse<bool>>;

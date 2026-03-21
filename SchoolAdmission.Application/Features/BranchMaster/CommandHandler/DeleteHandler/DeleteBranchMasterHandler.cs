@@ -6,13 +6,10 @@ using SchoolAdmission.Application.Common.Exceptions;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class DeleteBranchMasterCommandHandler(
-    IBranchMasterRepository repository,
-    ILogger<DeleteBranchMasterCommandHandler> logger,
-    ApplicationDbContext context)
-    : IRequestHandler<DeleteBranchMasterCommand, bool>
+public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository, ILogger<DeleteBranchMasterCommandHandler> logger, ApplicationDbContext context)
+    : IRequestHandler<DeleteBranchMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(DeleteBranchMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(DeleteBranchMasterCommand request, CancellationToken cancellationToken)
     {
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
@@ -29,7 +26,7 @@ public class DeleteBranchMasterCommandHandler(
 
             await transaction.CommitAsync(cancellationToken);
 
-            return true;
+            return ApiResponse<bool>.SuccessResponse(true, "Branch deleted successfully", 200);
         }
         catch
         {

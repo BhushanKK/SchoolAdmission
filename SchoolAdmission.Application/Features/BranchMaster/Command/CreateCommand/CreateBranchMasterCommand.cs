@@ -3,4 +3,4 @@ using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class CreateBranchMasterCommand : BranchMasterCommandDto, IRequest<int>;
+public class CreateBranchMasterCommand : BranchMasterCommandDto, IRequest<ApiResponse<int>>;
