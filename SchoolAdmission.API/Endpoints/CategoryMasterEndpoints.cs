@@ -1,5 +1,4 @@
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.CategoryMasters.Commands;
 using SchoolAdmission.Application.Features.CategoryMasters.Queries;

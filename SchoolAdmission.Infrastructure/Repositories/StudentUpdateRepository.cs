@@ -17,9 +17,7 @@ public class StudentUpdateRepository(ApplicationDbContext context) : IStudentUpd
 
         command.CommandText = StoreProcedureConstants.UpdateStudentDetails;
         command.CommandType = CommandType.StoredProcedure;
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
+
         command.Parameters.Add(new SqlParameter("@StudentId", cmd.StudentId));
         command.Parameters.Add(new SqlParameter("@RegistrationNo", (object?)cmd.RegistrationNo ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@SchoolId", (object?)cmd.SchoolId ?? DBNull.Value));

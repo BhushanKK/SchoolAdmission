@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SchoolAdmission.Application;
-using SchoolAdmission.Application.Behaviors;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.API.Extensions;
 using Scalar.AspNetCore;

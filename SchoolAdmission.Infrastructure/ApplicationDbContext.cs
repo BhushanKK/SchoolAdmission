@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Entities;
+using SchoolAdmission.Domain.ViewModels;
 
 namespace SchoolAdmission.Infrastructure.Data;
 
@@ -24,6 +25,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Roles> Roles => Set<Roles>();
     public DbSet<Administration> Administrations => Set<Administration>();
     public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
+    public DbSet<StudentDetailsView> StudentDetailsView { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<CasteMaster>(entity =>
@@ -103,6 +105,10 @@ public class ApplicationDbContext : DbContext
             entity.ToTable("UsersLogin");
             entity.HasKey(e => e.UserId);
         });
+
+        modelBuilder.Entity<StudentDetailsView>()
+        .HasNoKey()
+        .ToView("StudentDetailsView");
 
         base.OnModelCreating(modelBuilder);
     }
