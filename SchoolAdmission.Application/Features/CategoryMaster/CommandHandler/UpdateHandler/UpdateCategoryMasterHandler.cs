@@ -1,25 +1,56 @@
+using System.Net;
 using MediatR;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 
-public class UpdateCategoryMasterHandler(ICategoryMasterRepository repository,IMapper mapper)
-    : IRequestHandler<UpdateCategoryMasterCommand, bool>
+public class UpdateCategoryMasterHandler(
+    ICategoryMasterRepository repository,
+    IMapper mapper,
+    ApplicationDbContext context,
+    ILogger<UpdateCategoryMasterHandler> logger)
+    : IRequestHandler<UpdateCategoryMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(UpdateCategoryMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(UpdateCategoryMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity == null)
-            return false;
-    
-        entity.categoryId = request.CategoryId;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
 
-        mapper.Map(request, entity);
+            if (entity is null)
+                return ApiResponse<bool>.FailureResponse(
+                    MessageHelper.NotFound(EntityEnum.CategoryMaster, request.CategoryId),
+                    HttpStatusCode.NotFound.GetHashCode());
 
-        await repository.Update(entity, cancellationToken);
+            mapper.Map(request, entity);
 
-        return true;
+            await repository.Update(entity, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse(
+                true,
+                MessageHelper.UpdatedSuccessfully(EntityEnum.CategoryMaster),
+                HttpStatusCode.OK.GetHashCode());
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+
+            logger.LogError(ex,
+                "Error while updating CategoryMaster Id : {Id}",
+                request.CategoryId);
+
+            return ApiResponse<bool>.FailureResponse(
+                "Unable to update CategoryMaster at the moment.",
+                HttpStatusCode.InternalServerError.GetHashCode());
+        }
     }
 }

@@ -4,13 +4,8 @@ using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.CommiteMasters.Commands;
 
-public interface ICreateCommiteMasterHandler
-{
-    Task<int> Handle(CreateCommiteMasterCommand request, CancellationToken cancellationToken);
-}
-
 public class CreateCommiteMasterHandler(IMapper mapper,
-    ApplicationDbContext context) : IRequestHandler<CreateCommiteMasterCommand, int>, ICreateCommiteMasterHandler
+    ApplicationDbContext context) : IRequestHandler<CreateCommiteMasterCommand, int>
 {
     public async Task<int> Handle(CreateCommiteMasterCommand request, CancellationToken cancellationToken)
     {
