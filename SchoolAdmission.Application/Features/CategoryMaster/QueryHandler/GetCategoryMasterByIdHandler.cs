@@ -1,13 +1,14 @@
 using MediatR;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Queries;
 
 public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
-    : IRequestHandler<GetCategoryMasterByIdQuery, CategoryMaster?>
+    : IRequestHandler<GetCategoryMasterByIdQuery, CategoryMasterQueryDto?>
 {
-    public async Task<CategoryMaster?> Handle(GetCategoryMasterByIdQuery request,
+    public async Task<CategoryMasterQueryDto?> Handle(
+        GetCategoryMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
@@ -15,10 +16,10 @@ public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
         if (entity == null)
             return null;
 
-        return new CategoryMaster
+        return new CategoryMasterQueryDto
         {
-            categoryId = entity.categoryId,
-            Category = entity.Category
+            CategoryId= entity.categoryId,
+            CategoryName = entity.Category
         };
     }
 }

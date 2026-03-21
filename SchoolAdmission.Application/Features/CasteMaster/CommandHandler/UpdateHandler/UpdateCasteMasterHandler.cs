@@ -18,7 +18,7 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository,IMapper 
 
         mapper.Map(request, entity);
 
-        await repository.UpdateAsync(entity, cancellationToken);
+        await repository.Update(entity, cancellationToken);
 
         return true;
     }

@@ -1,7 +1,7 @@
 using MediatR;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.FeesStructureDetails.Queries;
 
 public record GetAllFeesStructureDetailsQuery()
-    : IRequest<List<FeesStructureDetail>>;
+    : IRequest<List<FeesStructureQueryDto>>;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Application.Features.Religions.Commands;
 using SchoolAdmission.Application.Features.Religions.Queries;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -12,22 +13,26 @@ public static class ReligionMasterEndpoints
     {
         var group = app.MapGroup("/api/religionmasters")
         .WithTags("Religion Master")
-        .RequireAuthorization()
         .WithDescription("Endpoints for managing religion master data");
 
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllReligionMastersQuery());
-            return Results.Ok
-            (
-                ApiResponse<List<ReligionMaster>>
-                .SuccessResponse
-                (
-                    result,
-                    "Religion retrieved successfully"
-                )
-            );
+            return Results.Ok(ApiResponse<List<ReligionMaster>>.SuccessResponse(result, "Religion retrieved successfully"));
+        });
+
+        // GET BY ID
+        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetReligionMasterByIdQuery(id));
+
+            if (result is null)
+                return Results.NotFound(ApiResponse<ReligionMasterQueryDto>.FailureResponse("Religion not found"));
+
+            return Results.Ok(
+                ApiResponse<ReligionMasterQueryDto>.SuccessResponse
+                (result, "Religion retrieved successfully"));
         });
 
         // CREATE
@@ -41,25 +46,6 @@ public static class ReligionMasterEndpoints
                 Message = "Religion created successfully",
                 Data = id
             });
-        });
-
-        // GET BY ID
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
-        {
-            var result = await mediator.Send(new GetReligionMasterByIdQuery(id));
-
-            if (result is null)
-                return Results.NotFound(ApiResponse<ReligionMaster>.FailureResponse("Religion not found"));
-
-            return Results.Ok
-            (
-                ApiResponse<ReligionMaster>
-                .SuccessResponse
-                (
-                    result, 
-                    "Religion retrieved successfully"
-                )
-            );
         });
 
         // UPDATE

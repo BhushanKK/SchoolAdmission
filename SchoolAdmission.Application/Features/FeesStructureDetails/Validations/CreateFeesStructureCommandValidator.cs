@@ -3,7 +3,7 @@ using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 
 namespace SchoolAdmission.Application.Validators;
 
-public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesStructureDetailCommand>
+public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesStructureCommand>
 {
     public CreateFeesStructureCommandValidator()
     {
@@ -19,7 +19,7 @@ public class CreateFeesStructureCommandValidator : AbstractValidator<CreateFeesS
     }
 }
 
-public class UpdateFeesStructureCommandValidator : AbstractValidator<UpdateFeesStructureDetailCommand>
+public class UpdateFeesStructureCommandValidator : AbstractValidator<UpdateFeesStructureCommand>
 {
     public UpdateFeesStructureCommandValidator()
     {

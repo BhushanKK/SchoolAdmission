@@ -1,19 +1,20 @@
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ISchoolMasterRepository
 {
-    Task<List<SchoolMaster>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<SchoolMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken);
 
-    Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<SchoolMasterQueryDto?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
     Task<SchoolMaster?> GetEntityByIdAsync(int id, CancellationToken cancellationToken);
 
     Task AddAsync(SchoolMaster school, CancellationToken cancellationToken);
 
-    Task UpdateAsync(SchoolMaster school, CancellationToken cancellationToken);
+    Task Update(SchoolMaster school, CancellationToken cancellationToken);
 
-    Task DeleteAsync(SchoolMaster school, CancellationToken cancellationToken);
+    Task Delete(SchoolMaster school, CancellationToken cancellationToken);
 
     Task<bool> IsExistsAsync(string SchoolName, CancellationToken cancellationToken);
 }

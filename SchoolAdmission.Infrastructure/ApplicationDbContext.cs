@@ -17,7 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<DivisionMaster> DivisionMasters => Set<DivisionMaster>();
     public DbSet<BranchMaster> BranchMasters => Set<BranchMaster>();
     public DbSet<ReligionMaster> ReligionMasters => Set<ReligionMaster>();
-    public DbSet<FeesStructureDetail> FeesStructureDetails => Set<FeesStructureDetail>();
+    public DbSet<FeesStructureDetails> FeesStructureDetails => Set<FeesStructureDetails>();
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
     public DbSet<SchoolMaster> SchoolMasters => Set<SchoolMaster>();
     public DbSet<StudentDetails> StudentDetails => Set<StudentDetails>();
@@ -62,7 +62,7 @@ public class ApplicationDbContext : DbContext
             entity.HasKey(e => e.BranchId);
         });
 
-        modelBuilder.Entity<FeesStructureDetail>(entity =>
+        modelBuilder.Entity<FeesStructureDetails>(entity =>
         {
             entity.ToTable("FeesStructureDetails");
             entity.HasKey(e => e.FeeId);

@@ -1,8 +1,8 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.CategoryMasters.Commands;
 using SchoolAdmission.Application.Features.CategoryMasters.Queries;
-using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -19,15 +19,17 @@ public static class CategoryMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCategoryMastersQuery());
-            return Results.Ok
-            (
-                ApiResponse<List<CategoryMaster>>
-                .SuccessResponse
-                (
-                    result, 
-                    "Category retrieved successfully"
-                )
-            );    
+            return Results.Ok(result);
+        });
+
+        // GET BY ID
+        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetCategoryMasterByIdQuery(id));
+
+            return result is null
+                ? Results.NotFound("Category not found")
+                : Results.Ok(result);
         });
 
         // CREATE
@@ -43,25 +45,7 @@ public static class CategoryMasterEndpoints
             });
         });
 
-        // GET BY ID
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
-        {
-            var result = await mediator.Send(new GetCategoryMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound("Category not found")
-                : Results.Ok
-                (
-                    ApiResponse<CategoryMaster>
-                    .SuccessResponse
-                    (
-                        result, 
-                        "Category retrieved successfully"
-                    )
-                );
-        });
-
-        // UPDATE By Id
+        // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryMasterCommand command, IMediator mediator) =>
         {
             command.CategoryId = id;
@@ -72,7 +56,7 @@ public static class CategoryMasterEndpoints
                 : Results.NotFound("Category not found");
         });
 
-        // DELETE By Id
+        // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var success = await mediator.Send(new DeleteCategoryMasterCommand(id));

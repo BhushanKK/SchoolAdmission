@@ -13,7 +13,7 @@ public class DeleteCategoryMasterCommandHandler(ICategoryMasterRepository reposi
         if (entity is null)
             return false;
 
-        await repository.DeleteAsync(entity,cancellationToken);
+        await repository.Delete(entity,cancellationToken);
         return true;
     }
 }

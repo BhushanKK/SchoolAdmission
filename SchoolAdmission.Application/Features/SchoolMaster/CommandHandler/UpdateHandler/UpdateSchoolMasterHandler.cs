@@ -4,8 +4,10 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Commands;
 
-public class UpdateSchoolMasterCommandHandler(ISchoolMasterRepository repository,IMapper mapper)
-: IRequestHandler<UpdateSchoolMasterCommand, bool>
+public class UpdateSchoolMasterCommandHandler(
+    ISchoolMasterRepository repository,
+    IMapper mapper)
+        : IRequestHandler<UpdateSchoolMasterCommand, bool>
 {
     public async Task<bool> Handle(
         UpdateSchoolMasterCommand request,
@@ -18,7 +20,8 @@ public class UpdateSchoolMasterCommandHandler(ISchoolMasterRepository repository
 
         mapper.Map(request, entity);
 
-        await repository.UpdateAsync(entity, cancellationToken);
+        await repository.Update(entity, cancellationToken);
+
         return true;
     }
 }

@@ -4,10 +4,10 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 
-public class UpdateFeesStructureHandler(IFeesStructureDetailRepository repository,IMapper mapper)
-    : IRequestHandler<UpdateFeesStructureDetailCommand, bool>
+public class UpdateFeesStructureHandler(IFeesStructureDetailsRepository repository,IMapper mapper)
+    : IRequestHandler<UpdateFeesStructureCommand, bool>
 {
-    public async Task<bool> Handle(UpdateFeesStructureDetailCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateFeesStructureCommand request, CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.FeeId, cancellationToken);
 

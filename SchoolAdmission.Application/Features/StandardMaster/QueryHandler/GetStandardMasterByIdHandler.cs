@@ -1,13 +1,14 @@
 using MediatR;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 
 public class GetStandardMasterByIdHandler(IStandardMasterRepository repository)
-    : IRequestHandler<GetStandardMasterByIdQuery, StandardMaster?>
+    : IRequestHandler<GetStandardMasterByIdQuery, StandardMasterQueryDto?>
 {
-    public async Task<StandardMaster?> Handle(GetStandardMasterByIdQuery request,
+    public async Task<StandardMasterQueryDto?> Handle(
+        GetStandardMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
@@ -15,7 +16,7 @@ public class GetStandardMasterByIdHandler(IStandardMasterRepository repository)
         if (entity == null)
             return null;
 
-        return new StandardMaster
+        return new StandardMasterQueryDto
         {
             StandardId= entity.StandardId,
             StandardName = entity.StandardName

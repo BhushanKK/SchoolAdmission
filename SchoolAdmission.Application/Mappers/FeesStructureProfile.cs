@@ -4,11 +4,11 @@ using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Mappings;
 
-public class FeesStructureDetailProfile : Profile
+public class FeesStructureProfile : Profile
 {
-    public FeesStructureDetailProfile()
+    public FeesStructureProfile()
     {
-        CreateMap<FeesStructureDetailCommandDto, FeesStructureDetail>()
+        CreateMap<FeesStructureCommandDto, FeesStructureDetails>()
         .ForMember(dest => dest.FeeId, opt => opt.Ignore());
     }
 }

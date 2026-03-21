@@ -18,9 +18,8 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(StandardMasterProfile).Assembly);
         services.AddAutoMapper(typeof(ReligionMasterProfile).Assembly); 
         services.AddAutoMapper(typeof(DivisionMasterProfile).Assembly);
-        services.AddAutoMapper(typeof(FeesStructureDetailProfile).Assembly);
+        services.AddAutoMapper(typeof(FeesStructureProfile).Assembly);
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
-        services.AddAutoMapper(typeof(FeesStructureDetailProfile).Assembly);
          
 
         // FluentValidation
@@ -45,7 +44,7 @@ public static class ServiceExtensions
         services.AddScoped<IStandardMasterRepository, StandardMasterRepository>();
         services.AddScoped<IDivisionMasterRepository, DivisionMasterRepository>();
         services.AddScoped<IReligionMasterRepository, ReligionMasterRepository>();
-        services.AddScoped<IFeesStructureDetailRepository, FeesStructureDetailRepository>();
+        services.AddScoped<IFeesStructureDetailsRepository, FeesStructureDetailsRepository>();
         services.AddScoped<ICommiteMasterRepository, CommiteMasterRepository>();
         services.AddScoped<ISchoolMasterRepository, SchoolMasterRepository>();
         services.AddScoped<IBranchMasterRepository, BranchMasterRepository>();

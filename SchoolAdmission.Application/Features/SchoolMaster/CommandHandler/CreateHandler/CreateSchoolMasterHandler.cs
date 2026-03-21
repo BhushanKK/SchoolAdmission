@@ -11,7 +11,7 @@ public class CreateSchoolMasterHandler(IMapper mapper,
     {
         var SchoolMaster = mapper.Map<SchoolMaster>(request);
         await context.SchoolMasters.AddAsync(SchoolMaster, cancellationToken);
-        await context.SaveChangesAsync(cancellationToken);
+        //await context.SaveChangesAsync(cancellationToken);
         return SchoolMaster.SchoolId;
     }
 }

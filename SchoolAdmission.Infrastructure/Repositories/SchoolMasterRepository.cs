@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
@@ -7,11 +8,12 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMasterRepository
 {
-    public async Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    
+    public async Task<SchoolMasterQueryDto?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await context.SchoolMasters
             .Where(s => s.SchoolId == id)
-            .Select(school => new SchoolMaster
+            .Select(school => new SchoolMasterQueryDto
             {
                 SchoolId = school.SchoolId,
                 SchoolName = school.SchoolName,
@@ -27,10 +29,10 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
             .FindAsync(new object[] { id }, cancellationToken);
     }
 
-    public async Task<List<SchoolMaster>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<List<SchoolMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.SchoolMasters
-            .Select(school => new SchoolMaster
+            .Select(school => new SchoolMasterQueryDto
             {
                 SchoolId = school.SchoolId,
                 SchoolName = school.SchoolName,
@@ -46,13 +48,13 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task UpdateAsync(SchoolMaster school, CancellationToken cancellationToken)
+    public async Task Update(SchoolMaster school, CancellationToken cancellationToken)
     {
         context.SchoolMasters.Update(school);
         await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAsync(SchoolMaster school, CancellationToken cancellationToken)
+    public async Task Delete(SchoolMaster school, CancellationToken cancellationToken)
     {
         context.SchoolMasters.Remove(school);
         await context.SaveChangesAsync(cancellationToken);

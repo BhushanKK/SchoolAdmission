@@ -1,6 +1,10 @@
-namespace SchoolAdmission.Domain;
-public class FeesStructureDetail :AuditableEntity
+using System.Text.Json.Serialization;
+
+namespace SchoolAdmission.Domain.Dtos;
+
+public class FeesStructureCommandDto
 {
+    [JsonIgnore]
     public int FeeId { get; set; }
 
     public string? FeeHeadDescription { get; set; }

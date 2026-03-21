@@ -1,7 +1,7 @@
 using MediatR;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
 
 public record GetCasteMasterByIdQuery(int Id)
-    : IRequest<CasteMaster?>;
+    : IRequest<CasteMasterQueryDto?>;

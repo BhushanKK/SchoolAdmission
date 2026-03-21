@@ -1,13 +1,14 @@
 using MediatR;
-using SchoolAdmission.Domain;
+//using SchoolAdmission.Application.Interfaces;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Queries;
 
 public class GetSchoolMasterByIdHandler(ISchoolMasterRepository repository)
-    : IRequestHandler<GetSchoolMasterByIdQuery, SchoolMaster?>
+        : IRequestHandler<GetSchoolMasterByIdQuery, SchoolMasterQueryDto?>
 {
-    public async Task<SchoolMaster?> Handle(
+    public async Task<SchoolMasterQueryDto?> Handle(
         GetSchoolMasterByIdQuery request,
         CancellationToken cancellationToken)
     {

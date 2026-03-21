@@ -10,7 +10,6 @@ public static class StudentSignupEndpoints
     {
         var group = app.MapGroup("/api/student-signup")
             .WithTags("Student Signup")
-            .RequireAuthorization()
             .WithDescription("Endpoints for student registration");
 
         group.MapPost("/", async (

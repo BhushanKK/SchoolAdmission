@@ -1,3 +1,4 @@
+
 namespace SchoolAdmission.Domain.Dtos.CommandDto;
 public class LoginResponseDto
 {

@@ -3,7 +3,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class DeleteBranchMasterHandler(IBranchMasterRepository repository)
+public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository)
     : IRequestHandler<DeleteBranchMasterCommand, bool>
 {
     public async Task<bool> Handle(DeleteBranchMasterCommand request,CancellationToken cancellationToken)
@@ -13,7 +13,7 @@ public class DeleteBranchMasterHandler(IBranchMasterRepository repository)
         if (entity is null)
             return false;
 
-        await repository.DeleteAsync(entity,cancellationToken);
+        await repository.Delete(entity,cancellationToken);
         return true;
     }
 }

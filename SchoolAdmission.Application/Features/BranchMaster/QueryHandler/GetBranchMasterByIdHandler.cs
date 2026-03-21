@@ -1,25 +1,26 @@
 using MediatR;
-using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
 
 public class GetBranchMasterByIdHandler(IBranchMasterRepository repository)
-    : IRequestHandler<GetBranchMasterByIdQuery, BranchMaster?>
+    : IRequestHandler<GetBranchMasterByIdQuery, BranchMasterQueryDto?>
 {
-    public async Task<BranchMaster?> Handle(
+    public async Task<BranchMasterQueryDto?> Handle(
         GetBranchMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
 
         if (entity == null)
             return null;
 
-        return new BranchMaster
+        return new BranchMasterQueryDto
         {
-            BranchId = entity.BranchId,
+            BranchId= entity.BranchId,
             BranchName = entity.BranchName
         };
     }
 }
+          

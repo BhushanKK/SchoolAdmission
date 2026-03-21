@@ -6,7 +6,7 @@ namespace SchoolAdmission.Application.Mappings;
 
 public class SchoolMasterProfile : Profile
 {
-        public SchoolMasterProfile()
+    public SchoolMasterProfile()
     {
         CreateMap<SchoolMasterCommandDto, SchoolMaster>()
         .ForMember(dest => dest.SchoolId, opt => opt.Ignore());

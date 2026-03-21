@@ -15,6 +15,7 @@ public class CreateCategoryMasterCommandValidator : AbstractValidator<CreateCate
             .WithMessage("Category already exists.");
     }
 }
+
 public class UpdateCategoryMasterCommandValidator : AbstractValidator<UpdateCategoryMasterCommand>
 {
     public UpdateCategoryMasterCommandValidator()

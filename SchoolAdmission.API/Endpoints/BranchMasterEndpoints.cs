@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.BranchMasters.Commands;
 using SchoolAdmission.Application.Features.BranchMasters.Queries;
-using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -12,25 +11,25 @@ public static class BranchMasterEndpoints
     {
         var group = app.MapGroup("/api/Branchmasters")
         .WithTags("Branch Master")
-        .RequireAuthorization()
         .WithDescription("Endpoints for managing Branch master data");
 
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllBranchMasterQuery());
-            return Results.Ok
-            (
-                ApiResponse<List<BranchMaster>>
-                .SuccessResponse
-                (
-                    result, 
-                    "Branch retrieved successfully"
-                )
-            );
+            return Results.Ok(result);
         });
 
-        
+        // GET BY ID
+        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        {
+            var result = await mediator.Send(new GetBranchMasterByIdQuery(id));
+
+            return result is null
+                ? Results.NotFound("BranchName not found")
+                : Results.Ok(result);
+        });
+
         // CREATE
         group.MapPost("/", async ([FromBody] CreateBranchMasterCommand command, IMediator mediator) =>
         {
@@ -44,24 +43,7 @@ public static class BranchMasterEndpoints
             });
         });
 
-        // GET BY ID
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
-        {
-            var result = await mediator.Send(new GetBranchMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound("Branch not found")
-                : Results.Ok
-                (
-                    ApiResponse<BranchMaster>
-                    .SuccessResponse
-                    (
-                        result, 
-                        "Branch retrieved successfully"
-                    )
-                );
-        });
-        // UPDATE By Id
+        // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateBranchMasterCommand command, IMediator mediator) =>
         {
             command.BranchId = id;
@@ -72,7 +54,7 @@ public static class BranchMasterEndpoints
                 : Results.NotFound("Branch Id not found");
         });
 
-        // DELETE By Id
+        // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var success = await mediator.Send(new DeleteBranchMasterCommand(id));

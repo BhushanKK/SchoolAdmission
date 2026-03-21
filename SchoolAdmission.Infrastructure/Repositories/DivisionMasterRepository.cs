@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
@@ -19,10 +20,10 @@ public class DivisionMasterRepository(ApplicationDbContext context) : IDivisionM
     public async Task AddAsync(DivisionMaster Division, CancellationToken cancellationToken)
         => await context.DivisionMasters.AddAsync(Division, cancellationToken);
 
-    public async Task UpdateAsync(DivisionMaster Division, CancellationToken cancellationToken)
+    public async Task Update(DivisionMaster Division, CancellationToken cancellationToken)
         => context.DivisionMasters.Update(Division);
 
-    public async Task DeleteAsync(DivisionMaster Division, CancellationToken cancellationToken)
+    public async Task Delete(DivisionMaster Division, CancellationToken cancellationToken)
         => context.DivisionMasters.Remove(Division);
 
     public async Task<bool> IsExistsAsync(string DivisionName, CancellationToken cancellationToken)
@@ -31,15 +32,25 @@ public class DivisionMasterRepository(ApplicationDbContext context) : IDivisionM
         .AnyAsync(x => x.DivisionName == DivisionName, cancellationToken);
     }
 
-    public async Task<DivisionMaster?> GetByIdWithAsync(int id, CancellationToken cancellationToken)
+    Task<List<DivisionMasterQueryDto>> IDivisionMasterRepository.GetAllAsync(CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<DivisionMasterQueryDto?> GetByIdWithAsync(int id, CancellationToken cancellationToken)
     {
         return await context.DivisionMasters
             .Where(x => x.DivisionId == id)
-            .Select(x => new DivisionMaster
+            .Select(x => new DivisionMasterQueryDto
             {
                 DivisionId = x.DivisionId,
                 DivisionName = x.DivisionName
             })
             .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<DivisionMasterQueryDto?> GetByIdWithDivisionAsync(int id, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,5 @@
-namespace SchoolAdmission.Domain.Dtos;
-
-public class FeesStructureDetailQueryDto
+namespace SchoolAdmission.Domain;
+public class FeesStructureDetails
 {
     public int FeeId { get; set; }
 
