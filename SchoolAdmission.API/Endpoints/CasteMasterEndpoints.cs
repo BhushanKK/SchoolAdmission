@@ -2,8 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Application.Features.CasteMasters.Queries;
-using SchoolAdmission.Domain;
-using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -19,48 +17,21 @@ public static class CasteMasterEndpoints
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllCasteMasterQuery());
-            return result is null ?
-            Results.NotFound(ApiResponse<CasteMasterQueryDto>.FailureResponse("Caste not found")) :
-            Results.Ok
-                (
-                    ApiResponse<List<CasteMaster>>
-                    .SuccessResponse
-                    (
-                        result, 
-                        "Caste retrieved successfully"
-                    )
-                );
+            return Results.Json(result, statusCode: result.StatusCode);
         });
 
         // Get by Id
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new GetCasteMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound(ApiResponse<CasteMasterQueryDto>.FailureResponse("Caste not found"))
-                : Results.Ok
-                (
-                    ApiResponse<CasteMasterQueryDto>
-                    .SuccessResponse
-                    (
-                        result, 
-                        "Caste retrieved successfully"
-                    )
-                );
+            return Results.Json(result, statusCode: result.StatusCode);
         });
 
         // Create
         group.MapPost("/", async ([FromBody] CreateCasteMasterCommand command, IMediator mediator) =>
         {
-            var id = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                success = true,
-                message = "Caste created successfully",
-                data = id
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // Update
@@ -68,24 +39,16 @@ public static class CasteMasterEndpoints
         {
 
             command.CasteId = id; // Ensure the ID from the route is used
-            var success = await mediator.Send(command);
-
-            return (bool)success! 
-                ? Results.Ok(ApiResponse<object>.SuccessResponse(true, $"Caste updated successfully with id: {id}"))
-                : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
-
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // Delete
         group.MapDelete("/{id:int}", static async (int id, IMediator mediator) =>
         {
-            var success = await mediator.Send(new DeleteCasteMasterCommand(id));
+            var response = await mediator.Send(new DeleteCasteMasterCommand(id));
 
-            return success
-
-                ? Results.Ok(ApiResponse<object>.SuccessResponse(null, $"Caste deleted successfully with id: {id}"))
-                : Results.NotFound(ApiResponse<object>.FailureResponse("Caste not found"));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }  
 }
-

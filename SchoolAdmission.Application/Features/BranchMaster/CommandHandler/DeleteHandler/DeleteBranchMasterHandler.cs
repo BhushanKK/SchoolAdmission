@@ -2,7 +2,6 @@ using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Infrastructure.Data;
 using Microsoft.Extensions.Logging;
-using SchoolAdmission.Application.Common.Exceptions;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
 

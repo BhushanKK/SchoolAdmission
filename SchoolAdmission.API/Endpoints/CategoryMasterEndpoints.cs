@@ -17,52 +17,37 @@ public static class CategoryMasterEndpoints
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllCategoryMastersQuery());
-            return Results.Ok(result);
+            var response = await mediator.Send(new GetAllCategoryMastersQuery());
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetCategoryMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound("Category not found")
-                : Results.Ok(result);
+            var response = await mediator.Send(new GetCategoryMasterByIdQuery(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // CREATE
         group.MapPost("/", async ([FromBody] CreateCategoryMasterCommand command, IMediator mediator) =>
         {
-            var id = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Category created successfully",
-                Data = id
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCategoryMasterCommand command, IMediator mediator) =>
         {
             command.CategoryId = id;
-            var success = await mediator.Send(command);
-
-            return (bool)success!
-                ? Results.Ok("Category updated successfully")
-                : Results.NotFound("Category not found");
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var success = await mediator.Send(new DeleteCategoryMasterCommand(id));
-
-            return success
-                ? Results.Ok("Category deleted successfully")
-                : Results.NotFound("Category not found");
+            var response = await mediator.Send(new DeleteCategoryMasterCommand(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }

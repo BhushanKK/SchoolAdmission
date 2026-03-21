@@ -1,4 +1,3 @@
-
 namespace SchoolAdmission.Domain.Dtos.CommandDto;
 public class LoginResponseDto
 {
@@ -7,4 +6,5 @@ public class LoginResponseDto
     public DateTime AccessTokenExpiry { get; set; }
     public Guid UserId { get; set; }
     public string? EmailId { get; set; }
+    public string? Role { get; set; }
 }

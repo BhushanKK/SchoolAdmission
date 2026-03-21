@@ -16,52 +16,37 @@ public static class CommiteMasterEndpoints
         // GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetAllCommiteMastersQuery());
-            return Results.Ok(result);
+            var response = await mediator.Send(new GetAllCommiteMastersQuery());
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var result = await mediator.Send(new GetCommiteMasterByIdQuery(id));
-
-            return result is null
-                ? Results.NotFound("Commite not found")
-                : Results.Ok(result);
+            var response = await mediator.Send(new GetCommiteMasterByIdQuery(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // CREATE
         group.MapPost("/", async ([FromBody] CreateCommiteMasterCommand command, IMediator mediator) =>
         {
-            var id = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Commite created successfully",
-                Data = id
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // UPDATE
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCommiteMasterCommand command, IMediator mediator) =>
         {
             command.CommiteeId = id;
-            var success = await mediator.Send(command);
-
-            return success
-                ? Results.Ok("Commite updated successfully")
-                : Results.NotFound("Commite not found");
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
 
         // DELETE
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
-            var success = await mediator.Send(new DeleteCommiteMasterCommand(id));
-
-            return success
-                ? Results.Ok("Commite deleted successfully")
-                : Results.NotFound("Commite not found");
+            var response = await mediator.Send(new DeleteCommiteMasterCommand(id));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }
