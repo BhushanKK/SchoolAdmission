@@ -43,7 +43,7 @@ public class GetCommiteeMasterByIdHandler(
             logger.LogError(ex,"Error while fetching CommiteMaster Id : {Id}",request.Id);
             return ApiResponse<CommiteMasterQueryDto>.FailureResponse
             (
-                "Unable to fetch CommiteMaster at the moment.",
+                MessageHelper.InternalServerError(EntityEnum.CommiteMaster),
                 HttpStatusCode.InternalServerError.GetHashCode()
             );
         }

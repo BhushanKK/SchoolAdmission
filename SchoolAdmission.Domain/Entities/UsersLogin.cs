@@ -36,7 +36,7 @@ public class UsersLogin
 
     public DateTime CreatedDate { get; set; }
 
-    public string Role { get; set; } = default!;
+    public Roles Role { get; set; } = default!;
 
     public StudentDetails? Student { get; set; }
 
