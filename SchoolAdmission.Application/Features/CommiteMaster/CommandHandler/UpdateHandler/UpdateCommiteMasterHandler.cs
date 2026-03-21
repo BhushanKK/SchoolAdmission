@@ -1,25 +1,58 @@
+using System.Net;
 using MediatR;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 
-public class UpdateCommiteMasterHandler(ICommiteMasterRepository repository,IMapper mapper)
-    : IRequestHandler<UpdateCommiteMasterCommand, bool>
+public class UpdateCommiteMasterHandler(
+    ICommiteMasterRepository repository,
+    IMapper mapper,
+    ApplicationDbContext context,
+    ILogger<UpdateCommiteMasterHandler> logger)
+    : IRequestHandler<UpdateCommiteMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(UpdateCommiteMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(UpdateCommiteMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.CommiteeId, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity == null)
-            return false;
-    
-        entity.CommiteeId = request.CommiteeId;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.CommiteeId, cancellationToken);
 
-        mapper.Map(request, entity);
+            if (entity is null)
+                return ApiResponse<bool>.FailureResponse
+                (
+                    MessageHelper.NotFound(EntityEnum.CommiteMaster, request.CommiteeId),
+                    HttpStatusCode.NotFound.GetHashCode()
+                );
 
-        await repository.UpdateAsync(entity, cancellationToken);
+            mapper.Map(request, entity);
 
-        return true;
+            await repository.UpdateAsync(entity, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse
+            (
+                true,
+                MessageHelper.UpdatedSuccessfully(EntityEnum.CommiteMaster),
+                HttpStatusCode.OK.GetHashCode()
+            );
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError(ex,"Error while updating CommiteMaster Id : {Id}",request.CommiteeId);
+            return ApiResponse<bool>.FailureResponse
+            (
+                MessageHelper.InternalServerError(EntityEnum.CommiteMaster),
+                HttpStatusCode.InternalServerError.GetHashCode()
+            );
+        }
     }
 }

@@ -2,4 +2,4 @@ using MediatR;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 public record CreateCommiteMasterCommand(string CommiteeName, bool Status, string Slogan) : 
-IRequest<int>;
+IRequest<ApiResponse<int>>;
