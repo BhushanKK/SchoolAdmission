@@ -18,7 +18,15 @@ public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository
             var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
             if (entity is null)
-                throw new ApiException($"BranchMaster with Id {request.Id} not found");
+                if (entity == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = $"BranchMaster with Id {request.Id} not found",
+                    StatusCode = 404
+                };
+            }
 
             await repository.DeleteAsync(entity, cancellationToken);
 
