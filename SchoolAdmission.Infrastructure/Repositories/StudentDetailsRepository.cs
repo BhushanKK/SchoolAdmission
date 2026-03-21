@@ -24,10 +24,10 @@ public class StudentDetailsRepository(ApplicationDbContext context) : IStudentDe
 
     // Update
     public async Task<int> UpdateAsync(StudentDetails entity, CancellationToken cancellationToken = default)
-        {
-            context.StudentDetails.Update(entity);
-            return await context.SaveChangesAsync(cancellationToken);
-        }
+    {
+        context.StudentDetails.Update(entity);
+        return await context.SaveChangesAsync(cancellationToken);
+    }
 
     public async Task<int> DeleteAsync(Guid studentId, CancellationToken cancellationToken = default)
     {
