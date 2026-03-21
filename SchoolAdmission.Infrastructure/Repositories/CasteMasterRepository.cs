@@ -15,10 +15,10 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
     public async Task AddAsync(CasteMaster caste, CancellationToken cancellationToken)
         => await context.CasteMasters.AddAsync(caste, cancellationToken);
 
-    public async Task Update(CasteMaster caste, CancellationToken cancellationToken)
+    public async Task UpdateAsync(CasteMaster caste, CancellationToken cancellationToken)
         => context.CasteMasters.Update(caste);
 
-    public async Task Delete(CasteMaster caste, CancellationToken cancellationToken)
+    public async Task DeleteAsync(CasteMaster caste, CancellationToken cancellationToken)
         => context.CasteMasters.Remove(caste);
 
     public async Task<List<CasteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)

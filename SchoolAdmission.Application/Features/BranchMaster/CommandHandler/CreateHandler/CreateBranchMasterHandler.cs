@@ -5,6 +5,8 @@ using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.BranchMasters.Commands;
 using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
+using System.Net;
+using SchoolAdmission.Domain.Utils;
 
 public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMasterHandler> logger,
     ApplicationDbContext context, ICurrentUserRepository currentUser)
@@ -24,13 +26,13 @@ public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMaste
             await context.BranchMasters.AddAsync(branchMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-            return ApiResponse<int>.SuccessResponse(branchMaster.BranchId, "Branch created successfully", 201);
+            return ApiResponse<int>.SuccessResponse(branchMaster.BranchId, MessageHelper.CreatedSuccessfully(EntityEnum.BranchMaster), HttpStatusCode.Created.GetHashCode());
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
             logger.LogError(ex, "Error while creating BranchMaster");
-            return ApiResponse<int>.FailureResponse("Unable to create BranchMaster at the moment. Please try again later.", 500);
+            return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.BranchMaster), HttpStatusCode.InternalServerError.GetHashCode());
         }
     }
 }

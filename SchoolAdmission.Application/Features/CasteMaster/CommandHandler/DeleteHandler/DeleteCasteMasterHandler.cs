@@ -1,26 +1,42 @@
+using System.Net;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository)
+public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository,ApplicationDbContext context, ILogger<DeleteCasteMasterCommandHandler> logger)
     : IRequestHandler<DeleteCasteMasterCommand, ApiResponse<bool>>
 {
     public async Task<ApiResponse<bool>> Handle(DeleteCasteMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity == null)
+        try
         {
-            return new ApiResponse<bool>
-            {
-                Success = false,
-                Message = $"CasteMaster with Id {request.Id} not found",
-                StatusCode = 404
-            };
-        }
+            var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        await repository.Delete(entity, cancellationToken);
-        return ApiResponse<bool>.SuccessResponse(true, "CasteMaster deleted successfully", 200);
+            if (entity is null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.Id),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
+
+            await repository.DeleteAsync(entity, cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            return ApiResponse<bool>.SuccessResponse(true, "CasteMaster deleted successfully", HttpStatusCode.OK.GetHashCode());
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError(ex.Message, "Failed to delete CasteMaster");
+            return ApiResponse<bool>.FailureResponse("Failed to delete CasteMaster", HttpStatusCode.InternalServerError.GetHashCode());
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using MediatR;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Interfaces;
@@ -15,6 +16,6 @@ public class GetAllBranchMasterHandler(IBranchMasterRepository repository)
         {
             BranchId = x.BranchId,
             BranchName = x.BranchName
-        }).ToList(), "Data retrieved successfully", 200);
+        }).ToList(), "Data retrieved successfully", HttpStatusCode.OK.GetHashCode());
     }
 }

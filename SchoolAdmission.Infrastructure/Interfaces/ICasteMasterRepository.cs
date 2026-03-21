@@ -12,9 +12,9 @@ public interface ICasteMasterRepository
 
     Task AddAsync(CasteMaster caste, CancellationToken cancellationToken);
 
-    Task Update(CasteMaster caste, CancellationToken cancellationToken);
+    Task UpdateAsync(CasteMaster caste, CancellationToken cancellationToken);
 
-    Task Delete(CasteMaster caste, CancellationToken cancellationToken);
+    Task DeleteAsync(CasteMaster caste, CancellationToken cancellationToken);
 
     Task<bool> IsExistsAsync(string caste, CancellationToken cancellationToken);
     

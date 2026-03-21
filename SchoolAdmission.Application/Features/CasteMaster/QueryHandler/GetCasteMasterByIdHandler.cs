@@ -1,5 +1,7 @@
+using System.Net;
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Queries;
@@ -17,15 +19,16 @@ public class GetCasteMasterByIdHandler(ICasteMasterRepository repository)
             return new ApiResponse<CasteMasterQueryDto?>
             {
                 Success = false,
-                Message = $"CasteMaster with Id {request.Id} not found",
-                StatusCode = 404
+                Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.Id),
+                StatusCode = HttpStatusCode.NotFound.GetHashCode(),
+                Data = null
             };
 
         return new ApiResponse<CasteMasterQueryDto?>
         {
             Success = true,
-            Message = "CasteMaster retrieved successfully",
-            StatusCode = 200,
+            Message = MessageHelper.RetrievedSuccessfully(EntityEnum.CasteMaster),
+            StatusCode = HttpStatusCode.OK.GetHashCode(),
             Data = new CasteMasterQueryDto
             {
                 CasteId= entity.CasteId,
