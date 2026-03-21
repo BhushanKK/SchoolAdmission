@@ -1,19 +1,41 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Application.Common.Exceptions;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository)
+public class DeleteBranchMasterCommandHandler(
+    IBranchMasterRepository repository,
+    ILogger logger,
+    ApplicationDbContext context)
     : IRequestHandler<DeleteBranchMasterCommand, bool>
 {
-    public async Task<bool> Handle(DeleteBranchMasterCommand request,CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteBranchMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity is null)
-            return false;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        await repository.Delete(entity,cancellationToken);
-        return true;
+            if (entity is null)
+                throw new ApiException($"BranchMaster with Id {request.Id} not found");
+
+            await repository.DeleteAsync(entity, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return true;
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError("An error occurred while deleting BranchMaster with Id {Id}", request.Id);
+            throw new ApiException($"An error occurred while deleting BranchMaster with Id {request.Id}");
+        }
     }
 }
