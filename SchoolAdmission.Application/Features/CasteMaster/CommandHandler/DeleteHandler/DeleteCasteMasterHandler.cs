@@ -29,6 +29,7 @@ public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository,A
             }
 
             await repository.DeleteAsync(entity, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
             return ApiResponse<bool>.SuccessResponse(true, MessageHelper.DeletedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.OK.GetHashCode());
         }

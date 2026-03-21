@@ -30,7 +30,8 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
                     {
                         CasteId = caste.CasteId,
                         CategoryId = caste.CategoryId,
-                        Caste = caste.Caste
+                        Caste = caste.Caste,
+                        Category = category.Category
                     };
 
         return await query.AsNoTracking().ToListAsync(cancellationToken);

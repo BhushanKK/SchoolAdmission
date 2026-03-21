@@ -3,32 +3,45 @@ using AutoMapper;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
-public class UpdateCasteMasterHandler(ICasteMasterRepository repository, IMapper mapper)
+public class UpdateCasteMasterHandler(ICasteMasterRepository repository,ILogger<UpdateCasteMasterHandler> logger, ICurrentUserRepository currentUser,IMapper mapper, ApplicationDbContext context)
     : IRequestHandler<UpdateCasteMasterCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(UpdateCasteMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.CasteId, cancellationToken);
-
-        if (entity is null)
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
+        try
         {
-            return new ApiResponse<int>
+            var entity = await repository.GetByIdAsync(request.CasteId, cancellationToken);
+
+            if (entity is null)
             {
-                Success = false,
-                Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.CasteId),
-                StatusCode = HttpStatusCode.NotFound.GetHashCode()
-            };
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.CasteId),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
+
+            entity.CasteId = request.CasteId;
+            mapper.Map(request, entity);
+            entity.ModifiedDate = DateTime.UtcNow;
+            entity.ModifyBy = await currentUser.Email;
+            await repository.UpdateAsync(entity, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            return ApiResponse<int>.SuccessResponse(entity.CasteId, MessageHelper.UpdatedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.OK.GetHashCode());
         }
-
-        entity.CasteId = request.CasteId;
-
-        mapper.Map(request, entity);
-
-        await repository.UpdateAsync(entity, cancellationToken);
-
-        return ApiResponse<int>.SuccessResponse(entity.CasteId, MessageHelper.UpdatedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.OK.GetHashCode());
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "An error occurred while updating the caste master.");
+            await transaction.RollbackAsync(cancellationToken);
+            return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.CasteMaster), HttpStatusCode.InternalServerError.GetHashCode());
+        }
     }
 }

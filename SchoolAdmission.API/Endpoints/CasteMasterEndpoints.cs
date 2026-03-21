@@ -11,6 +11,7 @@ public static class CasteMasterEndpoints
     {
         var group = app.MapGroup("/api/castemaster")
         .WithTags("Caste Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing caste master data");
 
         // Lookup endpoint (for dropdowns, etc.)
