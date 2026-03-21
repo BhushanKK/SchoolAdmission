@@ -2,6 +2,7 @@ using MediatR;
 using AutoMapper;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
+using SchoolAdmission.Domain.Utils;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
@@ -17,7 +18,7 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository, IMapper
             return new ApiResponse<int>
             {
                 Success = false,
-                Message = $"CasteMaster with Id {request.CasteId} not found",
+                Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.CasteId),
                 StatusCode = HttpStatusCode.NotFound.GetHashCode()
             };
         }
@@ -28,6 +29,6 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository, IMapper
 
         await repository.UpdateAsync(entity, cancellationToken);
 
-        return ApiResponse<int>.SuccessResponse(entity.CasteId, "CasteMaster updated successfully", 200);
+        return ApiResponse<int>.SuccessResponse(entity.CasteId, MessageHelper.UpdatedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.OK.GetHashCode());
     }
 }

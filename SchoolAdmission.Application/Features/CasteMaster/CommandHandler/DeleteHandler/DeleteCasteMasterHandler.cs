@@ -30,13 +30,13 @@ public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository,A
 
             await repository.DeleteAsync(entity, cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-            return ApiResponse<bool>.SuccessResponse(true, "CasteMaster deleted successfully", HttpStatusCode.OK.GetHashCode());
+            return ApiResponse<bool>.SuccessResponse(true, MessageHelper.DeletedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.OK.GetHashCode());
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
             logger.LogError(ex.Message, "Failed to delete CasteMaster");
-            return ApiResponse<bool>.FailureResponse("Failed to delete CasteMaster", HttpStatusCode.InternalServerError.GetHashCode());
+            return ApiResponse<bool>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.CasteMaster), HttpStatusCode.InternalServerError.GetHashCode());
         }
     }
 }

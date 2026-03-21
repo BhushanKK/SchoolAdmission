@@ -1,6 +1,7 @@
 using System.Net;
 using MediatR;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Queries;
@@ -16,6 +17,6 @@ public class GetAllBranchMasterHandler(IBranchMasterRepository repository)
         {
             BranchId = x.BranchId,
             BranchName = x.BranchName
-        }).ToList(), "Data retrieved successfully", HttpStatusCode.OK.GetHashCode());
+        }).ToList(), MessageHelper.RetrievedSuccessfully(EntityEnum.BranchMaster), HttpStatusCode.OK.GetHashCode());
     }
 }

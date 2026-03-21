@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Net;
+using SchoolAdmission.Domain.Utils;
 
 public class CreateCasteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,
     ILogger<CreateCasteMasterHandler> logger, ApplicationDbContext context) : IRequestHandler<CreateCasteMasterCommand, ApiResponse<int>>
@@ -22,13 +23,13 @@ public class CreateCasteMasterHandler(IMapper mapper, ICurrentUserRepository cur
             await context.CasteMasters.AddAsync(casteMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
-            return ApiResponse<int>.SuccessResponse(casteMaster.CasteId, "CasteMaster created successfully", HttpStatusCode.Created.GetHashCode());
+            return ApiResponse<int>.SuccessResponse(casteMaster.CasteId, MessageHelper.CreatedSuccessfully(EntityEnum.CasteMaster), HttpStatusCode.Created.GetHashCode());
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
             logger.LogError(ex.Message, "Failed to create CasteMaster");
-            return ApiResponse<int>.FailureResponse("Failed to create CasteMaster", HttpStatusCode.InternalServerError.GetHashCode());
+            return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.CasteMaster), HttpStatusCode.InternalServerError.GetHashCode());
         }
     }
 }
