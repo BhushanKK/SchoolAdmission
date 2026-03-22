@@ -27,6 +27,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<StudentParents> StudentParents => Set<StudentParents>();
     public DbSet<StudentHealth> StudentHealths => Set<StudentHealth>();
     public DbSet<StudentDocument> StudentDocuments => Set<StudentDocument>();
+    public DbSet<StudentFees> StudentFees => Set<StudentFees>();
     public DbSet<Roles> Roles => Set<Roles>();
     public DbSet<Administration> Administrations => Set<Administration>();
     public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
@@ -114,6 +115,12 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<StudentDocument>(entity =>
         {
             entity.ToTable("StudentDocuments");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<StudentFees>(entity =>
+        {
+            entity.ToTable("StudentFees");
             entity.HasKey(e => e.StudentId);
         });
 
