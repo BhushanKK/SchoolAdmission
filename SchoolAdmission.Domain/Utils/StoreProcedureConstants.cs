@@ -8,5 +8,7 @@ public static class StoreProcedureConstants
     public const string StudentParents = "USP_StudentParents";
 
     public const string StudentAddresses ="USP_StudentAddresses";
+
+    public const string StudentDocument = "USP_StudentDocument";
     
 }

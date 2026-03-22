@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.ViewModels;
 
@@ -25,6 +26,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<StudentAddresses> StudentAddresses => Set<StudentAddresses>();
     public DbSet<StudentParents> StudentParents => Set<StudentParents>();
     public DbSet<StudentHealth> StudentHealths => Set<StudentHealth>();
+    public DbSet<StudentDocument> StudentDocuments => Set<StudentDocument>();
     public DbSet<Roles> Roles => Set<Roles>();
     public DbSet<Administration> Administrations => Set<Administration>();
     public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
@@ -106,6 +108,12 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<StudentAddresses>(entity =>
         {
             entity.ToTable("StudentAddresses");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<StudentDocument>(entity =>
+        {
+            entity.ToTable("StudentDocuments");
             entity.HasKey(e => e.StudentId);
         });
 
