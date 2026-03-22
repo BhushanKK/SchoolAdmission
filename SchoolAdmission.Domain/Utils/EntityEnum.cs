@@ -11,6 +11,7 @@ public enum EntityEnum
     SchoolMaster,
     StandardMaster,
     SubjectMaster,
+    DivisionMaster,
     UserLogin,
     CommiteMaster
 }

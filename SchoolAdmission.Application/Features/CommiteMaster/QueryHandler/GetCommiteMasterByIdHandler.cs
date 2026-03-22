@@ -7,9 +7,9 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Queries;
 
-public class GetCommiteeMasterByIdHandler(
+public class GetCommiteMasterByIdHandler(
     ICommiteMasterRepository repository,
-    ILogger<GetCommiteeMasterByIdHandler> logger)
+    ILogger<GetCommiteMasterByIdHandler> logger)
     : IRequestHandler<GetCommiteMasterByIdQuery, ApiResponse<CommiteMasterQueryDto>>
 {
     public async Task<ApiResponse<CommiteMasterQueryDto>> Handle(

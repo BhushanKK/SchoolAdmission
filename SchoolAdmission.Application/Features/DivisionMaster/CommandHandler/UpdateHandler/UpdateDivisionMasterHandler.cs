@@ -1,25 +1,68 @@
-using MediatR;
+using System.Net;
 using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Application.Features.DivisionMasters.Commands;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
-namespace SchoolAdmission.Application.Features.DivisionMasters.Commands;
+namespace SchoolAdmission.Application.Features.CommandHandler.UpdateHandler;
 
-public class UpdateDivisionMasterHandler(IDivisionMasterRepository repository,IMapper mapper)
-    : IRequestHandler<UpdateDivisionMasterCommand, bool>
+public class UpdateDivisionMasterHandler(
+    IDivisionMasterRepository repository,
+    IMapper mapper,
+    ILogger<UpdateDivisionMasterHandler> logger,
+    ApplicationDbContext context
+) : IRequestHandler<UpdateDivisionMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(UpdateDivisionMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(UpdateDivisionMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.DivisionId, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity == null)
-            return false;
-    
-        entity.DivisionId = request.DivisionId;
+        try
+        {
+            // Get the existing entity
+            var entity = await repository.GetByIdAsync(request.DivisionId, cancellationToken);
 
-        mapper.Map(request, entity);
+            if (entity == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.DivisionMaster, request.DivisionId),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
 
-        await repository.Update(entity, cancellationToken);
+            // Map updated fields from request to entity
+            mapper.Map(request, entity);
 
-        return true;
+            // Update in repository
+            await repository.UpdateAsync(entity, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+
+            // Commit transaction
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse(
+                true,
+                MessageHelper.UpdatedSuccessfully(EntityEnum.DivisionMaster),
+                HttpStatusCode.OK.GetHashCode()
+            );
+        }
+        catch (Exception ex)
+        {
+            // Rollback on error
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError(ex, "Error while updating DivisionMaster with Id {Id}", request.DivisionId);
+
+            return new ApiResponse<bool>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.DivisionMaster),
+                StatusCode = HttpStatusCode.InternalServerError.GetHashCode()
+            };
+        }
     }
 }
