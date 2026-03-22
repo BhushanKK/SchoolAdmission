@@ -1,20 +1,21 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Application.Features.StudentDetails.Commands;
+using SchoolAdmission.Domain.Entities;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.API.Endpoints;
 
-public static class StudentSignupEndpoints
+public static class StudentHealthEndpoints
 {
-    public static void MapStudentSignupEndpoints(this IEndpointRouteBuilder app)
+    public static void MapStudentHealthEndpoints(this IEndpointRouteBuilder app)
     {
-        var group = app.MapGroup("/api/student")
-            .WithTags("Student Details")
-            .RequireAuthorization()
-            .WithDescription("Endpoints for student registration");
+        var group = app.MapGroup("/api/student-health")
+                       .WithTags("Student Health")
+                       .RequireAuthorization()
+                       .WithDescription("Endpoints for managing Student Health data");
 
         group.MapPost("/", async (
-            [FromBody] CreateStudentSignUpCommand command,
+            [FromBody] SaveStudentHealthCommand command,
             IMediator mediator) =>
         {
             var studentId = await mediator.Send(command);
@@ -26,9 +27,9 @@ public static class StudentSignupEndpoints
                 Data = studentId
             });
         });
-
+        // ✅ Update
         group.MapPut("/{id:guid}", async (Guid id,
-            [FromBody] UpdateStudentCommand command,
+            [FromBody] SaveStudentHealthCommand command,
             IMediator mediator) =>
         {
             command.StudentId = id;

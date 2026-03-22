@@ -1,7 +1,6 @@
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 
-
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IFeesStructureDetailsRepository
 {
@@ -14,5 +13,4 @@ public interface IFeesStructureDetailsRepository
     Task UpdateAsync(FeesStructureDetails fee, CancellationToken cancellationToken);
 
     Task DeleteAsync(FeesStructureDetails fee, CancellationToken cancellationToken);
-
 }

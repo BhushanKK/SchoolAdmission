@@ -13,6 +13,7 @@ public static class ReligionMasterEndpoints
     {
         var group = app.MapGroup("/api/religionmasters")
         .WithTags("Religion Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing religion master data");
 
         // GET ALL

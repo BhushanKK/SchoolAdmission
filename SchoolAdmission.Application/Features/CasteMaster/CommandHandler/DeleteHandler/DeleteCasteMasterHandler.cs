@@ -6,8 +6,7 @@ using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
-
-public class DeleteCasteMasterCommandHandler(ICasteMasterRepository repository,ApplicationDbContext context, ILogger<DeleteCasteMasterCommandHandler> logger)
+public class DeleteCasteMasterHandler(ICasteMasterRepository repository,ApplicationDbContext context, ILogger<DeleteCasteMasterHandler> logger)
     : IRequestHandler<DeleteCasteMasterCommand, ApiResponse<bool>>
 {
     public async Task<ApiResponse<bool>> Handle(DeleteCasteMasterCommand request, CancellationToken cancellationToken)

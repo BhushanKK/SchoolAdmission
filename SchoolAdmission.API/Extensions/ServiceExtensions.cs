@@ -50,6 +50,9 @@ public static class ServiceExtensions
         services.AddScoped<IBranchMasterRepository, BranchMasterRepository>();
         services.AddScoped<IStudentDetailsRepository, StudentDetailsRepository>();
         services.AddScoped<IStudentUpdateRepository, StudentUpdateRepository>();
+        services.AddScoped<IStudentHealthRepository, StudentHealthRepository>();
+        services.AddScoped<IStudentParentsRepository, StudentParentRepository>();
+        services.AddScoped<IStudentAddressesRepository, StudentAddressesRepository>();
         services.AddScoped<IUserLoginRepository, UserLoginRepository>();
         services.AddScoped<IJwtRepository, JwtRepository>();
         services.AddHttpContextAccessor();

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Application.Features.StandardMasters.Queries;
 
-
 namespace SchoolAdmission.API.Endpoints;
 
 public static class StandardMasterEndpoints
@@ -67,7 +66,6 @@ public static class StandardMasterEndpoints
             return success
                 ? Results.Ok("Standard deleted successfully")
                 : Results.NotFound("Standard not found");
-
         });
     }
 }

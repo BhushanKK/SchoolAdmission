@@ -3,7 +3,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Commands;
 
-public class DeleteStandardMasterCommandHandler(
+public class DeleteStandardMasterHandler(
     IStandardMasterRepository repository
 ) : IRequestHandler<DeleteStandardMasterCommand, bool>
 {

@@ -11,6 +11,7 @@ public static class CommiteMasterEndpoints
     {
         var group = app.MapGroup("/api/CommiteMasters")
             .WithTags("Commite Master")
+            .RequireAuthorization()
             .WithDescription("Endpoints for managing Commite master data");
 
         // GET ALL

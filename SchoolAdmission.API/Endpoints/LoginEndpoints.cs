@@ -9,6 +9,7 @@ public static class LoginEndpoints
     {
         var group = app.MapGroup("/api/auth")
             .WithTags("Authentication")
+            .RequireAuthorization()
             .WithDescription("Authentication endpoints");
 
         group.MapPost("/login",

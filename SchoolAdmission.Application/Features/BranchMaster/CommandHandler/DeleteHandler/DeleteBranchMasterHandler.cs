@@ -7,7 +7,8 @@ using SchoolAdmission.Domain.Utils;
 
 namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
 
-public class DeleteBranchMasterCommandHandler(IBranchMasterRepository repository, ILogger<DeleteBranchMasterCommandHandler> logger, ApplicationDbContext context)
+public class DeleteBranchMasterHandler(IBranchMasterRepository repository, 
+ILogger<DeleteBranchMasterHandler> logger, ApplicationDbContext context)
     : IRequestHandler<DeleteBranchMasterCommand, ApiResponse<bool>>
 {
     public async Task<ApiResponse<bool>> Handle(DeleteBranchMasterCommand request, CancellationToken cancellationToken)

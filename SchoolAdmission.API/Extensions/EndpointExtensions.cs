@@ -16,6 +16,9 @@ public static class EndpointExtensions
         app.MapSchoolMasterEndpoints();
         app.MapBranchMasterEndpoints();
         app.MapStudentSignupEndpoints();
+        app.MapStudentAddressEndpoints();
+        app.MapStudentHealthEndpoints();
+        app.MapStudentParentEndpoints();
         app.MapLoginEndpoints();
 
         return app;

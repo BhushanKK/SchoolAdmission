@@ -7,10 +7,10 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 
-public class DeleteCategoryMasterCommandHandler(
+public class DeleteCategoryMasterHandler(
     ICategoryMasterRepository repository,
     ApplicationDbContext context,
-    ILogger<DeleteCategoryMasterCommandHandler> logger)
+    ILogger<DeleteCategoryMasterHandler> logger)
     : IRequestHandler<DeleteCategoryMasterCommand, ApiResponse<bool>>
 {
     public async Task<ApiResponse<bool>> Handle(DeleteCategoryMasterCommand request, CancellationToken cancellationToken)

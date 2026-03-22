@@ -12,6 +12,7 @@ public static class FeesStructureEndpoints
     {
         var group = app.MapGroup("/api/feesstructures")
         .WithTags("Fees Structure")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing fees structure data");
 
         // GET ALL

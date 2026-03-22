@@ -22,6 +22,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
     public DbSet<SchoolMaster> SchoolMasters => Set<SchoolMaster>();
     public DbSet<StudentDetails> StudentDetails => Set<StudentDetails>();
+    public DbSet<StudentAddresses> StudentAddresses => Set<StudentAddresses>();
+    public DbSet<StudentParents> StudentParents => Set<StudentParents>();
+    public DbSet<StudentHealth> StudentHealths => Set<StudentHealth>();
     public DbSet<Roles> Roles => Set<Roles>();
     public DbSet<Administration> Administrations => Set<Administration>();
     public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
@@ -85,6 +88,24 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<StudentDetails>(entity =>
         {
             entity.ToTable("StudentDetails");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<StudentHealth>(entity =>
+        {
+            entity.ToTable("StudentHealths");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<StudentParents>(entity =>
+        {
+            entity.ToTable("StudentParents");
+            entity.HasKey(e => e.StudentId);
+        });
+
+        modelBuilder.Entity<StudentAddresses>(entity =>
+        {
+            entity.ToTable("StudentAddresses");
             entity.HasKey(e => e.StudentId);
         });
 

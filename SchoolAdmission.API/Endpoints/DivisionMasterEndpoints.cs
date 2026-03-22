@@ -11,6 +11,7 @@ public static class DivisionMasterEndpoints
     {
         var group = app.MapGroup("/api/Divisionmasters")
         .WithTags("Division Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing Division master data");
 
         // GET ALL

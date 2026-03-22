@@ -12,6 +12,7 @@ public static class SchoolMasterEndpoints
     {
         var group = app.MapGroup("/api/Schoolmaster")
         .WithTags("School Master")
+        .RequireAuthorization()
         .WithDescription("Endpoints for managing school master data");
 
         // Lookup endpoint (for dropdowns, etc.)
