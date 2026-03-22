@@ -12,5 +12,7 @@ public static class StoreProcedureConstants
     public const string StudentDocument = "USP_StudentDocument";
 
     public const string StudentFees = "USP_StudentFees";
+
+    public const string StudentAcademicHistory = "USP_StudentAcademicHistory";
     
 }
