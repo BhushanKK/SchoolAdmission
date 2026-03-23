@@ -1,6 +1,6 @@
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
 
-namespace SchoolAdmission.Application.Features.Religions.Commands;
+namespace SchoolAdmission.Application.Features.ReligionMasters.Commands;
 
-public class CreateReligionMasterCommand :  ReligionMasterCommandDto,IRequest<int>;
+public class CreateReligionMasterCommand :  ReligionMasterCommandDto,IRequest<ApiResponse<int>>;

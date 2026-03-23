@@ -7,50 +7,27 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class ReligionMasterRepository(ApplicationDbContext context) : IReligionMasterRepository
 {
-    // Get all
-    public async Task<List<ReligionMaster>> GetAllAsync(CancellationToken cancellationToken = default)
-    {
-        return await context.ReligionMasters
+    public async Task<List<ReligionMaster>> GetAllAsync(CancellationToken cancellationToken)
+        => await context.ReligionMasters
             .AsNoTracking()
             .ToListAsync(cancellationToken);
-    }
 
-    // Get by Id
-    public async Task<ReligionMaster?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
-    {
-        return await context.ReligionMasters
+    public async Task<ReligionMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
+        => await context.ReligionMasters
             .FindAsync(new object[] { id }, cancellationToken);
-    }
 
-    // Add
-    public async Task<int> AddAsync(ReligionMaster entity, CancellationToken cancellationToken = default)
-    {
-        await context.ReligionMasters.AddAsync(entity, cancellationToken);
-        return await context.SaveChangesAsync(cancellationToken);
-    }
+    public async Task AddAsync(ReligionMaster religion, CancellationToken cancellationToken)
+        => await context.ReligionMasters.AddAsync(religion, cancellationToken);
 
-    // Update
-    public async Task<int> UpdateAsync(ReligionMaster entity, CancellationToken cancellationToken = default)
-    {
-        context.ReligionMasters.Update(entity);
-        return await context.SaveChangesAsync(cancellationToken);
-    }
+    public async Task UpdateAsync(ReligionMaster religion, CancellationToken cancellationToken)
+        => context.ReligionMasters.Update(religion);
 
-    // Delete
-    public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken = default)
-    {
-        var entity = await context.ReligionMasters.FindAsync(new object[] { id }, cancellationToken);
-        if (entity != null)
-        {
-            context.ReligionMasters.Remove(entity);
-            return await context.SaveChangesAsync(cancellationToken);
-        }
-        return 0;
-    }
+    public async Task DeleteAsync(ReligionMaster religion, CancellationToken cancellationToken)
+        => context.ReligionMasters.Remove(religion);
 
-    public async Task<bool> IsExistsAsync(string Religion, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string religionName, CancellationToken cancellationToken)
     {
         return await context.ReligionMasters
-        .AnyAsync(x => x.Religion == Religion, cancellationToken);
+            .AnyAsync(x => x.Religion == religionName, cancellationToken);
     }
 }

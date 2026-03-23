@@ -5,5 +5,5 @@ public class ReligionMasterCommandDto
 {
     [JsonIgnore]
     public int ReligionId { get; set; }
-    public string Religion { get; set; } = string.Empty;
+    public string? Religion { get; set; }
 }

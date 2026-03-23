@@ -1,7 +1,8 @@
 using MediatR;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 
-namespace SchoolAdmission.Application.Features.Religions.Queries;
+namespace SchoolAdmission.Application.Features.ReligionMasters.Queries;
 
 public record GetAllReligionMastersQuery()
-    : IRequest<List<ReligionMaster>>;
+    : IRequest<ApiResponse<List<ReligionMasterQueryDto>>>;

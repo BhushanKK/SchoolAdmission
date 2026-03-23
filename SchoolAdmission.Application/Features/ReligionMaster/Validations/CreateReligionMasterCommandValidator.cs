@@ -1,5 +1,5 @@
 using FluentValidation;
-using SchoolAdmission.Application.Features.Religions.Commands;
+using SchoolAdmission.Application.Features.ReligionMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;

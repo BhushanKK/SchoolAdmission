@@ -1,6 +1,5 @@
 using SchoolAdmission.Domain;
 
-
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IDivisionMasterRepository
 {

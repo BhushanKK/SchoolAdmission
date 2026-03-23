@@ -1,5 +1,5 @@
 using MediatR;
 
-namespace SchoolAdmission.Application.Features.Religions.Commands;
+namespace SchoolAdmission.Application.Features.ReligionMasters.Commands;
 
-public record DeleteReligionMasterCommand(int Id) : IRequest<bool>;
+public record DeleteReligionMasterCommand(int Id) : IRequest<ApiResponse<bool>>;

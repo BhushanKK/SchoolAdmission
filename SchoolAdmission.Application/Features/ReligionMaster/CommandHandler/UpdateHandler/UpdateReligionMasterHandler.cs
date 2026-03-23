@@ -1,25 +1,63 @@
-using MediatR;
+using System.Net;
 using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.Logging;
+using SchoolAdmission.Application.Features.ReligionMasters.Commands;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
-namespace SchoolAdmission.Application.Features.Religions.Commands;
+namespace SchoolAdmission.Application.Features.ReligionMaster.Handlers;
 
-public class UpdateReligionMasterHandler(IReligionMasterRepository repository,IMapper mapper)
-    : IRequestHandler<UpdateReligionMasterCommand, bool>
+public class UpdateReligionMasterHandler(
+        IReligionMasterRepository repository,
+        IMapper mapper,
+        ILogger<UpdateReligionMasterHandler> logger,
+        ApplicationDbContext context
+    ) : IRequestHandler<UpdateReligionMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(UpdateReligionMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(UpdateReligionMasterCommand request, CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.ReligionId, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity == null)
-            return false;
-    
-        entity.ReligionId = request.ReligionId;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.ReligionId, cancellationToken);
 
-        mapper.Map(request, entity);
+            if (entity == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.ReligionMaster, request.ReligionId),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
 
-        await repository.UpdateAsync(entity, cancellationToken);
+            // Map updated values from request to entity
+            mapper.Map(request, entity);
 
-        return true;
+            await repository.UpdateAsync(entity, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse(
+                true,
+                MessageHelper.UpdatedSuccessfully(EntityEnum.ReligionMaster),
+                HttpStatusCode.OK.GetHashCode()
+            );
+        }
+        catch (Exception ex)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError(ex, "Error while updating ReligionMaster with Id {Id}", request.ReligionId);
+
+            return new ApiResponse<bool>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.ReligionMaster),
+                StatusCode = HttpStatusCode.InternalServerError.GetHashCode()
+            };
+        }
     }
 }

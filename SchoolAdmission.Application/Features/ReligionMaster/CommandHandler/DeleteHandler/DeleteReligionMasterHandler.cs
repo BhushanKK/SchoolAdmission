@@ -1,23 +1,56 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using SchoolAdmission.Domain.Utils;
 
-namespace SchoolAdmission.Application.Features.Religions.Commands;
+namespace SchoolAdmission.Application.Features.ReligionMasters.Commands;
 
 public class DeleteReligionMasterHandler(
-    IReligionMasterRepository repository
-) : IRequestHandler<DeleteReligionMasterCommand, bool>
+        IReligionMasterRepository repository,
+        ILogger<DeleteReligionMasterHandler> logger,
+        ApplicationDbContext context
+    ) : IRequestHandler<DeleteReligionMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(DeleteReligionMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(DeleteReligionMasterCommand request, CancellationToken cancellationToken)
     {
-        // Get the entity by Id
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity is null)
-            return false;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        // Delete using repository
-        await repository.DeleteAsync(entity.ReligionId, cancellationToken);
+            if (entity == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.ReligionMaster, request.Id),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
 
-        return true;
+            await repository.DeleteAsync(entity, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse(
+                true,
+                MessageHelper.DeletedSuccessfully(EntityEnum.ReligionMaster),
+                HttpStatusCode.OK.GetHashCode()
+            );
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError("An error occurred while deleting ReligionMaster with Id {Id}", request.Id);
+            return ApiResponse<bool>.FailureResponse(
+                MessageHelper.InternalServerError(EntityEnum.ReligionMaster),
+                HttpStatusCode.InternalServerError.GetHashCode()
+            );
+        }
     }
 }
