@@ -1,5 +1,4 @@
 using MediatR;
-using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.Dtos;
 
 public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)

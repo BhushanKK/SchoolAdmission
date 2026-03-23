@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Domain.Entities;
-using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.API.Endpoints;
 

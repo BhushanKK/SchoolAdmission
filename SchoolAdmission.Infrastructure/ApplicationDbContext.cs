@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.ViewModels;
 

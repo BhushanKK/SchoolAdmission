@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Infrastructure.Interfaces;
 
 public class StudentDocumentRepository(ApplicationDbContext context) : IStudentDocumentRepository
 {

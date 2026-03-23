@@ -13,5 +13,6 @@ public enum EntityEnum
     SubjectMaster,
     DivisionMaster,
     UserLogin,
-    CommiteMaster
+    CommiteMaster,
+    StudentAcademicHistory,
 }
