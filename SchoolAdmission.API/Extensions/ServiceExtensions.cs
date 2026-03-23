@@ -10,7 +10,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        // AutoMapper
+        
         services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
         services.AddAutoMapper(typeof(CommiteMasterProfile).Assembly);
         services.AddAutoMapper(typeof(SchoolMasterProfile).Assembly);
@@ -22,7 +22,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
          
 
-        // FluentValidation
+        
         services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateStandardMasterHandler>();
@@ -63,4 +63,5 @@ public static class ServiceExtensions
         return services;
     }
 }
+
 

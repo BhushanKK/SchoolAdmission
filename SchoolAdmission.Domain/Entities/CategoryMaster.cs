@@ -6,3 +6,4 @@ public class CategoryMaster : AuditableEntity
     public string? Category { get; set; }
 }
 
+

@@ -36,3 +36,4 @@ public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMaste
         }
     }
 }
+

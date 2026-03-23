@@ -15,28 +15,28 @@ public class StudentHealthRepository(ApplicationDbContext context) : IStudentHea
 
         await using var command = connection.CreateCommand();
 
-        command.CommandText = StoreProcedureConstants.StudentHealth; // SP Name
+        command.CommandText = StoreProcedureConstants.StudentHealth; 
         command.CommandType = CommandType.StoredProcedure;
 
         var efTransaction = context.Database.CurrentTransaction;
         if (efTransaction != null)
             command.Transaction = efTransaction.GetDbTransaction();
 
-        // PARAMETERS
+        
         command.Parameters.Add(new SqlParameter("@HealthId", (object?)cmd.HealthId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Height", (object?)cmd.Height ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Weight", (object?)cmd.Weight ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@HandicappedTypeId", (object?)cmd.HandicappedTypeId ?? DBNull.Value));
 
-        // OUTPUT PARAM
+        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output
         };
         command.Parameters.Add(resultParam);
 
-        // OPEN CONNECTION
+        
         if (connection.State != ConnectionState.Open)
             await connection.OpenAsync(ct);
 

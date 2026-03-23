@@ -22,7 +22,7 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         if (efTransaction != null)
             command.Transaction = efTransaction.GetDbTransaction();
 
-        // PARAMETERS
+        
         command.Parameters.Add(new SqlParameter("@FeeId", (object?)cmd.FeeId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousYearFee", (object?)cmd.PreviousYearFee ?? DBNull.Value));
@@ -32,7 +32,7 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         command.Parameters.Add(new SqlParameter("@BusFeePaid", (object?)cmd.BusFeePaid ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FeeExemption", (object?)cmd.FeeExemption ?? DBNull.Value));
 
-        // OUTPUT
+        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output

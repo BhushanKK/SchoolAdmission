@@ -14,10 +14,10 @@ public class GetAllDivisionMasterHandler(
         GetAllDivisionMastersQuery request, 
         CancellationToken cancellationToken)
     {
-        // Fetch all divisions
+        
         var data = await repository.GetAllAsync(cancellationToken);
 
-        // Map to list
+        
         var result = data.Select(x => new DivisionMaster
         {
             DivisionId = x.DivisionId,

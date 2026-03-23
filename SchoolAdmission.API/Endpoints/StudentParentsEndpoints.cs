@@ -12,7 +12,6 @@ public static class StudentParentEndpoints
                        .RequireAuthorization()
                        .WithDescription("Endpoints for managing Student Parent data");
 
-        // ✅ CREATE
         group.MapPost("/", async (
             [FromBody] SaveStudentParentCommand command,
             IMediator mediator) =>
@@ -27,12 +26,11 @@ public static class StudentParentEndpoints
             });
         });
 
-        // ✅ UPDATE
         group.MapPut("/{id:long}", async (long id,
             [FromBody] SaveStudentParentCommand command,
             IMediator mediator) =>
         {
-            command.ParentId = id; // 👈 IMPORTANT
+            command.ParentId = id;
             var result = await mediator.Send(command);
 
             return Results.Ok(new

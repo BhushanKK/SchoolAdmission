@@ -15,14 +15,14 @@ public static class FeesStructureEndpoints
         .RequireAuthorization()
         .WithDescription("Endpoints for managing fees structure data");
 
-        // GET ALL
+        
         group.MapGet("/", async (IMediator mediator) =>
         {
             var result = await mediator.Send(new GetAllFeesStructureDetailsQuery());
             return Results.Ok(ApiResponse<List<FeesStructureQueryDto>>.SuccessResponse(result, "Fees structure retrieved successfully"));
         });
 
-        // GET BY ID
+        
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var result = await mediator.Send(new GetFeesStructureByIdQuery(id));
@@ -33,7 +33,7 @@ public static class FeesStructureEndpoints
             return Results.Ok(ApiResponse<FeesStructureQueryDto>.SuccessResponse(result, "Fees structure retrieved successfully"));
         });
 
-        // CREATE
+        
         group.MapPost("/", async ([FromBody] CreateFeesStructureCommand command, IMediator mediator) =>
         {
             var id = await mediator.Send(command);
@@ -46,7 +46,7 @@ public static class FeesStructureEndpoints
             });
         });
 
-        // UPDATE
+        
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateFeesStructureCommand command, IMediator mediator) =>
         {
             command.FeeId = id;
@@ -70,7 +70,7 @@ public static class FeesStructureEndpoints
             });
         });
 
-        // DELETE
+        
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var success = await mediator.Send(new DeleteFeesStructureCommand(id));
@@ -94,3 +94,4 @@ public static class FeesStructureEndpoints
         });
     }
 }
+

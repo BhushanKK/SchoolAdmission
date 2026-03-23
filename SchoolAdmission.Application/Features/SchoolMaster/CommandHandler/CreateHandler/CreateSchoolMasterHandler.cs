@@ -22,18 +22,18 @@ public class CreateSchoolMasterHandler(
 
         try
         {
-            // Map the command to the SchoolMaster entity
+            
             var schoolMaster = mapper.Map<SchoolMaster>(request);
 
-            // Set audit fields
+            
             schoolMaster.EntryBy = await currentUser.Email;
             schoolMaster.EntryDate = DateTime.UtcNow;
 
-            // Add and save to DB
+            
             await context.SchoolMasters.AddAsync(schoolMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

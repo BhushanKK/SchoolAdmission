@@ -14,7 +14,7 @@ public class GetDivisionMasterByIdHandler(
         GetDivisionMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        // Fetch entity by ID
+        
         var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
         if (entity == null)
@@ -23,7 +23,7 @@ public class GetDivisionMasterByIdHandler(
                 404
             );
 
-        // Map entity to DTO
+        
         var dto = new DivisionMasterQueryDto
         {
             DivisionId = entity.DivisionId,

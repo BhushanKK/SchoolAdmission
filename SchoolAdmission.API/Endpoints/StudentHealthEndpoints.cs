@@ -25,7 +25,6 @@ public static class StudentHealthEndpoints
                 Data = studentId
             });
         });
-        // ✅ Update
         group.MapPut("/{id:guid}", async (Guid id,
             [FromBody] SaveStudentHealthCommand command,
             IMediator mediator) =>

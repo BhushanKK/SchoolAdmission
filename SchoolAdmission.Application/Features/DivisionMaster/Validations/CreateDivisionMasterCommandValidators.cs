@@ -4,7 +4,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 
-// Validator for CreateDivisionMasterCommand
+
 public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivisionMasterCommand>
 {
     public CreateDivisionMasterCommandValidator(IDivisionMasterRepository repository)
@@ -18,7 +18,7 @@ public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivi
     }
 }
 
-// Validator for UpdateDivisionMasterCommand
+
 public class UpdateDivisionMasterCommandValidator : AbstractValidator<UpdateDivisionMasterCommand>
 {
     public UpdateDivisionMasterCommandValidator()
@@ -31,4 +31,5 @@ public class UpdateDivisionMasterCommandValidator : AbstractValidator<UpdateDivi
             .MaximumLength(100);
     }
 }
+
 

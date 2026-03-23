@@ -28,3 +28,4 @@ public class UpdateReligionMasterCommandValidator : AbstractValidator<UpdateReli
             .MaximumLength(50).WithMessage("Religion name must not exceed 50 characters");
     }
 }
+

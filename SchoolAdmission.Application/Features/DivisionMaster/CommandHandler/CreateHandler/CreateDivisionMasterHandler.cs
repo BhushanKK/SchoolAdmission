@@ -21,21 +21,21 @@ public class CreateDivisionMasterHandler(
 
         try
         {
-            // Map command to entity
+            
             var division = mapper.Map<DivisionMaster>(request);
             
-            // Set metadata
+            
             division.EntryBy = await currentUser.Email;
             division.EntryDate = DateTime.UtcNow;
 
-            // Add to DB
+            
             await context.DivisionMasters.AddAsync(division, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
-            // Return success
+            
             return ApiResponse<int>.SuccessResponse(
                 division.DivisionId,
                 MessageHelper.CreatedSuccessfully(EntityEnum.DivisionMaster),
@@ -44,11 +44,11 @@ public class CreateDivisionMasterHandler(
         }
         catch (Exception ex)
         {
-            // Rollback in case of error
+            
             await transaction.RollbackAsync(cancellationToken);
             logger.LogError(ex, "Failed to create DivisionMaster");
 
-            // Return failure response
+            
             return ApiResponse<int>.FailureResponse(
                 MessageHelper.InternalServerError(EntityEnum.DivisionMaster),
                 HttpStatusCode.InternalServerError.GetHashCode()
