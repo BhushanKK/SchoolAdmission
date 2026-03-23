@@ -14,9 +14,7 @@ public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchool
             .MaximumLength(100)
             .MustAsync(async (SchoolName, ct) =>
                 !await repository.IsExistsAsync(SchoolName, ct))
-            .WithMessage("School Name already exists.");
-        
-        
+            .WithMessage("School Name already exists.");  
     }
 }
 
@@ -31,10 +29,5 @@ public class UpdateSchoolMasterCommandValidator : AbstractValidator<UpdateSchool
         RuleFor(x => x.SchoolName)
             .NotEmpty().WithMessage("School name is required")
             .MaximumLength(100);
-
-        RuleFor(x => x.CommiteeId)
-            .NotEmpty().WithMessage("Commitee ID is required");
-
-        
     }
 }

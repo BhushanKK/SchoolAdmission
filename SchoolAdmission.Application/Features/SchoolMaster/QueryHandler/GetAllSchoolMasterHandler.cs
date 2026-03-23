@@ -1,17 +1,23 @@
+using System.Net;
 using MediatR;
-//using SchoolAdmission.Application.Interfaces;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Queries;
 
 public class GetAllSchoolMasterHandler(ISchoolMasterRepository repository)
-        : IRequestHandler<GetAllSchoolMastersQuery, List<SchoolMasterQueryDto>>
+    : IRequestHandler<GetAllSchoolMasterQuery, ApiResponse<List<SchoolMaster>>>
 {
-    public async Task<List<SchoolMasterQueryDto>> Handle(
-        GetAllSchoolMastersQuery request,
-        CancellationToken cancellationToken)
+    public async Task<ApiResponse<List<SchoolMaster>>> Handle(GetAllSchoolMasterQuery request, 
+    CancellationToken cancellationToken)
     {
-        return await repository.GetAllAsync(cancellationToken);
+        var data = await repository.GetAllAsync(cancellationToken);
+
+        return ApiResponse<List<SchoolMaster>>.SuccessResponse(data.Select(x => new SchoolMaster
+        {
+            SchoolId = x.SchoolId,
+            SchoolName = x.SchoolName
+        }).ToList(), MessageHelper.RetrievedSuccessfully(EntityEnum.SchoolMaster), HttpStatusCode.OK.GetHashCode());
     }
 }

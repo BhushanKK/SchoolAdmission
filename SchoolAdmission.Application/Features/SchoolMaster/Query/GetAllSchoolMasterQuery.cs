@@ -1,9 +1,7 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Queries;
 
-public record GetAllSchoolMastersQuery() : IRequest<List<SchoolMasterQueryDto>>
-{
-    
-}
+public record GetAllSchoolMasterQuery()
+    : IRequest<ApiResponse<List<SchoolMaster>>>;
