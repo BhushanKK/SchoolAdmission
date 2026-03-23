@@ -12,3 +12,4 @@ public class StudentHealthDto
 
     public int? HandicappedTypeId { get; set; }
 }
+

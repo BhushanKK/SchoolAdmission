@@ -1,5 +1,4 @@
 using SchoolAdmission.Domain.Dtos;
-using SchoolAdmission.Domain.Entities;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 

@@ -14,28 +14,28 @@ public static class CommiteMasterEndpoints
             .RequireAuthorization()
             .WithDescription("Endpoints for managing Commite master data");
 
-        // GET ALL
+        
         group.MapGet("/", async (IMediator mediator) =>
         {
             var response = await mediator.Send(new GetAllCommiteMastersQuery());
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // GET BY ID
+        
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new GetCommiteMasterByIdQuery(id));
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // CREATE
+        
         group.MapPost("/", async ([FromBody] CreateCommiteMasterCommand command, IMediator mediator) =>
         {
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // UPDATE
+        
         group.MapPut("/{id:int}", async (int id, [FromBody] UpdateCommiteMasterCommand command, IMediator mediator) =>
         {
             command.CommiteeId = id;
@@ -43,7 +43,7 @@ public static class CommiteMasterEndpoints
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // DELETE
+        
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new DeleteCommiteMasterCommand(id));

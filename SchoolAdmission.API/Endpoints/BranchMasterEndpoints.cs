@@ -14,28 +14,28 @@ public static class BranchMasterEndpoints
         .RequireAuthorization()
         .WithDescription("Endpoints for managing Branch master data");
 
-        // GET ALL
+        
         group.MapGet("/", async (IMediator mediator) =>
         {
             var response = await mediator.Send(new GetAllBranchMasterQuery());
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // GET BY ID
+        
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new GetBranchMasterByIdQuery(id));
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // CREATE
+        
         group.MapPost("/", async ([FromBody] CreateBranchMasterCommand command, IMediator mediator) =>
         {
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // UPDATE
+        
         group.MapPut("/{id:int}", async (int id,
             [FromBody] UpdateBranchMasterCommand command,IMediator mediator) =>
         {
@@ -44,7 +44,7 @@ public static class BranchMasterEndpoints
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-        // DELETE
+        
         group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new DeleteBranchMasterCommand(id));
@@ -52,3 +52,4 @@ public static class BranchMasterEndpoints
         });
     }
 }
+

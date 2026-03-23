@@ -1,11 +1,12 @@
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 public class SaveStudentFeesHandler(IStudentFeesRepository repo)
-    : IRequestHandler<SaveStudentFeesCommand, int>
+    : IRequestHandler<SaveStudentFeesCommand, ApiResponse<int>>
 {
-    public async Task<int> Handle(SaveStudentFeesCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<int>> Handle(SaveStudentFeesCommand request, CancellationToken cancellationToken)
     {
         var dto = new StudentFeesDto
         {
@@ -19,6 +20,23 @@ public class SaveStudentFeesHandler(IStudentFeesRepository repo)
             FeeExemption = request.FeeExemption
         };
 
-        return await repo.SaveStudentFeesAsync(dto, cancellationToken);
+        int result = await repo.SaveStudentFeesAsync(dto, cancellationToken);
+        if(result>0)
+        {
+            return new ApiResponse<int>
+            {
+                Success = true,
+                Data = result,
+                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees)
+            };
+        }
+        else
+        {
+            return new ApiResponse<int>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.StudentFees)
+            };
+        }
     }
 }

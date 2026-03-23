@@ -21,18 +21,18 @@ public class CreateStandardMasterHandler(
 
         try
         {
-            // Map command to entity
+            
             var standardMaster = mapper.Map<StandardMaster>(request);
 
-            // Set audit fields
+            
             standardMaster.EntryBy = await currentUser.Email;
             standardMaster.EntryDate = DateTime.UtcNow;
 
-            // Add to DB
+            
             await context.StandardMasters.AddAsync(standardMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

@@ -1,11 +1,10 @@
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
-using SchoolAdmission.Infrastructure.Interfaces;
-
+using SchoolAdmission.Domain.Utils;
 public class SaveStudentAcademicHistoryHandler(IStudentAcademicHistoryRepository repo) 
-    : IRequestHandler<SaveStudentAcademicHistoryCommand, int>
+    : IRequestHandler<SaveStudentAcademicHistoryCommand, ApiResponse<int>>
 {
-    public async Task<int> Handle(SaveStudentAcademicHistoryCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<int>> Handle(SaveStudentAcademicHistoryCommand request, CancellationToken cancellationToken)
     {
         var dto = new StudentAcademicHistoryDto
         {
@@ -21,6 +20,23 @@ public class SaveStudentAcademicHistoryHandler(IStudentAcademicHistoryRepository
             Percentage = request.Percentage
         };
 
-        return await repo.SaveStudentAcademicHistoryAsync(dto, cancellationToken);
+        int result = await repo.SaveStudentAcademicHistoryAsync(dto, cancellationToken);
+        if(result>0)
+        {
+            return new ApiResponse<int>
+            {
+                Success = true,
+                Data = result,
+                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentAcademicHistory)
+            };
+        }
+        else
+        {
+            return new ApiResponse<int>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.StudentAcademicHistory)
+            };
+        }
     }
 }

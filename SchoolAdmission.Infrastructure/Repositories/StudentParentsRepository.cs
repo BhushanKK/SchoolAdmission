@@ -9,20 +9,20 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 public class StudentParentRepository(ApplicationDbContext context) : IStudentParentsRepository
 {
-    public async Task<int> SaveStudentParentUsingSpAsync(StudentParentsDto cmd, CancellationToken ct)
+    public async Task<int> SaveStudentParentsAsync(StudentParentsDto cmd, CancellationToken ct)
     {
         var connection = context.Database.GetDbConnection();
 
         await using var command = connection.CreateCommand();
 
-        command.CommandText = StoreProcedureConstants.StudentParents; // SP Name
+        command.CommandText = StoreProcedureConstants.StudentParents; 
         command.CommandType = CommandType.StoredProcedure;
 
         var efTransaction = context.Database.CurrentTransaction;
         if (efTransaction != null)
             command.Transaction = efTransaction.GetDbTransaction();
 
-        // PARAMETERS
+        
         command.Parameters.Add(new SqlParameter("@ParentId", (object?)cmd.ParentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FatherName", (object?)cmd.FatherName ?? DBNull.Value));
@@ -34,14 +34,14 @@ public class StudentParentRepository(ApplicationDbContext context) : IStudentPar
         command.Parameters.Add(new SqlParameter("@Income", (object?)cmd.Income ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Occupation", (object?)cmd.Occupation ?? DBNull.Value));
 
-        // OUTPUT PARAM
+        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output
         };
         command.Parameters.Add(resultParam);
 
-        // OPEN CONNECTION
+        
         if (connection.State != ConnectionState.Open)
             await connection.OpenAsync(ct);
 

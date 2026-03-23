@@ -22,7 +22,7 @@ public class StudentDetailsRepository(ApplicationDbContext context) : IStudentDe
         return await context.SaveChangesAsync(cancellationToken);
     }
 
-    // Update
+    
     public async Task<int> UpdateAsync(StudentDetails entity, CancellationToken cancellationToken = default)
     {
         context.StudentDetails.Update(entity);

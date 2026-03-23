@@ -1,4 +1,4 @@
-﻿namespace SchoolAdmission.Domain;
+namespace SchoolAdmission.Domain;
 
 public class CasteMaster : AuditableEntity
 {
@@ -6,3 +6,4 @@ public class CasteMaster : AuditableEntity
     public int? CategoryId { get; set; }
     public required string Caste { get; set; }
 }
+

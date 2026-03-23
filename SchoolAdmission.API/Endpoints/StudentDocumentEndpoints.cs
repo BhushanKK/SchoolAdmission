@@ -12,7 +12,6 @@ public static class StudentDocumentEndpoints
                        .RequireAuthorization()
                        .WithDescription("Endpoints for managing Student Document data");
 
-        // ✅ INSERT
         group.MapPost("/", async (
             [FromBody] SaveStudentDocumentCommand command,
             IMediator mediator) =>
@@ -27,7 +26,6 @@ public static class StudentDocumentEndpoints
             });
         });
 
-        // ✅ UPDATE
         group.MapPut("/{id:long}", async (long id,
             [FromBody] SaveStudentDocumentCommand command,
             IMediator mediator) =>

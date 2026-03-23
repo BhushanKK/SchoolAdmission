@@ -1,6 +1,5 @@
 using MediatR;
 using SchoolAdmission.Domain.Dto;
 
-public class SaveStudentParentCommand : StudentParentsDto, IRequest<int>
-{
-}
+public class SaveStudentParentCommand : StudentParentsDto, IRequest<ApiResponse<int>>;
+

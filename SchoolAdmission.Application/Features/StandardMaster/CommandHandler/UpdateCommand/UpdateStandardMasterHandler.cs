@@ -35,7 +35,7 @@ public class UpdateStandardMasterHandler(
                 };
             }
 
-            // Map updated values
+            
             mapper.Map(request, entity);
 
             await repository.UpdateAsync(entity, cancellationToken);

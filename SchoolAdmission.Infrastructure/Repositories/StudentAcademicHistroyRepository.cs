@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Infrastructure.Interfaces;
 
 public class StudentAcademicHistoryRepository(ApplicationDbContext context) 
     : IStudentAcademicHistoryRepository
@@ -22,7 +21,7 @@ public class StudentAcademicHistoryRepository(ApplicationDbContext context)
         if (efTransaction != null)
             command.Transaction = efTransaction.GetDbTransaction();
 
-        // PARAMETERS
+        
         command.Parameters.Add(new SqlParameter("@AcademicHistoryId", (object?)cmd.AcademicHistoryId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousSchool", (object?)cmd.PreviousSchool ?? DBNull.Value));
@@ -34,7 +33,7 @@ public class StudentAcademicHistoryRepository(ApplicationDbContext context)
         command.Parameters.Add(new SqlParameter("@TotalMarks", (object?)cmd.TotalMarks ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Percentage", (object?)cmd.Percentage ?? DBNull.Value));
 
-        // OUTPUT
+        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output

@@ -6,3 +6,4 @@ public class BranchMaster : AuditableEntity
     public string? BranchName { get; set; }
 }
 
+

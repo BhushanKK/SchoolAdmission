@@ -9,7 +9,6 @@ public static class StudentFeesEndpoints
                        .WithTags("Student Fees")
                        .RequireAuthorization();
 
-        // INSERT
         group.MapPost("/", async (
             [FromBody] SaveStudentFeesCommand command,
             IMediator mediator) =>
@@ -24,7 +23,6 @@ public static class StudentFeesEndpoints
             });
         });
 
-        // UPDATE
         group.MapPut("/{id:long}", async (long id,
             [FromBody] SaveStudentFeesCommand command,
             IMediator mediator) =>

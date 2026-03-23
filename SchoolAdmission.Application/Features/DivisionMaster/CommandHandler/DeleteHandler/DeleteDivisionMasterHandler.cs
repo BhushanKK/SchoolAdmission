@@ -19,7 +19,7 @@ public class DeleteDivisionMasterHandler(
 
         try
         {
-            // Fetch the entity
+            
             var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
             if (entity is null)
@@ -32,11 +32,11 @@ public class DeleteDivisionMasterHandler(
                 };
             }
 
-            // Delete the entity
+            
             await repository.DeleteAsync(entity, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<bool>.SuccessResponse(

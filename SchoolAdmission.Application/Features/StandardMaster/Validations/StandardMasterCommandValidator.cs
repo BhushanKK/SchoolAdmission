@@ -29,3 +29,4 @@ public class UpdateStandardMasterCommandValidator : AbstractValidator<UpdateStan
             .MaximumLength(50).WithMessage("Standard name must not exceed 50 characters");
     }
 }
+

@@ -22,7 +22,7 @@ public class UpdateDivisionMasterHandler(
 
         try
         {
-            // Get the existing entity
+            
             var entity = await repository.GetByIdAsync(request.DivisionId, cancellationToken);
 
             if (entity == null)
@@ -35,14 +35,14 @@ public class UpdateDivisionMasterHandler(
                 };
             }
 
-            // Map updated fields from request to entity
+            
             mapper.Map(request, entity);
 
-            // Update in repository
+            
             await repository.UpdateAsync(entity, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<bool>.SuccessResponse(
@@ -53,7 +53,7 @@ public class UpdateDivisionMasterHandler(
         }
         catch (Exception ex)
         {
-            // Rollback on error
+            
             await transaction.RollbackAsync(cancellationToken);
             logger.LogError(ex, "Error while updating DivisionMaster with Id {Id}", request.DivisionId);
 

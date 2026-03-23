@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Domain.Entities;
-using SchoolAdmission.Infrastructure.Interfaces;
 namespace SchoolAdmission.API.Endpoints;
 
 public static class StudentAddressEndpoints
@@ -13,7 +11,6 @@ public static class StudentAddressEndpoints
                        .RequireAuthorization()
                        .WithDescription("Endpoints for managing Student Address data");
 
-        // ✅ Create / Save using SP
         group.MapPost("/", async (
             [FromBody] SaveStudentAddressesCommand command,
             IMediator mediator) =>
@@ -28,7 +25,6 @@ public static class StudentAddressEndpoints
             });
         });
 
-        // ✅ Update using SP
         group.MapPut("/{id:guid}", async (
             Guid id,
             [FromBody] SaveStudentAddressesCommand command,

@@ -33,3 +33,4 @@ public class GetCategoryMasterByIdHandler(ICategoryMasterRepository repository)
         );
     }
 }
+

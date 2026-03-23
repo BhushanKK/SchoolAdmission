@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Domain.Entities;
-using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -27,7 +25,6 @@ public static class StudentHealthEndpoints
                 Data = studentId
             });
         });
-        // ✅ Update
         group.MapPut("/{id:guid}", async (Guid id,
             [FromBody] SaveStudentHealthCommand command,
             IMediator mediator) =>

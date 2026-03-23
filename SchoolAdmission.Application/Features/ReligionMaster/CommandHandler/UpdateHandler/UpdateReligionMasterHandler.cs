@@ -34,7 +34,7 @@ public class UpdateReligionMasterHandler(
                 };
             }
 
-            // Map updated values from request to entity
+            
             mapper.Map(request, entity);
 
             await repository.UpdateAsync(entity, cancellationToken);

@@ -5,3 +5,4 @@ namespace SchoolAdmission.Domain.Dtos;
         public int StandardId { get; set; }
         public string? StandardName { get; set; }
     }
+

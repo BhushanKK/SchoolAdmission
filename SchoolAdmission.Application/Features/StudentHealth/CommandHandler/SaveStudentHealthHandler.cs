@@ -1,14 +1,14 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
-using SchoolAdmission.Domain.Entities;
-//using SchoolAdmission.Application.Features.StudentHealth.Commands;
+using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.Utils;
 
 public class SaveStudentHealthHandler(IStudentHealthRepository repo)
-    : IRequestHandler<SaveStudentHealthCommand, int>
+    : IRequestHandler<SaveStudentHealthCommand, ApiResponse<int>>
 {
-    public async Task<int> Handle(SaveStudentHealthCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<int>> Handle(SaveStudentHealthCommand request, CancellationToken cancellationToken)
     {
-        var entity = new StudentHealth
+        var dto = new StudentHealthDto
         {
             HealthId = request.HealthId,
             StudentId = request.StudentId,
@@ -17,6 +17,23 @@ public class SaveStudentHealthHandler(IStudentHealthRepository repo)
             HandicappedTypeId = request.HandicappedTypeId
         };
 
-        return await repo.SaveStudentHealthAsync(request, cancellationToken);
+        int result = await repo.SaveStudentHealthAsync(dto, cancellationToken);
+        if(result>0)
+        {
+            return new ApiResponse<int>
+            {
+                Success = true,
+                Data = result,
+                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentHealth)
+            };
+        }
+        else
+        {
+            return new ApiResponse<int>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.StudentHealth)
+            };
+        }
     }
 }

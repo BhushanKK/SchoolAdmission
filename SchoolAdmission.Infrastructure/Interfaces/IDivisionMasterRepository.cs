@@ -6,8 +6,7 @@ public interface IDivisionMasterRepository
     Task<List<DivisionMaster>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<DivisionMaster?> GetByIdWithAsync(int id, CancellationToken cancellationToken);
-
-    // ADD THIS METHOD
+ 
     Task<DivisionMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
     Task AddAsync(DivisionMaster division, CancellationToken cancellationToken);

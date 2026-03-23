@@ -1,7 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SchoolAdmission.Domain.Entities;
-using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -14,7 +12,6 @@ public static class StudentAcademicHistoryEndpoints
                        .RequireAuthorization()
                        .WithDescription("Endpoints for managing Student Academic History data");
 
-        // ✅ Create / Save using SP
         group.MapPost("/", async (
             [FromBody] SaveStudentAcademicHistoryCommand command,
             IMediator mediator) =>
@@ -29,7 +26,6 @@ public static class StudentAcademicHistoryEndpoints
             });
         });
 
-        // ✅ Update using SP
         group.MapPut("/{id:long}", async (
             long id,
             [FromBody] SaveStudentAcademicHistoryCommand command,

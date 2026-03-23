@@ -4,7 +4,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Application.Validators;
 
-// Validator for CreateSchoolMasterCommand
+
 public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchoolMasterCommand>
 {
     public CreateSchoolMasterCommandValidator(ISchoolMasterRepository repository)
@@ -18,7 +18,7 @@ public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchool
     }
 }
 
-// Validator for UpdateSchoolMasterCommand
+
 public class UpdateSchoolMasterCommandValidator : AbstractValidator<UpdateSchoolMasterCommand>
 {
     public UpdateSchoolMasterCommandValidator()

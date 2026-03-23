@@ -20,18 +20,18 @@ public class CreateReligionMasterHandler(
 
         try
         {
-            // Map the command to the entity
+            
             var religionMaster = mapper.Map<ReligionMaster>(request);
 
-            // Set audit fields
+            
             religionMaster.EntryBy = await currentUser.Email;
             religionMaster.EntryDate = DateTime.UtcNow;
 
-            // Add and save
+            
             await context.ReligionMasters.AddAsync(religionMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
-            // Commit transaction
+            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

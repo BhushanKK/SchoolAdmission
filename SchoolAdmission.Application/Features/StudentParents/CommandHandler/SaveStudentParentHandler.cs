@@ -1,13 +1,14 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
-using SchoolAdmission.Domain.Entities;
+using SchoolAdmission.Domain.Dto;
+using SchoolAdmission.Domain.Utils;
 
 public class SaveStudentParentHandler(IStudentParentsRepository repo)
-    : IRequestHandler<SaveStudentParentCommand, int>
+    : IRequestHandler<SaveStudentParentCommand, ApiResponse<int>>
 {
-    public async Task<int> Handle(SaveStudentParentCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<int>> Handle(SaveStudentParentCommand request, CancellationToken cancellationToken)
     {
-        var entity = new StudentParents
+        var dto = new StudentParentsDto
         {
             ParentId = request.ParentId,
             StudentId = request.StudentId,
@@ -21,6 +22,23 @@ public class SaveStudentParentHandler(IStudentParentsRepository repo)
             Occupation = request.Occupation
         };
 
-        return await repo.SaveStudentParentUsingSpAsync(request, cancellationToken);
+        int result = await repo.SaveStudentParentsAsync(dto, cancellationToken);
+        if(result>0)
+        {
+            return new ApiResponse<int>
+            {
+                Success = true,
+                Data = result,
+                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentParents)
+            };
+        }
+        else
+        {
+            return new ApiResponse<int>
+            {
+                Success = false,
+                Message = MessageHelper.InternalServerError(EntityEnum.StudentParents)
+            };
+        }
     }
 }

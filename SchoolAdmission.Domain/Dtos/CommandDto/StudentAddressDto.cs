@@ -3,9 +3,7 @@ namespace SchoolAdmission.Domain.Dtos;
 public class StudentAddressesDto
 {
     public Guid StudentId { get; set; }
-
     public int? AddressType { get; set; }
-
     public string? Village { get; set; }
     public string? City { get; set; }
     public string? Taluka { get; set; }
