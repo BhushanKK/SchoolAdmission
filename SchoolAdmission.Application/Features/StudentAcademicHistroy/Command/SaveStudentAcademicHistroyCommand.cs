@@ -1,6 +1,4 @@
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
 
-public class SaveStudentAcademicHistoryCommand : StudentAcademicHistoryDto, IRequest<int>
-{
-}
+public class SaveStudentAcademicHistoryCommand : StudentAcademicHistoryDto, IRequest<ApiResponse<int>>;
