@@ -3,5 +3,5 @@ using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 
-public record GetAllStandardMastersQuery()
-    : IRequest<List<StandardMaster>>;
+public record GetAllStandardMasterQuery()
+    : IRequest<ApiResponse<List<StandardMaster>>>;

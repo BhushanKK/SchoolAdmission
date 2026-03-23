@@ -7,6 +7,6 @@ public interface IStandardMasterRepository
     Task<StandardMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
     Task<int> AddAsync(StandardMaster entity, CancellationToken cancellationToken);
     Task<int> UpdateAsync(StandardMaster entity, CancellationToken cancellationToken);
-    Task<int> DeleteAsync(int id, CancellationToken cancellationToken);
+    Task<int> DeleteAsync(StandardMaster entity, CancellationToken cancellationToken);
     Task<bool> IsExistsAsync(string StandardName, CancellationToken cancellationToken);
 }

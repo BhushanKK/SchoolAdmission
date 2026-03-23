@@ -3,4 +3,4 @@ using SchoolAdmission.Domain.Dtos;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Commands;
 
-public class UpdateStandardMasterCommand : StandardMasterCommandDto,IRequest<bool>;
+public class UpdateStandardMasterCommand : StandardMasterCommandDto, IRequest<ApiResponse<bool>>;

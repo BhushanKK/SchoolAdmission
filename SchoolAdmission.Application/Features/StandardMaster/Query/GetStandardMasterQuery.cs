@@ -4,4 +4,4 @@ using SchoolAdmission.Domain.Dtos;
 namespace SchoolAdmission.Application.Features.StandardMasters.Queries;
 
 public record GetStandardMasterByIdQuery(int Id)
-    : IRequest<StandardMasterQueryDto?>;
+    : IRequest<ApiResponse<StandardMasterQueryDto?>>;

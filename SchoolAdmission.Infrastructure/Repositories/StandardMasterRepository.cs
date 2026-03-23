@@ -28,16 +28,13 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
         return await context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<int> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<int> DeleteAsync(StandardMaster entity, CancellationToken cancellationToken = default)
+    
     {
-        var entity = await context.StandardMasters.FindAsync(new object[] { id }, cancellationToken);
-        if (entity != null)
-        {
-            context.StandardMasters.Remove(entity);
-            return await context.SaveChangesAsync(cancellationToken);
-        }
-        return 0;
+        context.StandardMasters.Remove(entity);
+        return await context.SaveChangesAsync(cancellationToken);
     }
+    
 
     public async Task<bool> IsExistsAsync(string standardName, CancellationToken cancellationToken)
     {

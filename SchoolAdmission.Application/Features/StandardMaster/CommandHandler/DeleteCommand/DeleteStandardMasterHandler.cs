@@ -1,23 +1,57 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Infrastructure.Data;
+using Microsoft.Extensions.Logging;
+using System.Net;
+using SchoolAdmission.Domain.Utils;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Commands;
 
 public class DeleteStandardMasterHandler(
-    IStandardMasterRepository repository
-) : IRequestHandler<DeleteStandardMasterCommand, bool>
+        IStandardMasterRepository repository,
+        ILogger<DeleteStandardMasterHandler> logger,
+        ApplicationDbContext context
+    ) : IRequestHandler<DeleteStandardMasterCommand, ApiResponse<bool>>
 {
-    public async Task<bool> Handle(DeleteStandardMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(DeleteStandardMasterCommand request, CancellationToken cancellationToken)
     {
-        // Get the entity by Id
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
-        if (entity is null)
-            return false;
+        try
+        {
+            var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
 
-        // Delete using repository
-        await repository.DeleteAsync(entity.StandardId, cancellationToken);
+            if (entity == null)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.StandardMaster, request.Id),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
 
-        return true;
+            await repository.DeleteAsync(entity, cancellationToken);
+
+            await context.SaveChangesAsync(cancellationToken);
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return ApiResponse<bool>.SuccessResponse(
+                true,
+                MessageHelper.DeletedSuccessfully(EntityEnum.StandardMaster),
+                HttpStatusCode.OK.GetHashCode()
+            );
+        }
+        catch
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            logger.LogError("An error occurred while deleting StandardMaster with Id {Id}", request.Id);
+
+            return ApiResponse<bool>.FailureResponse(
+                MessageHelper.InternalServerError(EntityEnum.StandardMaster),
+                HttpStatusCode.InternalServerError.GetHashCode()
+            );
+        }
     }
 }

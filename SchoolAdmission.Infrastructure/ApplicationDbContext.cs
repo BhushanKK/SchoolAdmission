@@ -17,7 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<CategoryMaster> CategoryMasters => Set<CategoryMaster>();
     public DbSet<StandardMaster> StandardMasters => Set<StandardMaster>();
     public DbSet<DivisionMaster> DivisionMasters => Set<DivisionMaster>();
-    public DbSet<BranchMaster> BranchMasters => Set<BranchMaster>();
+    public DbSet<BranchMaster> BranchMasters => Set<BranchMaster>(); 
     public DbSet<ReligionMaster> ReligionMasters => Set<ReligionMaster>();
     public DbSet<FeesStructureDetails> FeesStructureDetails => Set<FeesStructureDetails>();
     public DbSet<CommiteMaster> CommiteMasters => Set<CommiteMaster>();
