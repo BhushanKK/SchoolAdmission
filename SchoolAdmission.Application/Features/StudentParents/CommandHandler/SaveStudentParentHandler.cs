@@ -1,6 +1,5 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
-using SchoolAdmission.Domain.Dto;
 using SchoolAdmission.Domain.Utils;
 
 public class SaveStudentParentHandler(IStudentParentsRepository repo)

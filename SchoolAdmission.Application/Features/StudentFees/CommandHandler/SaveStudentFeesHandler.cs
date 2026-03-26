@@ -1,5 +1,4 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 

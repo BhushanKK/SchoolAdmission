@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -16,13 +15,7 @@ public class StudentAcademicHistoryRepository(ApplicationDbContext context)
 
         command.CommandText = StoreProcedureConstants.StudentAcademicHistory;
         command.CommandType = CommandType.StoredProcedure;
-
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
         
-        command.Parameters.Add(new SqlParameter("@AcademicHistoryId", (object?)cmd.AcademicHistoryId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousSchool", (object?)cmd.PreviousSchool ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@SchoolDOE", (object?)cmd.SchoolDOE ?? DBNull.Value));
@@ -32,7 +25,6 @@ public class StudentAcademicHistoryRepository(ApplicationDbContext context)
         command.Parameters.Add(new SqlParameter("@SeatNo", (object?)cmd.SeatNo ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@TotalMarks", (object?)cmd.TotalMarks ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Percentage", (object?)cmd.Percentage ?? DBNull.Value));
-
         
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {

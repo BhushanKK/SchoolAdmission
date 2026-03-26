@@ -1,6 +1,5 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 
 public class SaveStudentHealthHandler(IStudentHealthRepository repo)
