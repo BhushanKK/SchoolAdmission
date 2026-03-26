@@ -10,18 +10,13 @@ public class SaveStudentFeesHandler(IStudentFeesRepository repo)
         int result = await repo.SaveStudentFeesAsync(request, cancellationToken);
         if (result > 0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result,
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees),
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-
-        return new ApiResponse<int>
-        {
-            Success = false,
-            Message = MessageHelper.InternalServerError(EntityEnum.StudentFees)
-        };
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentFees), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

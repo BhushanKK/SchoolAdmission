@@ -9,18 +9,13 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
         int result = await repo.SaveStudentDocumentAsync(request, cancellationToken);
         if (result > 0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentDocument)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result,
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentDocument),
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-
-        return new ApiResponse<int>
-        {
-            Success = false,
-            Message = MessageHelper.InternalServerError(EntityEnum.StudentDocument)
-        };
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentDocument), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

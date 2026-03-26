@@ -10,17 +10,13 @@ public class SaveStudentHealthHandler(IStudentHealthRepository repo)
         int result = await repo.SaveStudentHealthAsync(request, cancellationToken);
         if (result > 0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentHealth)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result,
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentHealth),
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-        return new ApiResponse<int>
-        {
-            Success = false,
-            Message = MessageHelper.InternalServerError(EntityEnum.StudentHealth)
-        };
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentHealth), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

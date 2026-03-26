@@ -8,20 +8,15 @@ public class SaveStudentParentHandler(IStudentParentsRepository repo)
     public async Task<ApiResponse<int>> Handle(SaveStudentParentCommand request, CancellationToken cancellationToken)
     {
         int result = await repo.SaveStudentParentsAsync(request, cancellationToken);
-        if (result > 0)
+        if(result>0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentParents)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result, 
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentParents), 
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-
-        return new ApiResponse<int>
-        {
-            Success = false,
-            Message = MessageHelper.InternalServerError(EntityEnum.StudentParents)
-        };
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentParents), System.Net.HttpStatusCode.InternalServerError.GetHashCode());  
     }
 }
