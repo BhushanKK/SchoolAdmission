@@ -18,12 +18,6 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         command.CommandText = StoreProcedureConstants.StudentFees;
         command.CommandType = CommandType.StoredProcedure;
 
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
-        command.Parameters.Add(new SqlParameter("@FeeId", (object?)cmd.FeeId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousYearFee", (object?)cmd.PreviousYearFee ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousYearFeePaid", (object?)cmd.PreviousYearFeePaid ?? DBNull.Value));

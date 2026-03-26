@@ -8,20 +8,13 @@ public class SaveStudentAcademicHistoryHandler(IStudentAcademicHistoryRepository
         int result = await repo.SaveStudentAcademicHistoryAsync(request, cancellationToken);
         if(result>0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentAcademicHistory)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result, 
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentAcademicHistory), 
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-        else
-        {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentAcademicHistory)
-            };
-        }
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentAcademicHistory), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

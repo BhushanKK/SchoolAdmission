@@ -9,18 +9,13 @@ public class SaveStudentAddressesHandler(IStudentAddressesRepository repo)
         int result = await repo.SaveStudentAddressesAsync(request, cancellationToken);
         if(result>0)
         {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentAddresses)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result, 
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentAddresses), 
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-        
-        return new ApiResponse<int>
-        {
-            Success = false,
-            Message = MessageHelper.InternalServerError(EntityEnum.StudentAddresses)
-        };        
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentAddresses), System.Net.HttpStatusCode.InternalServerError.GetHashCode());  
     }
 }
