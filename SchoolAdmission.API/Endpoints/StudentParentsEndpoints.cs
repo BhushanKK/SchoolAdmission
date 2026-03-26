@@ -16,29 +16,8 @@ public static class StudentParentEndpoints
             [FromBody] SaveStudentParentCommand command,
             IMediator mediator) =>
         {
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Parent details saved successfully",
-                Data = result
-            });
-        });
-
-        group.MapPut("/{id:long}", async (long id,
-            [FromBody] SaveStudentParentCommand command,
-            IMediator mediator) =>
-        {
-            command.ParentId = id;
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Parent details updated successfully",
-                Data = result
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }

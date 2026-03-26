@@ -16,28 +16,8 @@ public static class StudentHealthEndpoints
             [FromBody] SaveStudentHealthCommand command,
             IMediator mediator) =>
         {
-            var studentId = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student registered successfully",
-                Data = studentId
-            });
-        });
-        group.MapPut("/{id:guid}", async (Guid id,
-            [FromBody] SaveStudentHealthCommand command,
-            IMediator mediator) =>
-        {
-            command.StudentId = id;
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student details updated successfully",
-                Data = result
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }

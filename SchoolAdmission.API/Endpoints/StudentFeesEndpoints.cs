@@ -14,29 +14,7 @@ public static class StudentFeesEndpoints
             IMediator mediator) =>
         {
             var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student fees saved successfully",
-                Data = result
-            });
-        });
-
-        group.MapPut("/{id:long}", async (long id,
-            [FromBody] SaveStudentFeesCommand command,
-            IMediator mediator) =>
-        {
-            command.FeeId = id;
-
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student fees updated successfully",
-                Data = result
-            });
+            return Results.Json(result, statusCode: result.StatusCode);
         });
     }
 }

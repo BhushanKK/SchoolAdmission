@@ -7,17 +7,8 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
 {
     public async Task<ApiResponse<int>> Handle(SaveStudentDocumentCommand request, CancellationToken cancellationToken)
     {
-        var dto = new StudentDocumentDto
-        {
-            DocumentId = request.DocumentId,
-            StudentId = request.StudentId,
-            DocumentType = request.DocumentType,
-            DocumentPath = request.DocumentPath,
-            UploadedDate = request.UploadedDate
-        };
-
-        int result = await repo.SaveStudentDocumentAsync(dto, cancellationToken);
-        if(result>0)
+        int result = await repo.SaveStudentDocumentAsync(request, cancellationToken);
+        if (result > 0)
         {
             return new ApiResponse<int>
             {
@@ -26,13 +17,11 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
                 Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentDocument)
             };
         }
-        else
+
+        return new ApiResponse<int>
         {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentDocument)
-            };
-        }
+            Success = false,
+            Message = MessageHelper.InternalServerError(EntityEnum.StudentDocument)
+        };
     }
 }

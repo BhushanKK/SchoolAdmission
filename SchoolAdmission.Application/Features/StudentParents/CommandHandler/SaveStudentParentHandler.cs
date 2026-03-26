@@ -8,22 +8,8 @@ public class SaveStudentParentHandler(IStudentParentsRepository repo)
 {
     public async Task<ApiResponse<int>> Handle(SaveStudentParentCommand request, CancellationToken cancellationToken)
     {
-        var dto = new StudentParentsDto
-        {
-            ParentId = request.ParentId,
-            StudentId = request.StudentId,
-            FatherName = request.FatherName,
-            MotherName = request.MotherName,
-            GrandFatherName = request.GrandFatherName,
-            ParentName = request.ParentName,
-            ContactNo = request.ContactNo,
-            EmailId = request.EmailId,
-            Income = request.Income,
-            Occupation = request.Occupation
-        };
-
-        int result = await repo.SaveStudentParentsAsync(dto, cancellationToken);
-        if(result>0)
+        int result = await repo.SaveStudentParentsAsync(request, cancellationToken);
+        if (result > 0)
         {
             return new ApiResponse<int>
             {
@@ -32,13 +18,11 @@ public class SaveStudentParentHandler(IStudentParentsRepository repo)
                 Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentParents)
             };
         }
-        else
+
+        return new ApiResponse<int>
         {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentParents)
-            };
-        }
+            Success = false,
+            Message = MessageHelper.InternalServerError(EntityEnum.StudentParents)
+        };
     }
 }

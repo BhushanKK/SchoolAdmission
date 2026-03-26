@@ -8,20 +8,8 @@ public class SaveStudentFeesHandler(IStudentFeesRepository repo)
 {
     public async Task<ApiResponse<int>> Handle(SaveStudentFeesCommand request, CancellationToken cancellationToken)
     {
-        var dto = new StudentFeesDto
-        {
-            FeeId = request.FeeId,
-            StudentId = request.StudentId,
-            PreviousYearFee = request.PreviousYearFee,
-            PreviousYearFeePaid = request.PreviousYearFeePaid,
-            IsBusRequired = request.IsBusRequired,
-            BusFee = request.BusFee,
-            BusFeePaid = request.BusFeePaid,
-            FeeExemption = request.FeeExemption
-        };
-
-        int result = await repo.SaveStudentFeesAsync(dto, cancellationToken);
-        if(result>0)
+        int result = await repo.SaveStudentFeesAsync(request, cancellationToken);
+        if (result > 0)
         {
             return new ApiResponse<int>
             {
@@ -30,13 +18,11 @@ public class SaveStudentFeesHandler(IStudentFeesRepository repo)
                 Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees)
             };
         }
-        else
+
+        return new ApiResponse<int>
         {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentFees)
-            };
-        }
+            Success = false,
+            Message = MessageHelper.InternalServerError(EntityEnum.StudentFees)
+        };
     }
 }
