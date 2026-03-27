@@ -20,13 +20,15 @@ public class TokenHandler(
         CancellationToken cancellationToken)
     {
         var user = await context.UsersLogins
-            .FirstOrDefaultAsync(x => x.EmailId == request.EmailId, cancellationToken);
+            .FirstOrDefaultAsync(x => x.EmailId == request.EmailOrMobile 
+            || x.MobileNo == request.EmailOrMobile,
+            cancellationToken);
 
         if (user is null)
-            return ApiResponse<LoginResponseDto>.FailureResponse("Invalid email or password.", HttpStatusCode.Unauthorized.GetHashCode());
-
+            return ApiResponse<LoginResponseDto>.FailureResponse("Invalid email/mobile no. or password.", HttpStatusCode.Unauthorized.GetHashCode());
+        
         if (!user.IsActive)
-            return ApiResponse<LoginResponseDto>.FailureResponse("User inactive.", HttpStatusCode.Unauthorized.GetHashCode());
+            return ApiResponse<LoginResponseDto>.FailureResponse("User inactive please contact to Administrator.", HttpStatusCode.Unauthorized.GetHashCode());
 
         if (user.IsLocked)
             return ApiResponse<LoginResponseDto>.FailureResponse("User account locked.", HttpStatusCode.Unauthorized.GetHashCode());
@@ -37,12 +39,12 @@ public class TokenHandler(
         {
             user.FailedLoginAttempts++;
 
-            if (user.FailedLoginAttempts >= 5)
+            if (user.FailedLoginAttempts >= 3)
                 user.IsLocked = true;
 
             await context.SaveChangesAsync(cancellationToken);
 
-            throw new UnauthorizedAccessException("Invalid email or password");
+            return ApiResponse<LoginResponseDto>.FailureResponse("Invalid Email/MobileNo or password.", HttpStatusCode.Unauthorized.GetHashCode());
         }
 
         user.FailedLoginAttempts = 0;
