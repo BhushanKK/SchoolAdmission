@@ -1,6 +1,5 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 
 public class SaveStudentHealthHandler(IStudentHealthRepository repo)
@@ -8,32 +7,16 @@ public class SaveStudentHealthHandler(IStudentHealthRepository repo)
 {
     public async Task<ApiResponse<int>> Handle(SaveStudentHealthCommand request, CancellationToken cancellationToken)
     {
-        var dto = new StudentHealthDto
+        int result = await repo.SaveStudentHealthAsync(request, cancellationToken);
+        if (result > 0)
         {
-            HealthId = request.HealthId,
-            StudentId = request.StudentId,
-            Height = request.Height,
-            Weight = request.Weight,
-            HandicappedTypeId = request.HandicappedTypeId
-        };
-
-        int result = await repo.SaveStudentHealthAsync(dto, cancellationToken);
-        if(result>0)
-        {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentHealth)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result,
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentHealth),
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-        else
-        {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentHealth)
-            };
-        }
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentHealth), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

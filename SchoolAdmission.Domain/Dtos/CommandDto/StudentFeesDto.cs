@@ -2,8 +2,6 @@ namespace SchoolAdmission.Domain.Dtos;
 
 public class StudentFeesDto
 {
-    public long? FeeId { get; set; }
-
     public Guid? StudentId { get; set; }
 
     public decimal? PreviousYearFee { get; set; }

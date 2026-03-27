@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -18,12 +17,6 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         command.CommandText = StoreProcedureConstants.StudentFees;
         command.CommandType = CommandType.StoredProcedure;
 
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
-        command.Parameters.Add(new SqlParameter("@FeeId", (object?)cmd.FeeId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousYearFee", (object?)cmd.PreviousYearFee ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PreviousYearFeePaid", (object?)cmd.PreviousYearFeePaid ?? DBNull.Value));
@@ -32,7 +25,6 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         command.Parameters.Add(new SqlParameter("@BusFeePaid", (object?)cmd.BusFeePaid ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FeeExemption", (object?)cmd.FeeExemption ?? DBNull.Value));
 
-        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output

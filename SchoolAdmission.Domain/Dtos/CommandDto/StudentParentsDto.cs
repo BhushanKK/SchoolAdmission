@@ -2,8 +2,6 @@ namespace SchoolAdmission.Domain.Dto;
 
 public class StudentParentsDto
 {
-    public long ParentId { get; set; }
-
     public Guid StudentId { get; set; }
 
     public string? FatherName { get; set; }

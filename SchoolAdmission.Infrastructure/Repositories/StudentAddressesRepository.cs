@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -17,12 +16,7 @@ public class StudentAddressesRepository(ApplicationDbContext context) :
 
         command.CommandText = StoreProcedureConstants.StudentAddresses; 
         command.CommandType = CommandType.StoredProcedure;
-
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
+                
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@AddressType", (object?)cmd.AddressType ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Village", (object?)cmd.Village ?? DBNull.Value));
@@ -33,7 +27,6 @@ public class StudentAddressesRepository(ApplicationDbContext context) :
         command.Parameters.Add(new SqlParameter("@Country", (object?)cmd.Country ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Pincode", (object?)cmd.Pincode ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Landmark", (object?)cmd.Landmark ?? DBNull.Value));
-
         
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {

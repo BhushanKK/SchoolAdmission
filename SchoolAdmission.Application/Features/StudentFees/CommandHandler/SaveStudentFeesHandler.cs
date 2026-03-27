@@ -1,5 +1,4 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
@@ -8,35 +7,16 @@ public class SaveStudentFeesHandler(IStudentFeesRepository repo)
 {
     public async Task<ApiResponse<int>> Handle(SaveStudentFeesCommand request, CancellationToken cancellationToken)
     {
-        var dto = new StudentFeesDto
+        int result = await repo.SaveStudentFeesAsync(request, cancellationToken);
+        if (result > 0)
         {
-            FeeId = request.FeeId,
-            StudentId = request.StudentId,
-            PreviousYearFee = request.PreviousYearFee,
-            PreviousYearFeePaid = request.PreviousYearFeePaid,
-            IsBusRequired = request.IsBusRequired,
-            BusFee = request.BusFee,
-            BusFeePaid = request.BusFeePaid,
-            FeeExemption = request.FeeExemption
-        };
-
-        int result = await repo.SaveStudentFeesAsync(dto, cancellationToken);
-        if(result>0)
-        {
-            return new ApiResponse<int>
-            {
-                Success = true,
-                Data = result,
-                Message = MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees)
-            };
+            return ApiResponse<int>.SuccessResponse
+            (
+                result,
+                MessageHelper.CreatedSuccessfully(EntityEnum.StudentFees),
+                System.Net.HttpStatusCode.Created.GetHashCode()
+            );
         }
-        else
-        {
-            return new ApiResponse<int>
-            {
-                Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.StudentFees)
-            };
-        }
+        return ApiResponse<int>.FailureResponse(MessageHelper.InternalServerError(EntityEnum.StudentFees), System.Net.HttpStatusCode.InternalServerError.GetHashCode());
     }
 }

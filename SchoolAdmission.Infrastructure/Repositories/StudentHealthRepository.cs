@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -18,18 +17,11 @@ public class StudentHealthRepository(ApplicationDbContext context) : IStudentHea
         command.CommandText = StoreProcedureConstants.StudentHealth; 
         command.CommandType = CommandType.StoredProcedure;
 
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
-        command.Parameters.Add(new SqlParameter("@HealthId", (object?)cmd.HealthId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Height", (object?)cmd.Height ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Weight", (object?)cmd.Weight ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@HandicappedTypeId", (object?)cmd.HandicappedTypeId ?? DBNull.Value));
 
-        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output

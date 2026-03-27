@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -13,23 +12,14 @@ public class StudentDocumentRepository(ApplicationDbContext context) : IStudentD
         var connection = context.Database.GetDbConnection();
 
         await using var command = connection.CreateCommand();
-
         
         command.CommandText = StoreProcedureConstants.StudentDocument;
         command.CommandType = CommandType.StoredProcedure;
-
         
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
-        command.Parameters.Add(new SqlParameter("@DocumentId", (object?)cmd.DocumentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@DocumentType", (object?)cmd.DocumentType ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@DocumentPath", (object?)cmd.DocumentPath ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@UploadedDate", (object?)cmd.UploadedDate ?? DBNull.Value));
-
         
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {

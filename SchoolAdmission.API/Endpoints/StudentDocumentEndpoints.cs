@@ -13,33 +13,11 @@ public static class StudentDocumentEndpoints
                        .WithDescription("Endpoints for managing Student Document data");
 
         group.MapPost("/", async (
-            [FromBody] SaveStudentDocumentCommand command,
+            [FromForm] SaveStudentDocumentCommand command,
             IMediator mediator) =>
         {
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student document saved successfully",
-                Data = result
-            });
-        });
-
-        group.MapPut("/{id:long}", async (long id,
-            [FromBody] SaveStudentDocumentCommand command,
-            IMediator mediator) =>
-        {
-            command.DocumentId = id;
-
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student document updated successfully",
-                Data = result
-            });
-        });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
+        }).DisableAntiforgery();
     }
 }

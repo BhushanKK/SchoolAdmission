@@ -15,31 +15,8 @@ public static class StudentAddressEndpoints
             [FromBody] SaveStudentAddressesCommand command,
             IMediator mediator) =>
         {
-            var studentId = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student address saved successfully",
-                Data = studentId
-            });
-        });
-
-        group.MapPut("/{id:guid}", async (
-            Guid id,
-            [FromBody] SaveStudentAddressesCommand command,
-            IMediator mediator) =>
-        {
-            command.StudentId = id;
-
-            var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student address updated successfully",
-                Data = result
-            });
+            var response = await mediator.Send(command);
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }

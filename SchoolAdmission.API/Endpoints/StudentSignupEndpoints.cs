@@ -17,14 +17,9 @@ public static class StudentSignupEndpoints
             [FromBody] CreateStudentSignUpCommand command,
             IMediator mediator) =>
         {
-            var studentId = await mediator.Send(command);
+            var result = await mediator.Send(command);
 
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student registered successfully",
-                Data = studentId
-            });
+            return Results.Json(result, statusCode: result.StatusCode);
         });
 
         group.MapPut("/{id:guid}", async (Guid id,
@@ -33,13 +28,7 @@ public static class StudentSignupEndpoints
         {
             command.StudentId = id;
             var result = await mediator.Send(command);
-
-            return Results.Ok(new
-            {
-                Success = true,
-                Message = "Student details updated successfully",
-                Data = result
-            });
+            return Results.Json(result, statusCode: result.StatusCode);
         });
     }
 }
