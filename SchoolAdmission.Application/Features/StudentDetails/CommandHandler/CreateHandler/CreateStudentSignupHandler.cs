@@ -3,6 +3,7 @@ using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.StudentDetails.Commands;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 public class CreateStudentSignupHandler(ApplicationDbContext context)
 : IRequestHandler<CreateStudentSignUpCommand, ApiResponse<Guid>>
 {
@@ -23,9 +24,9 @@ public class CreateStudentSignupHandler(ApplicationDbContext context)
             EmailId = request.EmailId!,
             MobileNo = request.MobileNo!,
             PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash),
-            RoleId = 2,
-            IsActive = true,
-            CreatedDate = DateTime.UtcNow
+            RoleId = RoleEnum.Student.GetHashCode(),
+            IsActive = false,
+            CreatedDate = DateTime.UtcNow,
         };
 
         await context.UsersLogins.AddAsync(userLogin, cancellationToken);

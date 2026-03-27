@@ -2,7 +2,6 @@ namespace SchoolAdmission.Domain.Dtos;
 
 public class StudentAcademicHistoryDto
 {
-    public long? AcademicHistoryId { get; set; }
     public Guid? StudentId { get; set; }
     public string? PreviousSchool { get; set; }
     public DateTime? SchoolDOE { get; set; }

@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dto;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -18,12 +17,6 @@ public class StudentParentRepository(ApplicationDbContext context) : IStudentPar
         command.CommandText = StoreProcedureConstants.StudentParents; 
         command.CommandType = CommandType.StoredProcedure;
 
-        var efTransaction = context.Database.CurrentTransaction;
-        if (efTransaction != null)
-            command.Transaction = efTransaction.GetDbTransaction();
-
-        
-        command.Parameters.Add(new SqlParameter("@ParentId", (object?)cmd.ParentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FatherName", (object?)cmd.FatherName ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@MotherName", (object?)cmd.MotherName ?? DBNull.Value));
@@ -34,7 +27,6 @@ public class StudentParentRepository(ApplicationDbContext context) : IStudentPar
         command.Parameters.Add(new SqlParameter("@Income", (object?)cmd.Income ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Occupation", (object?)cmd.Occupation ?? DBNull.Value));
 
-        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output

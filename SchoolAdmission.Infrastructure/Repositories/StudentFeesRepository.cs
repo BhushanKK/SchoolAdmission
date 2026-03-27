@@ -1,7 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
@@ -26,7 +25,6 @@ public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesR
         command.Parameters.Add(new SqlParameter("@BusFeePaid", (object?)cmd.BusFeePaid ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FeeExemption", (object?)cmd.FeeExemption ?? DBNull.Value));
 
-        
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output
