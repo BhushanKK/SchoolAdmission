@@ -1,5 +1,3 @@
-using SchoolAdmission.Domain.Entities;
-
 namespace SchoolAdmission.Domain.Utils;
 
 public class CommanEnums

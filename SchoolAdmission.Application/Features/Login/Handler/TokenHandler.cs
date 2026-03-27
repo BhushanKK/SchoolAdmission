@@ -21,7 +21,7 @@ public class TokenHandler(
     {
         var user = await context.UsersLogins
             .FirstOrDefaultAsync(x => x.EmailId == request.EmailOrMobile 
-            || x.MobileNo == request.EmailOrMobile,
+            || x.MobileNo == request.EmailOrMobile && x.PasswordHash == request.Password,
             cancellationToken);
 
         if (user is null)
