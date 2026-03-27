@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace SchoolAdmission.Domain.Dtos;
 
 public class StudentDocumentDto
@@ -6,7 +8,9 @@ public class StudentDocumentDto
 
     public int? DocumentType { get; set; }
 
+    [JsonIgnore]
     public string? DocumentPath { get; set; }
 
+    [JsonIgnore]
     public DateTime UploadedDate { get; set; }
 }

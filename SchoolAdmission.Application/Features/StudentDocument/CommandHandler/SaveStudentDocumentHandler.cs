@@ -1,7 +1,7 @@
 using MediatR;
 using SchoolAdmission.Domain.Utils;
 
-public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
+public class SaveStudentDocumentHandler(IStudentDocumentRepository repository)
     : IRequestHandler<SaveStudentDocumentCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(
@@ -12,7 +12,8 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
         {
             if (request.File == null || request.File.Length == 0)
             {
-                return ApiResponse<int>.FailureResponse(
+                return ApiResponse<int>.FailureResponse
+                (
                     "File is required",
                     System.Net.HttpStatusCode.BadRequest.GetHashCode()
                 );
@@ -20,7 +21,8 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
 
             if (request.File.Length > 5 * 1024 * 1024)
             {
-                return ApiResponse<int>.FailureResponse(
+                return ApiResponse<int>.FailureResponse
+                (
                     "File size must not exceed 5MB",
                     System.Net.HttpStatusCode.BadRequest.GetHashCode()
                 );
@@ -50,10 +52,10 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
                 await request.File.CopyToAsync(stream, cancellationToken);
             }
 
-            request.DocumentPath = fileName;
+            request.DocumentPath = $"Uploads/{fileName}";
             request.UploadedDate = DateTime.UtcNow;
 
-            int result = await repo.SaveStudentDocumentAsync(request, cancellationToken);
+            int result = await repository.SaveStudentDocumentAsync(request, cancellationToken);
 
             if (result > 0)
             {
@@ -65,14 +67,16 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repo)
                 );
             }
 
-            return ApiResponse<int>.FailureResponse(
+            return ApiResponse<int>.FailureResponse
+            (
                 MessageHelper.InternalServerError(EntityEnum.StudentDocument),
                 System.Net.HttpStatusCode.InternalServerError.GetHashCode()
             );
         }
         catch (Exception ex)
         {
-            return ApiResponse<int>.FailureResponse(
+            return ApiResponse<int>.FailureResponse
+            (
                 ex.Message,
                 System.Net.HttpStatusCode.InternalServerError.GetHashCode()
             );
