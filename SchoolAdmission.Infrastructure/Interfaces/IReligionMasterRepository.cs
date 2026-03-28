@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IReligionMasterRepository
@@ -8,5 +9,6 @@ public interface IReligionMasterRepository
     Task AddAsync(ReligionMaster religion , CancellationToken cancellationToken);
     Task UpdateAsync(ReligionMaster religion, CancellationToken cancellationToken);
     Task DeleteAsync(ReligionMaster religion, CancellationToken cancellationToken);
-    Task<bool> IsExistsAsync(string Religion, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string Religion, OperationType operation, int? ReligionId, CancellationToken cancellationToken);
 }
+

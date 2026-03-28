@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.ReligionMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -10,9 +11,8 @@ public class CreateReligionMasterCommandValidator : AbstractValidator<CreateReli
     {
         RuleFor(x => x.Religion)
             .NotEmpty()
-            .MustAsync(async (religion, ct) =>
-                !await repository.IsExistsAsync(religion, ct))
-            .WithMessage("Religion already exists.");
+            .MustAsync(async (Religion, ct) =>!await repository.IsExistsAsync( Religion,OperationType.Create,null,ct))
+            .WithMessage("Religion already exists.");  
     }
 }
 

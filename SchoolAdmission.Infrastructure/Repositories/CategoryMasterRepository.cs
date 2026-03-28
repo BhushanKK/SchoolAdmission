@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -31,18 +32,15 @@ public class CategoryMasterRepository(ApplicationDbContext context) : ICategoryM
         return Task.CompletedTask;
     }
 
-    public async Task<bool> IsExistsAsync(string Category, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string Category, OperationType  operation, int? CategoryId, CancellationToken cancellationToken)
     {
-        return await context.CategoryMasters
-        .AnyAsync(x => x.Category == Category, cancellationToken);
-    }
+        if (operation == OperationType.Create)
+            return await context.CategoryMasters.AnyAsync(x => x.Category.ToLower() == Category.ToLower(), cancellationToken);
+        
+        else if (operation == OperationType.Update)
+            return await context.CategoryMasters.AnyAsync(x => x.Category.ToLower() == Category.ToLower() && x.categoryId != CategoryId, cancellationToken);
 
-    public async Task<bool> IsExist(string category, CancellationToken cancellationToken)
-    {
-    return await context.CategoryMasters
-        .AnyAsync(x => x.Category != null &&
-                       x.Category.Equals(category, StringComparison.OrdinalIgnoreCase),
-                       cancellationToken);
+        return false;
     }
 
 }

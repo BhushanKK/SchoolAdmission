@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 
@@ -21,6 +22,17 @@ public class UpdateCategoryMasterHandler(
 
         try
         {
+            var isExist = await repository.IsExistsAsync(request.Category!, OperationType.Update, request.CategoryId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.Category!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var entity = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
 
             if (entity is null)

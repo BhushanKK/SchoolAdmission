@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.BranchMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.CommandHandler.UpdateHandler;
 public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
@@ -19,6 +20,18 @@ public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
 
         try
         {
+            var isExist = await repository.IsExistsAsync(request.BranchName!, OperationType.Update, request.BranchId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.BranchName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
+
             var entity = await repository.GetByIdAsync(request.BranchId, cancellationToken);
 
             if (entity == null)

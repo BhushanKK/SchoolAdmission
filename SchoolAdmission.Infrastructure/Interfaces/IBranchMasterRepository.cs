@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IBranchMasterRepository
@@ -13,5 +14,5 @@ public interface IBranchMasterRepository
 
     Task DeleteAsync(BranchMaster branch, CancellationToken cancellationToken);
 
-    Task<bool> IsExistsAsync(string BranchName, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string BranchName, OperationType operation, int? BranchId, CancellationToken cancellationToken);
 }

@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.ReligionMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.ReligionMaster.Handlers;
 
@@ -22,6 +23,17 @@ public class UpdateReligionMasterHandler(
 
         try
         {
+            var isExist = await repository.IsExistsAsync(request.Religion!, OperationType.Update, request.ReligionId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.Religion!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var entity = await repository.GetByIdAsync(request.ReligionId, cancellationToken);
 
             if (entity == null)

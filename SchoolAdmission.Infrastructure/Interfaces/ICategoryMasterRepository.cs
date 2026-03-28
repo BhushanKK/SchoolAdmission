@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICategoryMasterRepository
@@ -13,7 +14,5 @@ public interface ICategoryMasterRepository
 
     Task Delete(CategoryMaster category, CancellationToken cancellationToken);
 
-    Task<bool> IsExist(string name, CancellationToken cancellationToken);
-
-    Task<bool> IsExistsAsync(string Category, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string Category, OperationType operation, int? CategoryId, CancellationToken cancellationToken);
 }

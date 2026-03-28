@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -25,9 +26,14 @@ public class BranchMasterRepository(ApplicationDbContext context) : IBranchMaste
     public async Task DeleteAsync(BranchMaster branch, CancellationToken cancellationToken)
         => context.BranchMasters.Remove(branch);
 
-    public async Task<bool> IsExistsAsync(string BranchName, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string BranchName, OperationType  operation, int? BranchId, CancellationToken cancellationToken)
     {
-        return await context.BranchMasters
-        .AnyAsync(x => x.BranchName == BranchName, cancellationToken);
+        if (operation == OperationType.Create)
+            return await context.BranchMasters.AnyAsync(x => x.BranchName.ToLower() == BranchName.ToLower(), cancellationToken);
+        
+        else if (operation == OperationType.Update)
+            return await context.BranchMasters.AnyAsync(x => x.BranchName.ToLower() == BranchName.ToLower() && x.BranchId != BranchId, cancellationToken);
+
+        return false;
     }
 }
