@@ -14,7 +14,7 @@ public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMa
         RuleFor(x => x.Caste)
             .NotEmpty().WithMessage("Caste name is required")
             .MaximumLength(100)
-            .MustAsync(async (caste, ct) =>!await repository.IsExistsAsync(caste, ct))
+            .MustAsync(async (caste, ct) =>!await repository.IsExistsAsync(caste,"Create", null, ct))
             .WithMessage("Caste already exists.");
     }
 }
@@ -27,6 +27,6 @@ public class UpdateCasteMasterCommandValidator : AbstractValidator<UpdateCasteMa
             .GreaterThan(0).WithMessage("Valid Caste Id is required");
 
         RuleFor(x => x.CategoryId)
-            .NotEmpty().WithMessage("Category Id is required");            
+            .NotEmpty().WithMessage("Category Id is required");
     }
 }

@@ -92,5 +92,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapMasterEndpoints();
+app.UseStaticFiles();
 
 app.Run();

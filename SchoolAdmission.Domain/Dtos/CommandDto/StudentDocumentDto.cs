@@ -8,10 +8,9 @@ public class StudentDocumentDto
 
     public int? DocumentType { get; set; }
 
-    public string? DocumentPath { get; set; }
     [JsonIgnore]
-    public DateTime UploadedDate { get; set; }
+    public string? DocumentPath { get; set; }
 
     [JsonIgnore]
-    public string? UploadPath { get; set; }
+    public DateTime UploadedDate { get; set; }
 }

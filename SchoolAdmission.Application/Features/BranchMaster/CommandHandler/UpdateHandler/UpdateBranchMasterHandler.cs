@@ -14,11 +14,21 @@ public class UpdateBranchMasterHandler(IBranchMasterRepository repository,
 {
     public async Task<ApiResponse<bool>> Handle(UpdateBranchMasterCommand request, CancellationToken cancellationToken)
     {
-        await using var transaction =
-            await context.Database.BeginTransactionAsync(cancellationToken);
+        await using var transaction =await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await repository.IsExistsAsync(request.BranchName!, "Update", request.BranchId, cancellationToken);
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.BranchMaster, request.BranchId),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
+
             var entity = await repository.GetByIdAsync(request.BranchId, cancellationToken);
 
             if (entity == null)

@@ -16,7 +16,5 @@ public interface ICasteMasterRepository
 
     Task DeleteAsync(CasteMaster caste, CancellationToken cancellationToken);
 
-    Task<bool> IsExistsAsync(string caste, CancellationToken cancellationToken);
-    
-
+    Task<bool> IsExistsAsync(string caste, string operation, int? casteId, CancellationToken cancellationToken);
 }

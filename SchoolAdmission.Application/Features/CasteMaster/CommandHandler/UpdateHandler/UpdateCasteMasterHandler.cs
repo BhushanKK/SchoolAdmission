@@ -16,6 +16,19 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository,ILogger<
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
+            var isExist = await repository.IsExistsAsync(request.Caste!, "Update", request.CasteId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.CasteId),
+                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                };
+            }
+
+
             var entity = await repository.GetByIdAsync(request.CasteId, cancellationToken);
 
             if (entity is null)
