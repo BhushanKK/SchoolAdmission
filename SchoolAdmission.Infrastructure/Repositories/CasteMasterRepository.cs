@@ -52,9 +52,19 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
         return await query.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<bool> IsExistsAsync(string caste, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string caste, string operation, int? casteId, CancellationToken cancellationToken)
     {
-        return await context.CasteMasters
-        .AnyAsync(x => x.Caste == caste, cancellationToken);
+        if (operation == "Create")
+        {
+            return await context.CasteMasters
+                .AnyAsync(x => x.Caste == caste, cancellationToken);
+        }
+        else if (operation == "Update")
+        {
+            return await context.CasteMasters
+                .AnyAsync(x => x.Caste == caste && x.CasteId != casteId, cancellationToken);
+        }
+
+        return false;
     }
 }
