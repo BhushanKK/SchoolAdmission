@@ -13,9 +13,7 @@ public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMa
 
         RuleFor(x => x.Caste)
             .NotEmpty().WithMessage("Caste name is required")
-            .MaximumLength(100)
-            .MustAsync(async (caste, ct) =>!await repository.IsExistsAsync(caste,"Create", null, ct))
-            .WithMessage("Caste already exists.");
+            .MaximumLength(100);            
     }
 }
 

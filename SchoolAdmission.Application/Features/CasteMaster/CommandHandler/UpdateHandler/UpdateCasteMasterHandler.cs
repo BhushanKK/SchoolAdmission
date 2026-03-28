@@ -5,6 +5,7 @@ using System.Net;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using Microsoft.Extensions.Logging;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
 
@@ -16,15 +17,15 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository,ILogger<
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
         try
         {
-            var isExist = await repository.IsExistsAsync(request.Caste!, "Update", request.CasteId, cancellationToken);
+            var isExist = await repository.IsExistsAsync(request.Caste!, OperationType.Update, request.CasteId, cancellationToken);
             
             if (isExist)
             {
                 return new ApiResponse<int>
                 {
                     Success = false,
-                    Message = MessageHelper.NotFound(EntityEnum.CasteMaster, request.CasteId),
-                    StatusCode = HttpStatusCode.NotFound.GetHashCode()
+                    Message = MessageHelper.AlreadyExists(request.Caste!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
                 };
             }
 

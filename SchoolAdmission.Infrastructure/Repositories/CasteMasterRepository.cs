@@ -3,6 +3,7 @@ using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -52,18 +53,13 @@ public class CasteMasterRepository(ApplicationDbContext context) : ICasteMasterR
         return await query.AsNoTracking().FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<bool> IsExistsAsync(string caste, string operation, int? casteId, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string caste, OperationType  operation, int? casteId, CancellationToken cancellationToken)
     {
-        if (operation == "Create")
-        {
-            return await context.CasteMasters
-                .AnyAsync(x => x.Caste == caste, cancellationToken);
-        }
-        else if (operation == "Update")
-        {
-            return await context.CasteMasters
-                .AnyAsync(x => x.Caste == caste && x.CasteId != casteId, cancellationToken);
-        }
+        if (operation == OperationType.Create)
+            return await context.CasteMasters.AnyAsync(x => x.Caste.ToLower() == caste.ToLower(), cancellationToken);
+        
+        else if (operation == OperationType.Update)
+            return await context.CasteMasters.AnyAsync(x => x.Caste.ToLower() == caste.ToLower() && x.CasteId != casteId, cancellationToken);
 
         return false;
     }
