@@ -16,6 +16,12 @@ public static class MessageHelper
     {
         return $"{entity} deleted successfully!";
     }
+
+    public static string AlreadyExists(string name)
+    {
+        return $"{name} Already Exists!";
+    }
+
     public static string NotFound(EntityEnum entity, object id)
     {
         return $"{entity} with Id {id} not found!";

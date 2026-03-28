@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -13,9 +14,7 @@ public class CreateCasteMasterCommandValidator : AbstractValidator<CreateCasteMa
 
         RuleFor(x => x.Caste)
             .NotEmpty().WithMessage("Caste name is required")
-            .MaximumLength(100)
-            .MustAsync(async (caste, ct) =>!await repository.IsExistsAsync(caste,"Create", null, ct))
-            .WithMessage("Caste already exists.");
+            .MaximumLength(100);            
     }
 }
 

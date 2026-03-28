@@ -1,5 +1,6 @@
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICasteMasterRepository
@@ -16,5 +17,5 @@ public interface ICasteMasterRepository
 
     Task DeleteAsync(CasteMaster caste, CancellationToken cancellationToken);
 
-    Task<bool> IsExistsAsync(string caste, string operation, int? casteId, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string caste, OperationType operation, int? casteId, CancellationToken cancellationToken);
 }

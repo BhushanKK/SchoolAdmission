@@ -2,13 +2,14 @@ using MediatR;
 using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
-public class CreateCasteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,
+namespace SchoolAdmission.Application.Features.CasteMasters.Commands;
+public class CreateCasteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,ICasteMasterRepository casteMasterRepository,
     ILogger<CreateCasteMasterHandler> logger, ApplicationDbContext context) : IRequestHandler<CreateCasteMasterCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(CreateCasteMasterCommand request, CancellationToken cancellationToken)
@@ -17,6 +18,18 @@ public class CreateCasteMasterHandler(IMapper mapper, ICurrentUserRepository cur
 
         try
         {
+            var isExist = await casteMasterRepository.IsExistsAsync(request.Caste!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.Caste!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
+
             var casteMaster = mapper.Map<CasteMaster>(request);
             casteMaster.EntryBy = await currentUser.Email;
             casteMaster.EntryDate = DateTime.UtcNow;

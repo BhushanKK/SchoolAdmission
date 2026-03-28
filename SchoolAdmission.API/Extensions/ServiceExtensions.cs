@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Application.Mappings;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Infrastructure.Repositories;
