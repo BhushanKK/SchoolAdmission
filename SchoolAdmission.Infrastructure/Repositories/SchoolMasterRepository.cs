@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -25,9 +26,14 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
     public async Task DeleteAsync(SchoolMaster school, CancellationToken cancellationToken)
         => context.SchoolMasters.Remove(school);
 
-    public async Task<bool> IsExistsAsync(string schoolName, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string SchoolName, OperationType  operation, int? SchoolId, CancellationToken cancellationToken)
     {
-        return await context.SchoolMasters
-            .AnyAsync(x => x.SchoolName == schoolName, cancellationToken);
+        if (operation == OperationType.Create)
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower(), cancellationToken);
+        
+        else if (operation == OperationType.Update)
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower() && x.SchoolId != SchoolId, cancellationToken);
+
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Dtos;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ICommiteMasterRepository
@@ -15,6 +16,6 @@ public interface ICommiteMasterRepository
     Task UpdateAsync(CommiteMaster Commite, CancellationToken cancellationToken);
 
     Task DeleteAsync(CommiteMaster Commite, CancellationToken cancellationToken);
-
-    Task<bool> IsExistsAsync(string CommiteeName, CancellationToken cancellationToken);
+    
+    Task<bool> IsExistsAsync(string CommiteeName, OperationType operation, int? CommiteeId, CancellationToken cancellationToken);
 }

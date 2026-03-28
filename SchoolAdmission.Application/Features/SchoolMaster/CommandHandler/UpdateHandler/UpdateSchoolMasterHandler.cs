@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.SchoolMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Handlers;
 
@@ -21,7 +22,18 @@ public class UpdateSchoolMasterHandler(
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await repository.IsExistsAsync(request.SchoolName!, OperationType.Update, request.SchoolId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.SchoolName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var entity = await repository.GetByIdAsync(request.SchoolId, cancellationToken);
 
             if (entity == null)

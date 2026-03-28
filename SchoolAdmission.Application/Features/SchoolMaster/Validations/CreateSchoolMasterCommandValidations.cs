@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.SchoolMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -12,12 +13,10 @@ public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchool
         RuleFor(x => x.SchoolName)
             .NotEmpty().WithMessage("School name is required")
             .MaximumLength(100)
-            .MustAsync(async (SchoolName, ct) =>
-                !await repository.IsExistsAsync(SchoolName, ct))
-            .WithMessage("School Name already exists.");  
+            .MustAsync(async (SchoolName, ct) =>!await repository.IsExistsAsync( SchoolName,OperationType.Create,null,ct))
+            .WithMessage("School already exists.");  
     }
 }
-
 
 public class UpdateSchoolMasterCommandValidator : AbstractValidator<UpdateSchoolMasterCommand>
 {

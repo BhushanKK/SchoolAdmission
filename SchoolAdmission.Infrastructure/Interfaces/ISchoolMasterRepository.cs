@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ISchoolMasterRepository
@@ -13,5 +14,6 @@ public interface ISchoolMasterRepository
 
     Task DeleteAsync(SchoolMaster school, CancellationToken cancellationToken);
 
-    Task<bool> IsExistsAsync(string SchoolName, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string SchoolName, OperationType operation, int? SchoolId, CancellationToken cancellationToken);
 }
+

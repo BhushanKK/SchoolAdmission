@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.CommiteMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -11,9 +12,8 @@ public class CreateCommiteMasterCommandValidator : AbstractValidator<CreateCommi
         RuleFor(x => x.CommiteeName)
             .NotEmpty().WithMessage("Commitee name is required")
             .MaximumLength(100)
-            .MustAsync(async (CommiteeName, ct) =>
-                !await repository.IsExistsAsync(CommiteeName, ct))
-            .WithMessage("Commite Name already exists.");
+            .MustAsync(async (CommiteeName, ct) =>!await repository.IsExistsAsync( CommiteeName,OperationType.Create,null,ct))
+            .WithMessage("Commitee already exists."); 
 
         RuleFor(x => x.Status)
             .NotNull().WithMessage("Status is required");

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 
@@ -20,7 +21,18 @@ public class UpdateCommiteMasterHandler(
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await repository.IsExistsAsync(request.CommiteeName!, OperationType.Update, request.CommiteeId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.CommiteeName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var entity = await repository.GetByIdAsync(request.CommiteeId, cancellationToken);
 
             if (entity is null)
