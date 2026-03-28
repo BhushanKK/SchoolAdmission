@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.DivisionMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.CommandHandler.UpdateHandler;
 
@@ -21,7 +22,18 @@ public class UpdateDivisionMasterHandler(
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await repository.IsExistsAsync(request.DivisionName!, OperationType.Update, request.DivisionId, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.DivisionName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             
             var entity = await repository.GetByIdAsync(request.DivisionId, cancellationToken);
 

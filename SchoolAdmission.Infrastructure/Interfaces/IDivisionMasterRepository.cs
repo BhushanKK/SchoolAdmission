@@ -1,4 +1,5 @@
 using SchoolAdmission.Domain;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface IDivisionMasterRepository
@@ -15,5 +16,5 @@ public interface IDivisionMasterRepository
 
     Task DeleteAsync(DivisionMaster division, CancellationToken cancellationToken);
 
-    Task<bool> IsExistsAsync(string DivisionName, CancellationToken cancellationToken);
+    Task<bool> IsExistsAsync(string divisionName, OperationType operation, int? divisionId, CancellationToken cancellationToken);
 }

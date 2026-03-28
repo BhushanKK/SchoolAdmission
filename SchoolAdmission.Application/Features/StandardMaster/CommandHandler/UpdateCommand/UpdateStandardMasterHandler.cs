@@ -6,6 +6,7 @@ using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Features.StandardMasters.Handlers;
 
@@ -22,7 +23,17 @@ public class UpdateStandardMasterHandler(
             await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await repository.IsExistsAsync(request.StandardName!, OperationType.Update, request.StandardId, cancellationToken);
+            if (isExist)
+            {
+                return new ApiResponse<bool>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.StandardName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var entity = await repository.GetByIdAsync(request.StandardId, cancellationToken);
 
             if (entity == null)

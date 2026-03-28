@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.StandardMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -11,9 +12,8 @@ public class CreateStandardMasterCommandValidator : AbstractValidator<CreateStan
         RuleFor(x => x.StandardName)
             .NotEmpty().WithMessage("Standard name is required")
             .MaximumLength(100)
-            .MustAsync(async (StandardName, ct) =>
-            !await repository.IsExistsAsync(StandardName, ct))
-            .WithMessage("STandard  already exists.");
+            .MustAsync(async (StandardName, ct) =>!await repository.IsExistsAsync( StandardName,OperationType.Create,null,ct))
+            .WithMessage("Standard  already exists.");
     }
 }
 

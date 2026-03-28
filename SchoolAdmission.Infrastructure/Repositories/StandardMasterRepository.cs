@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
@@ -35,10 +36,14 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
         return await context.SaveChangesAsync(cancellationToken);
     }
     
-
-    public async Task<bool> IsExistsAsync(string standardName, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string StandardName, OperationType  operation, int? StandardId, CancellationToken cancellationToken)
     {
-        return await context.StandardMasters
-            .AnyAsync(x => x.StandardName == standardName, cancellationToken);
+        if (operation == OperationType.Create)
+            return await context.StandardMasters.AnyAsync(x => x.StandardName.ToLower() == StandardName.ToLower(), cancellationToken);
+        
+        else if (operation == OperationType.Update)
+            return await context.StandardMasters.AnyAsync(x => x.StandardName.ToLower() == StandardName.ToLower() && x.StandardId != StandardId, cancellationToken);
+
+        return false;
     }
 }

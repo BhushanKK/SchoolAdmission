@@ -1,6 +1,7 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.DivisionMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
@@ -12,9 +13,9 @@ public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivi
         RuleFor(x => x.DivisionName)
             .NotEmpty().WithMessage("Division name is required")
             .MaximumLength(100)
-            .MustAsync(async (DivisionName, ct) =>
-            !await repository.IsExistsAsync(DivisionName, ct))
-            .WithMessage("Division already exists.");
+            .MustAsync(async (DivisionName, ct) =>!await repository.IsExistsAsync( DivisionName,OperationType.Create,null,ct))
+            .WithMessage("Division already exists.");  
+            
     }
 }
 
