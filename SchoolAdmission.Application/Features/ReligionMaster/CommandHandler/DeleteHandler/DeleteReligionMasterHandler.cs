@@ -31,7 +31,7 @@ public class DeleteReligionMasterHandler(
                 };
             }
 
-            await repository.DeleteAsync(entity, cancellationToken);
+            await repository.DeleteAsync(entity);
 
             await context.SaveChangesAsync(cancellationToken);
 
