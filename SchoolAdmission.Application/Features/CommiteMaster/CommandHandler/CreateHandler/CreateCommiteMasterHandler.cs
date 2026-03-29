@@ -6,8 +6,10 @@ using SchoolAdmission.Application.Features.CommiteMasters.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
+using System.Net;
 
-public class CreateCommiteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,ILogger<CreateCommiteMasterHandler> logger,
+public class CreateCommiteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,ILogger<CreateCommiteMasterHandler> logger,ICommiteMasterRepository commiteMasterRepository,
     ApplicationDbContext context) : IRequestHandler<CreateCommiteMasterCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(CreateCommiteMasterCommand request, CancellationToken cancellationToken)
@@ -15,7 +17,17 @@ public class CreateCommiteMasterHandler(IMapper mapper, ICurrentUserRepository c
         using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   var isExist = await commiteMasterRepository.IsExistsAsync(request.CommiteeName!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.CommiteeName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var commiteMaster = mapper.Map<CommiteMaster>(request);
             commiteMaster.EntryBy = await currentUser.Email;
             commiteMaster.EntryDate = DateTime.UtcNow;

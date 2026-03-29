@@ -7,10 +7,11 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 public class CreateDivisionMasterHandler(
     IMapper mapper, 
-    ICurrentUserRepository currentUser,
+    ICurrentUserRepository currentUser,IDivisionMasterRepository divisionMasterRepository,
     ILogger<CreateDivisionMasterHandler> logger, 
     ApplicationDbContext context
 ) : IRequestHandler<CreateDivisionMasterCommand, ApiResponse<int>>
@@ -21,21 +22,25 @@ public class CreateDivisionMasterHandler(
 
         try
         {
+            var isExist = await divisionMasterRepository.IsExistsAsync(request.DivisionName!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.DivisionName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             
             var division = mapper.Map<DivisionMaster>(request);
-            
-            
             division.EntryBy = await currentUser.Email;
             division.EntryDate = DateTime.UtcNow;
-
-            
             await context.DivisionMasters.AddAsync(division, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-
-            
             await transaction.CommitAsync(cancellationToken);
 
-            
             return ApiResponse<int>.SuccessResponse(
                 division.DivisionId,
                 MessageHelper.CreatedSuccessfully(EntityEnum.DivisionMaster),
@@ -43,12 +48,9 @@ public class CreateDivisionMasterHandler(
             );
         }
         catch (Exception ex)
-        {
-            
+        { 
             await transaction.RollbackAsync(cancellationToken);
-            logger.LogError(ex, "Failed to create DivisionMaster");
-
-            
+            logger.LogError(ex, "Failed to create DivisionMaster"); 
             return ApiResponse<int>.FailureResponse(
                 MessageHelper.InternalServerError(EntityEnum.DivisionMaster),
                 HttpStatusCode.InternalServerError.GetHashCode()

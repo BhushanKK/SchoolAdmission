@@ -7,9 +7,10 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 public class CreateReligionMasterHandler(
         IMapper mapper,
-        ILogger<CreateReligionMasterHandler> logger,
+        ILogger<CreateReligionMasterHandler> logger,IReligionMasterRepository religionMasterRepository,
         ApplicationDbContext context,
         ICurrentUserRepository currentUser
     ) : IRequestHandler<CreateReligionMasterCommand, ApiResponse<int>>
@@ -19,19 +20,25 @@ public class CreateReligionMasterHandler(
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await religionMasterRepository.IsExistsAsync(request.Religion!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.Religion!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             
             var religionMaster = mapper.Map<ReligionMaster>(request);
-
-            
             religionMaster.EntryBy = await currentUser.Email;
             religionMaster.EntryDate = DateTime.UtcNow;
-
-            
+ 
             await context.ReligionMasters.AddAsync(religionMaster, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
-
-            
+            await context.SaveChangesAsync(cancellationToken);            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

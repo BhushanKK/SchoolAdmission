@@ -47,14 +47,9 @@ public class UpdateDivisionMasterHandler(
                 };
             }
 
-            
-            mapper.Map(request, entity);
-
-            
+            mapper.Map(request, entity); 
             await repository.UpdateAsync(entity, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-
-            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<bool>.SuccessResponse(

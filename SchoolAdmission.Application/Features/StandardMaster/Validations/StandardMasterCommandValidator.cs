@@ -11,9 +11,7 @@ public class CreateStandardMasterCommandValidator : AbstractValidator<CreateStan
     {
         RuleFor(x => x.StandardName)
             .NotEmpty().WithMessage("Standard name is required")
-            .MaximumLength(100)
-            .MustAsync(async (StandardName, ct) =>!await repository.IsExistsAsync( StandardName,OperationType.Create,null,ct))
-            .WithMessage("Standard  already exists.");
+            .MaximumLength(100);
     }
 }
 

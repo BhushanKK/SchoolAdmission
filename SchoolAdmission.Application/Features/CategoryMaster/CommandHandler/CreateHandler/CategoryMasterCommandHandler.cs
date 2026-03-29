@@ -7,8 +7,9 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.Utils;
 using System.Net;
 using Microsoft.Extensions.Logging;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
-public class CreateCategoryMasterHandler(IMapper mapper,ILogger<CreateCategoryMasterHandler> logger, ICurrentUserRepository currentUser,
+public class CreateCategoryMasterHandler(IMapper mapper,ILogger<CreateCategoryMasterHandler> logger, ICurrentUserRepository currentUser,ICategoryMasterRepository categoryMasterRepository,
     ApplicationDbContext context) : IRequestHandler<CreateCategoryMasterCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(CreateCategoryMasterCommand request, CancellationToken cancellationToken)
@@ -16,7 +17,18 @@ public class CreateCategoryMasterHandler(IMapper mapper,ILogger<CreateCategoryMa
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await categoryMasterRepository.IsExistsAsync(request.Category!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.Category!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var categoryMaster = mapper.Map<CategoryMaster>(request);
             categoryMaster.EntryBy = await currentUser.Email;
             categoryMaster.EntryDate = DateTime.UtcNow;

@@ -45,8 +45,7 @@ public class UpdateStandardMasterHandler(
                     StatusCode = HttpStatusCode.NotFound.GetHashCode()
                 };
             }
-
-            
+ 
             mapper.Map(request, entity);
 
             await repository.UpdateAsync(entity, cancellationToken);

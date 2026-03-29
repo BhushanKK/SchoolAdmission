@@ -48,7 +48,7 @@ public class UpdateReligionMasterHandler(
   
             mapper.Map(request, entity);
 
-            await repository.Update(entity);
+            await repository.Update(entity,cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 

@@ -46,7 +46,6 @@ public class UpdateSchoolMasterHandler(
                 };
             }
 
-            
             mapper.Map(request, entity);
 
             await repository.UpdateAsync(entity, cancellationToken);

@@ -12,9 +12,7 @@ public class CreateSchoolMasterCommandValidator : AbstractValidator<CreateSchool
     {
         RuleFor(x => x.SchoolName)
             .NotEmpty().WithMessage("School name is required")
-            .MaximumLength(100)
-            .MustAsync(async (SchoolName, ct) =>!await repository.IsExistsAsync( SchoolName,OperationType.Create,null,ct))
-            .WithMessage("School already exists.");  
+            .MaximumLength(100);  
     }
 }
 

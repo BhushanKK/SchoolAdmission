@@ -7,9 +7,11 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
+using SchoolAdmission.Infrastructure.Repositories;
 
 public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMasterHandler> logger,
-    ApplicationDbContext context, ICurrentUserRepository currentUser)
+    ApplicationDbContext context, ICurrentUserRepository currentUser,IBranchMasterRepository branchMasterRepository)
     : IRequestHandler<CreateBranchMasterCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(CreateBranchMasterCommand request, CancellationToken cancellationToken)
@@ -17,7 +19,18 @@ public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMaste
         await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
 
         try
-        {
+        {   
+            var isExist = await branchMasterRepository.IsExistsAsync(request.BranchName!, OperationType.Create, null, cancellationToken);
+            
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.BranchName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var branchMaster = mapper.Map<BranchMaster>(request);
 
             branchMaster.EntryBy = await currentUser.Email;

@@ -12,13 +12,9 @@ public class CreateDivisionMasterCommandValidator : AbstractValidator<CreateDivi
     {
         RuleFor(x => x.DivisionName)
             .NotEmpty().WithMessage("Division name is required")
-            .MaximumLength(100)
-            .MustAsync(async (DivisionName, ct) =>!await repository.IsExistsAsync( DivisionName,OperationType.Create,null,ct))
-            .WithMessage("Division already exists.");  
-            
+            .MaximumLength(100);
     }
 }
-
 
 public class UpdateDivisionMasterCommandValidator : AbstractValidator<UpdateDivisionMasterCommand>
 {

@@ -10,9 +10,7 @@ public class CreateReligionMasterCommandValidator : AbstractValidator<CreateReli
     public CreateReligionMasterCommandValidator(IReligionMasterRepository repository)
     {
         RuleFor(x => x.Religion)
-            .NotEmpty()
-            .MustAsync(async (Religion, ct) =>!await repository.IsExistsAsync( Religion,OperationType.Create,null,ct))
-            .WithMessage("Religion already exists.");  
+            .NotEmpty();
     }
 }
 

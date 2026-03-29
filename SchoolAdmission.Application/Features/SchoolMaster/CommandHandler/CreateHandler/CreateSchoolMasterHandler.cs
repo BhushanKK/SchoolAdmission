@@ -7,11 +7,12 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 public class CreateSchoolMasterHandler(
         IMapper mapper, 
         ILogger<CreateSchoolMasterHandler> logger,
-        ApplicationDbContext context, 
+        ApplicationDbContext context, ISchoolMasterRepository schoolMasterRepository,
         ICurrentUserRepository currentUser
     ) : IRequestHandler<CreateSchoolMasterCommand, ApiResponse<int>>
 {
@@ -22,18 +23,22 @@ public class CreateSchoolMasterHandler(
 
         try
         {
+            var isExist = await schoolMasterRepository.IsExistsAsync(request.SchoolName!, OperationType.Create, null, cancellationToken); 
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.SchoolName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             
-            var schoolMaster = mapper.Map<SchoolMaster>(request);
-
-            
+            var schoolMaster = mapper.Map<SchoolMaster>(request); 
             schoolMaster.EntryBy = await currentUser.Email;
-            schoolMaster.EntryDate = DateTime.UtcNow;
-
-            
+            schoolMaster.EntryDate = DateTime.UtcNow; 
             await context.SchoolMasters.AddAsync(schoolMaster, cancellationToken);
-            await context.SaveChangesAsync(cancellationToken);
-
-            
+            await context.SaveChangesAsync(cancellationToken); 
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

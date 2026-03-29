@@ -11,9 +11,7 @@ public class CreateCategoryMasterCommandValidator : AbstractValidator<CreateCate
     {
         RuleFor(x => x.Category)
             .NotEmpty().WithMessage("Category name is required")
-            .MaximumLength(100)
-            .MustAsync(async (Category, ct) =>!await repository.IsExistsAsync( Category,OperationType.Create,null,ct))
-            .WithMessage("Category already exists.");   
+            .MaximumLength(100);   
     }
 }
 

@@ -7,11 +7,10 @@ using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
+using static SchoolAdmission.Domain.Utils.CommanEnums;
 
-public class CreateStandardMasterHandler(
-        IMapper mapper,
-        ILogger<CreateStandardMasterHandler> logger,
-        ApplicationDbContext context,
+public class CreateStandardMasterHandler(IMapper mapper,ILogger<CreateStandardMasterHandler> logger,
+        ApplicationDbContext context,IStandardMasterRepository standardMasterRepository,
         ICurrentUserRepository currentUser
     ) : IRequestHandler<CreateStandardMasterCommand, ApiResponse<int>>
 {
@@ -21,18 +20,21 @@ public class CreateStandardMasterHandler(
 
         try
         {
-            
+            var isExist = await standardMasterRepository.IsExistsAsync(request.StandardName!, OperationType.Create, null, cancellationToken); 
+            if (isExist)
+            {
+                return new ApiResponse<int>
+                {
+                    Success = false,
+                    Message = MessageHelper.AlreadyExists(request.StandardName!),
+                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
+                };
+            }
             var standardMaster = mapper.Map<StandardMaster>(request);
-
-            
             standardMaster.EntryBy = await currentUser.Email;
-            standardMaster.EntryDate = DateTime.UtcNow;
-
-            
+            standardMaster.EntryDate = DateTime.UtcNow; 
             await context.StandardMasters.AddAsync(standardMaster, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-
-            
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(
