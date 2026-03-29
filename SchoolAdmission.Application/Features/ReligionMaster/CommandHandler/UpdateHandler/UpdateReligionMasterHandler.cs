@@ -45,11 +45,10 @@ public class UpdateReligionMasterHandler(
                     StatusCode = HttpStatusCode.NotFound.GetHashCode()
                 };
             }
-
-            
+  
             mapper.Map(request, entity);
 
-            await repository.UpdateAsync(entity, cancellationToken);
+            await repository.Update(entity);
             await context.SaveChangesAsync(cancellationToken);
             await transaction.CommitAsync(cancellationToken);
 
