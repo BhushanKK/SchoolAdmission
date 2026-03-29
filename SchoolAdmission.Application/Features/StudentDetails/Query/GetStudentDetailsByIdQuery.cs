@@ -1,7 +1,6 @@
 using MediatR;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Entities;
 
-namespace SchoolAdmission.Application.Features.StudentDetails.Queries;
-
-public record GetStudentDetailsByIdQuery(int Id)
-    : IRequest<ApiResponse<StudentDetailsQueryDto?>>;
+public record GetStudentByIdQuery(Guid Id) 
+    : IRequest<ApiResponse<StudentDetails>>;

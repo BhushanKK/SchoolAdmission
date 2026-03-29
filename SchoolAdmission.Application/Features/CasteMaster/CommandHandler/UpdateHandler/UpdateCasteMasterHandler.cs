@@ -29,7 +29,6 @@ public class UpdateCasteMasterHandler(ICasteMasterRepository repository,ILogger<
                 };
             }
 
-
             var entity = await repository.GetByIdAsync(request.CasteId, cancellationToken);
 
             if (entity is null)

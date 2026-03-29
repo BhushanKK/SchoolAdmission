@@ -1,8 +1,6 @@
-/***using MediatR;
-using SchoolAdmission.Domain;
+using MediatR;
 
 namespace SchoolAdmission.Application.Features.StudentDetails.Queries;
 
 public record GetAllStudentDetailsQuery()
-    : IRequest<ApiResponse<List<StudentDetails>>>;
-***/
+    : IRequest<ApiResponse<List<StudentDetailsView>>>;

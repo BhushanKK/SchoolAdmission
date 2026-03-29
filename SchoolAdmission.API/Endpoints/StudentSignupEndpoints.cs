@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StudentDetails.Commands;
+using SchoolAdmission.Application.Features.StudentDetails.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 

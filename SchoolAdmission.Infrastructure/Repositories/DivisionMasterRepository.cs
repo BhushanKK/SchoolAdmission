@@ -28,11 +28,11 @@ public class DivisionMasterRepository(ApplicationDbContext context) : IDivisionM
 
     public async Task<bool> IsExistsAsync(string DivisionName, OperationType  operation, int? DivisionId, CancellationToken cancellationToken)
     {
-        if (operation == OperationType.Create)
-            return await context.DivisionMasters.AnyAsync(x => x.DivisionName.ToLower() == DivisionName.ToLower(), cancellationToken);
+        if (operation is OperationType.Create)
+            return await context.DivisionMasters.AnyAsync(x => x.DivisionName!.ToLower() == DivisionName.ToLower(), cancellationToken);
         
-        else if (operation == OperationType.Update)
-            return await context.DivisionMasters.AnyAsync(x => x.DivisionName.ToLower() == DivisionName.ToLower() && x.DivisionId != DivisionId, cancellationToken);
+        else if (operation is OperationType.Update)
+            return await context.DivisionMasters.AnyAsync(x => x.DivisionName!.ToLower() == DivisionName.ToLower() && x.DivisionId != DivisionId, cancellationToken);
 
         return false;
     }

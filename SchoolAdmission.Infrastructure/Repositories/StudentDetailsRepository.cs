@@ -7,11 +7,7 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class StudentDetailsRepository(ApplicationDbContext context) : IStudentDetailsRepository
 {
-    public async Task<List<StudentDetails>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.StudentDetails
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-
+    
     public async Task<StudentDetails?> GetByIdAsync(Guid studentId, CancellationToken cancellationToken)
         => await context.StudentDetails
             .FindAsync(new object[] { studentId }, cancellationToken);

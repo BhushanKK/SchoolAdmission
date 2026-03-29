@@ -28,11 +28,11 @@ public class BranchMasterRepository(ApplicationDbContext context) : IBranchMaste
 
     public async Task<bool> IsExistsAsync(string BranchName, OperationType  operation, int? BranchId, CancellationToken cancellationToken)
     {
-        if (operation == OperationType.Create)
-            return await context.BranchMasters.AnyAsync(x => x.BranchName.ToLower() == BranchName.ToLower(), cancellationToken);
+        if (operation is OperationType.Create)
+            return await context.BranchMasters.AnyAsync(x => x.BranchName!.ToLower() == BranchName.ToLower(), cancellationToken);
         
-        else if (operation == OperationType.Update)
-            return await context.BranchMasters.AnyAsync(x => x.BranchName.ToLower() == BranchName.ToLower() && x.BranchId != BranchId, cancellationToken);
+        else if (operation is OperationType.Update)
+            return await context.BranchMasters.AnyAsync(x => x.BranchName!.ToLower() == BranchName.ToLower() && x.BranchId != BranchId, cancellationToken);
 
         return false;
     }
