@@ -1,7 +1,6 @@
 using FluentValidation;
 using SchoolAdmission.Application.Features.ReligionMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
-using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Application.Validators;
 
