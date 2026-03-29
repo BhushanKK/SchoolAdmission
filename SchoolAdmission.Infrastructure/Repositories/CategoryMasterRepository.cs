@@ -34,11 +34,11 @@ public class CategoryMasterRepository(ApplicationDbContext context) : ICategoryM
 
     public async Task<bool> IsExistsAsync(string Category, OperationType  operation, int? CategoryId, CancellationToken cancellationToken)
     {
-        if (operation == OperationType.Create)
-            return await context.CategoryMasters.AnyAsync(x => x.Category.ToLower() == Category.ToLower(), cancellationToken);
+        if (operation is OperationType.Create)
+            return await context.CategoryMasters.AnyAsync(x => x.Category!.ToLower() == Category.ToLower(), cancellationToken);
         
-        else if (operation == OperationType.Update)
-            return await context.CategoryMasters.AnyAsync(x => x.Category.ToLower() == Category.ToLower() && x.categoryId != CategoryId, cancellationToken);
+        else if (operation is OperationType.Update)
+            return await context.CategoryMasters.AnyAsync(x => x.Category!.ToLower() == Category.ToLower() && x.categoryId != CategoryId, cancellationToken);
 
         return false;
     }

@@ -38,11 +38,11 @@ public class StandardMasterRepository(ApplicationDbContext context) : IStandardM
     
     public async Task<bool> IsExistsAsync(string StandardName, OperationType  operation, int? StandardId, CancellationToken cancellationToken)
     {
-        if (operation == OperationType.Create)
-            return await context.StandardMasters.AnyAsync(x => x.StandardName.ToLower() == StandardName.ToLower(), cancellationToken);
+        if (operation is OperationType.Create)
+            return await context.StandardMasters.AnyAsync(x => x.StandardName!.ToLower() == StandardName.ToLower(), cancellationToken);
         
-        else if (operation == OperationType.Update)
-            return await context.StandardMasters.AnyAsync(x => x.StandardName.ToLower() == StandardName.ToLower() && x.StandardId != StandardId, cancellationToken);
+        else if (operation is OperationType.Update)
+            return await context.StandardMasters.AnyAsync(x => x.StandardName!.ToLower() == StandardName.ToLower() && x.StandardId != StandardId, cancellationToken);
 
         return false;
     }

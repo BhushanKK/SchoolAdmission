@@ -11,9 +11,7 @@ public class CreateBranchMasterCommandValidator : AbstractValidator<CreateBranch
     {
         RuleFor(x => x.BranchName)
             .NotEmpty().WithMessage("Branch name is required")
-            .MaximumLength(100)
-            .MustAsync(async (BranchName, ct) =>!await repository.IsExistsAsync( BranchName,OperationType.Create,null,ct))
-            .WithMessage("Branch already exists.");  
+            .MaximumLength(100);  
     }
 }
 

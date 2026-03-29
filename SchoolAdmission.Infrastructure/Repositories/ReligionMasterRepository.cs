@@ -28,11 +28,11 @@ public class ReligionMasterRepository(ApplicationDbContext context) : IReligionM
 
     public async Task<bool> IsExistsAsync(string Religion, OperationType  operation, int? ReligionId, CancellationToken cancellationToken)
     {
-        if (operation == OperationType.Create)
-            return await context.ReligionMasters.AnyAsync(x => x.Religion.ToLower() == Religion.ToLower(), cancellationToken);
+        if (operation is OperationType.Create)
+            return await context.ReligionMasters.AnyAsync(x => x.Religion!.ToLower() == Religion.ToLower(), cancellationToken);
         
-        else if (operation == OperationType.Update)
-            return await context.ReligionMasters.AnyAsync(x => x.Religion.ToLower() == Religion.ToLower() && x.ReligionId != ReligionId, cancellationToken);
+        else if (operation is OperationType.Update)
+            return await context.ReligionMasters.AnyAsync(x => x.Religion!.ToLower() == Religion.ToLower() && x.ReligionId != ReligionId, cancellationToken);
 
         return false;
     }

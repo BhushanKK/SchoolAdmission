@@ -17,7 +17,6 @@ public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMas
             .ToListAsync(cancellationToken);
     }
 
-    
     public async Task<List<CommiteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await context.CommiteMasters
@@ -32,8 +31,7 @@ public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMas
 
     public async Task<CommiteMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
-        return await context.CommiteMasters
-            .FindAsync(new object[] { id }, cancellationToken);
+        return await context.CommiteMasters.FindAsync(new object[] { id }, cancellationToken);
     }
 
     public async Task<CommiteMasterQueryDto?> GetByIdWithCommiteAsync(int id, CancellationToken cancellationToken)
