@@ -20,10 +20,10 @@ public class ReligionMasterRepository(ApplicationDbContext context) : IReligionM
     public async Task AddAsync(ReligionMaster religion, CancellationToken cancellationToken)
         => await context.ReligionMasters.AddAsync(religion, cancellationToken);
 
-    public async Task UpdateAsync(ReligionMaster religion, CancellationToken cancellationToken)
+    public async Task UpdateAsync(ReligionMaster religion)
         => context.ReligionMasters.Update(religion);
 
-    public async Task DeleteAsync(ReligionMaster religion, CancellationToken cancellationToken)
+    public async Task DeleteAsync(ReligionMaster religion)
         => context.ReligionMasters.Remove(religion);
 
     public async Task<bool> IsExistsAsync(string Religion, OperationType  operation, int? ReligionId, CancellationToken cancellationToken)
