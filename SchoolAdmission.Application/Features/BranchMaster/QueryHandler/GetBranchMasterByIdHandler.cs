@@ -15,8 +15,8 @@ public class GetBranchMasterByIdHandler(IBranchMasterRepository repository)
     {
         var entity = await repository.GetByIdAsync(request.Id,cancellationToken);
 
-        if (entity == null)
-            return ApiResponse<BranchMasterQueryDto?>.FailureResponse("BranchMaster not found", 404);
+        if (entity is null)
+            return ApiResponse<BranchMasterQueryDto?>.FailureResponse(MessageHelper.NotFound(EntityEnum.BranchMaster,request.Id), HttpStatusCode.NotFound.GetHashCode());
 
         return ApiResponse<BranchMasterQueryDto?>.SuccessResponse(new BranchMasterQueryDto
         {

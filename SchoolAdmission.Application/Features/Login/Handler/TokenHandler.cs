@@ -72,7 +72,8 @@ public class TokenHandler(
                 AccessTokenExpiry = user.AccessTokenExpiry.Value,
                 UserId = user.UserId,
                 EmailId = user.EmailId,
-                Role = user.RoleId == 1 ? "Admin" : "Student"
+                Role = user.RoleId == 1 ? "Admin" : "Student",
+                StudentId = user.StudentId
             },
             "Login successful.",
             HttpStatusCode.OK.GetHashCode()

@@ -19,7 +19,7 @@ public class StudentDetails : AuditableEntity
 
     public bool? Gender { get; set; }
 
-    public DateOnly? DOB { get; set; }
+    public DateTime? DOB { get; set; }
 
     public string? SaralId { get; set; }
 

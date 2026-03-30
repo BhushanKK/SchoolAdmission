@@ -11,12 +11,13 @@ public class GetAllStudentDetailsHandler(IStudentDetailsViewRepository repositor
     public async Task<ApiResponse<List<StudentDetailsView>>> Handle(GetAllStudentDetailsQuery request, 
     CancellationToken cancellationToken)
     {
-        var data = await repository.GetAllAsync(cancellationToken);
+        var studentDetails = await repository.GetAllAsync(cancellationToken);
 
-        return ApiResponse<List<StudentDetailsView>>.SuccessResponse(data.Select(x => new StudentDetailsView
-        {
-            StudentId = x.StudentId,
-            
-        }).ToList(), MessageHelper.RetrievedSuccessfully(EntityEnum.StudentDetails), HttpStatusCode.OK.GetHashCode());
+        return ApiResponse<List<StudentDetailsView>>.SuccessResponse
+        (
+            studentDetails,
+            MessageHelper.RetrievedSuccessfully(EntityEnum.StudentDetails), 
+            HttpStatusCode.OK.GetHashCode()
+        );
     }
 }

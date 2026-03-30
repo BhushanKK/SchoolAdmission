@@ -5,6 +5,7 @@ public class LoginResponseDto
     public string RefreshToken { get; set; } = default!;
     public DateTime AccessTokenExpiry { get; set; }
     public Guid UserId { get; set; }
+    public Guid? StudentId { get; set; }
     public string? EmailId { get; set; }
     public string? Role { get; set; }
 }

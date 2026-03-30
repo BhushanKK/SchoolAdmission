@@ -8,7 +8,6 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
-using SchoolAdmission.Infrastructure.Repositories;
 
 public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMasterHandler> logger,
     ApplicationDbContext context, ICurrentUserRepository currentUser,IBranchMasterRepository branchMasterRepository)

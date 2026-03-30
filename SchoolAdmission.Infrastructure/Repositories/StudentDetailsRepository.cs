@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
