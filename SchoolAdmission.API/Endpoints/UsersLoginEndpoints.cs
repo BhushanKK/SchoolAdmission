@@ -1,6 +1,5 @@
 using MediatR;
-using SchoolAdmission.Application.Features.UserLogin.Commands.ActivateUser;
-using SchoolAdmission.Application.Features.UsersLogin.Commands.DeactivateUser;
+using SchoolAdmission.Application.Features.UsersLogin.Commands.StudentActiveDeactive;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -13,33 +12,18 @@ public static class UsersLoginEndpoints
             .RequireAuthorization()
             .WithDescription("User management endpoints");
 
-        // ✅ Activate User
-        group.MapPut("/activate/{studentId}",
-        async (Guid studentId, IMediator mediator, CancellationToken cancellationToken) =>
+        group.MapPut("/student-status/{studentId}/{status}",
+        async (Guid studentId, bool status, IMediator mediator, CancellationToken cancellationToken) =>
         {
-            var command = new ActivateUserCommand
+            var command = new StudentActiveDeactiveCommand
             {
-                StudentId = studentId
+                StudentId = studentId,
+                Status = status // true = activate, false = deactivate
             };
 
             var result = await mediator.Send(command, cancellationToken);
             return Results.Ok(result);
         })
-        .WithName("ActivateUser")
-        .WithSummary("Activate student account");
-
-        group.MapPut("/deactivate/{studentId}",
-        async (Guid studentId, IMediator mediator, CancellationToken cancellationToken) =>
-        {
-            var command = new DeactivateUserCommand
-            {
-                StudentId = studentId
-            };
-
-            var result = await mediator.Send(command, cancellationToken);
-            return Results.Ok(result);
-        })
-        .WithName("DeactivateUser")
-        .WithSummary("Deactivate student account");
+        .WithName("StudentActiveDeactive");
     }
 }
