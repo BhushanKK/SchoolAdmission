@@ -13,7 +13,8 @@ public class CreateStudentSignupHandler(ApplicationDbContext context)
         {
             FirstName = request.FirstName,
             MiddleName = request.MiddleName,
-            LastName = request.LastName
+            LastName = request.LastName,
+            SchoolId = request.SchoolId,
         };
         await context.StudentDetails.AddAsync(studentSignUp, cancellationToken);
         var studentId = studentSignUp.StudentId;

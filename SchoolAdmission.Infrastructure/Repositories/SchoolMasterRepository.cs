@@ -8,9 +8,10 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMasterRepository
 {
-    public async Task<List<SchoolMaster>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<List<SchoolMaster>> GetAllAsync(int commiteeId, CancellationToken cancellationToken)
         => await context.SchoolMasters
             .AsNoTracking()
+            .Where(s => s.CommiteeId== commiteeId)
             .ToListAsync(cancellationToken);
 
     public async Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)

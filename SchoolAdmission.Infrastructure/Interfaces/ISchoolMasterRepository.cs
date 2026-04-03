@@ -4,7 +4,7 @@ using static SchoolAdmission.Domain.Utils.CommanEnums;
 namespace SchoolAdmission.Infrastructure.Interfaces;
 public interface ISchoolMasterRepository
 {
-    Task<List<SchoolMaster>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<SchoolMaster>> GetAllAsync(int commiteeId, CancellationToken cancellationToken);
 
     Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
     
