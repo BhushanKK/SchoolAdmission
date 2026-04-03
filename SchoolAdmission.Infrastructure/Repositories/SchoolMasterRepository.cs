@@ -30,10 +30,10 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
     public async Task<bool> IsExistsAsync(string SchoolName, OperationType  operation, int? SchoolId, CancellationToken cancellationToken)
     {
         if (operation == OperationType.Create)
-            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower(), cancellationToken);
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName!.ToLower() == SchoolName.ToLower(), cancellationToken);
         
         else if (operation == OperationType.Update)
-            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower() && x.SchoolId != SchoolId, cancellationToken);
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName!.ToLower() == SchoolName.ToLower() && x.SchoolId != SchoolId, cancellationToken);
 
         return false;
     }
