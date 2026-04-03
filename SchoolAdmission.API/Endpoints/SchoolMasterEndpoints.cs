@@ -12,7 +12,7 @@ public static class SchoolMasterEndpoints
         var group = app.MapGroup("/api/schoolmasters")
                        .WithTags("School Master");
 
-        group.MapGet("/AllSchools/{committeeId:int}", async (int committeeId, IMediator mediator) =>
+        group.MapGet("/AllSchools/{committeeId:int?}", async (int? committeeId, IMediator mediator) =>
         {
             var response = await mediator.Send(new GetAllSchoolMasterQuery(committeeId));
             return Results.Json(response, statusCode: response.StatusCode);
