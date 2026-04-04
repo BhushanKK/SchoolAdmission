@@ -1,46 +1,31 @@
-namespace SchoolAdmission.Domain.Entities;
-public class StudentDetails : AuditableEntity
+using System;
+
+namespace SchoolAdmission.Domain.Entities
 {
-    public Guid StudentId { get; set; }
-
-    public long? RegistrationNo { get; set; }
-
-    public long? SchoolId { get; set; }
-
-    public long? AcademicYearId { get; set; } 
-
-    public long? FinancialYearId { get; set; }
-
-    public string? FirstName { get; set; }
-
-    public string? MiddleName { get; set; }
-
-    public string? LastName { get; set; }
-
-    public bool? Gender { get; set; }
-
-    public DateTime? DOB { get; set; }
-
-    public string? SaralId { get; set; }
-
-    public string? AadharNo { get; set; }
-
-    public string? Nationality { get; set; }
-
-    public string? MotherTongue { get; set; }
-
-    public long? ReligionId { get; set; }
-
-    public long? CasteId { get; set; }
-
-    public long? CategoryId { get; set; }
-
-    public bool? IsMinority { get; set; }
-
-    public bool? IsHandicapped { get; set; }
-
-    public bool? IsBpl { get; set; }
-
-    public string? Photo { get; set; }
-    public int? BranchId { get; set; }
+    public class StudentDetails : AuditableEntity
+    {
+        public Guid StudentId { get; set; }
+        public long? RegistrationNo { get; set; } 
+        public int? SchoolId { get; set; } 
+        public int? AcademicYearId { get; set; }
+        public long? FinancialYearId { get; set; } 
+        public string? FirstName { get; set; }
+        public string? MiddleName { get; set; }
+        public string? LastName { get; set; }
+        public bool? Gender { get; set; } 
+        public DateTime? DOB { get; set; }
+        public string? SaralId { get; set; }
+        public string? AadharNo { get; set; }
+        public string? Nationality { get; set; }
+        public string? MotherTongue { get; set; }
+        public int? ReligionId { get; set; }
+        public int? CasteId { get; set; }
+        public int? CategoryId { get; set; }
+        public bool? IsMinority { get; set; }
+        public bool? IsHandicapped { get; set; }
+        public bool? IsBpl { get; set; }
+        public int? BPL_Type { get; set; } 
+        public string? Photo { get; set; }
+        public int? BranchId { get; set; }
+    }
 }

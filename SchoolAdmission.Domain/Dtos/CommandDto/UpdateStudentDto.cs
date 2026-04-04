@@ -6,7 +6,6 @@ public class UpdateStudentDto
     [JsonIgnore]
     public Guid StudentId { get; set; }
     public long? RegistrationNo { get; set; }
-    public int? SchoolId { get; set; }
     public int? AcademicYearId { get; set; }
     public int? FinancialYearId { get; set; }
     public string? FirstName { get; set; }
