@@ -7,9 +7,17 @@ using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
-public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMasterRepository
+public class CommiteMasterRepository : ICommiteMasterRepository
 {
-    
+    private readonly ApplicationDbContext context;
+    private readonly IEmailService _emailService;
+
+    public CommiteMasterRepository(ApplicationDbContext context, IEmailService emailService)
+    {
+        this.context = context;
+        _emailService = emailService;
+    }
+
     public async Task<List<CommiteMaster>> GetAllAsyncEntities(CancellationToken cancellationToken)
     {
         return await context.CommiteMasters
@@ -19,6 +27,12 @@ public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMas
 
     public async Task<List<CommiteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
+        var subject = "Registration Successful";
+        
+        var body = "<h2>Welcome!</h2><p>Registration successful.</p>";
+
+        await _emailService.SendEmailAsync("kunalpagare1117@gmail.com", subject, body);
+        
         return await context.CommiteMasters
             .AsNoTracking()
             .Select(x => new CommiteMasterQueryDto

@@ -11,7 +11,6 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        
         services.AddAutoMapper(typeof(CasteMasterProfile).Assembly);
         services.AddAutoMapper(typeof(CommiteMasterProfile).Assembly);
         services.AddAutoMapper(typeof(SchoolMasterProfile).Assembly);
@@ -21,9 +20,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(DivisionMasterProfile).Assembly);
         services.AddAutoMapper(typeof(FeesStructureProfile).Assembly);
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
-         
-
-        
+                 
         services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateStandardMasterHandler>();
@@ -62,6 +59,7 @@ public static class ServiceExtensions
         services.AddScoped<IJwtRepository, JwtRepository>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserRepository, CurrentUserRepository>();
+        
         return services;
     }
 }
