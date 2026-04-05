@@ -19,6 +19,7 @@ public class GetAllSchoolMasterHandler(ISchoolMasterRepository repository)
             SchoolId = x.SchoolId,
             SchoolName = x.SchoolName,
             CommiteeId = x.CommiteeId,
+            CommitteeName = x.CommitteeName,
             Status = x.Status,
             LogoPath = x.LogoPath
         }).ToList(), MessageHelper.RetrievedSuccessfully(EntityEnum.SchoolMaster), HttpStatusCode.OK.GetHashCode());
