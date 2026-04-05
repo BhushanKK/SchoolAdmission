@@ -16,10 +16,8 @@ public class StudentAddressesRepository(ApplicationDbContext context) : IStudent
         command.CommandText = StoreProcedureConstants.StudentAddresses;
         command.CommandType = CommandType.StoredProcedure;
 
-        // Required
-        command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
 
-        // Current Address
+        command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@CVillage", (object?)cmd.CVillage ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@CCity", (object?)cmd.CCity ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@CTaluka", (object?)cmd.CTaluka ?? DBNull.Value));
@@ -28,8 +26,6 @@ public class StudentAddressesRepository(ApplicationDbContext context) : IStudent
         command.Parameters.Add(new SqlParameter("@CCountry", (object?)cmd.CCountry ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@CPincode", (object?)cmd.CPincode ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@CLandmark", (object?)cmd.CLandmark ?? DBNull.Value));
-
-        // Permanent Address
         command.Parameters.Add(new SqlParameter("@PVillage", (object?)cmd.PVillage ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PCity", (object?)cmd.PCity ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PTaluka", (object?)cmd.PTaluka ?? DBNull.Value));
@@ -39,10 +35,8 @@ public class StudentAddressesRepository(ApplicationDbContext context) : IStudent
         command.Parameters.Add(new SqlParameter("@PPincode", (object?)cmd.PPincode ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@PLandmark", (object?)cmd.PLandmark ?? DBNull.Value));
 
-        // Extra
         command.Parameters.Add(new SqlParameter("@IsSameAddress", (object?)cmd.IsSameAddress ?? DBNull.Value));
 
-        // Output
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output
