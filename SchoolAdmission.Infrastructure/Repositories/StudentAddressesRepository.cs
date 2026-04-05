@@ -33,7 +33,6 @@ public class StudentAddressesRepository(ApplicationDbContext context) :
             Direction = ParameterDirection.Output
         };
         command.Parameters.Add(resultParam);
-
         
         if (connection.State != ConnectionState.Open)
             await connection.OpenAsync(ct);

@@ -27,12 +27,6 @@ public class CommiteMasterRepository : ICommiteMasterRepository
 
     public async Task<List<CommiteMasterQueryDto>> GetAllAsync(CancellationToken cancellationToken)
     {
-        var subject = "Registration Successful";
-        
-        var body = "<h2>Welcome!</h2><p>Registration successful.</p>";
-
-        await _emailService.SendEmailAsync("kunalpagare1117@gmail.com", subject, body);
-        
         return await context.CommiteMasters
             .AsNoTracking()
             .Select(x => new CommiteMasterQueryDto
@@ -59,19 +53,19 @@ public class CommiteMasterRepository : ICommiteMasterRepository
             })
             .FirstOrDefaultAsync(cancellationToken);
     }
-    public async Task AddAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task AddAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        await context.CommiteMasters.AddAsync(division, cancellationToken);
+        await context.CommiteMasters.AddAsync(commite, cancellationToken);
     }
 
-    public async Task UpdateAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task UpdateAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        context.CommiteMasters.Update(division);
+        context.CommiteMasters.Update(commite);
     }
  
-    public async Task DeleteAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task DeleteAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        context.CommiteMasters.Remove(division);
+        context.CommiteMasters.Remove(commite);
     }
 
     public async Task<bool> IsExistsAsync(string CommiteeName, OperationType  operation, int? CommiteeId, CancellationToken cancellationToken)

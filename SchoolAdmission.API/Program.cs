@@ -9,6 +9,7 @@ using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.API.Extensions;
 using Scalar.AspNetCore;
 using SchoolAdmission.Domain.Models;
+using SchoolAdmission.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

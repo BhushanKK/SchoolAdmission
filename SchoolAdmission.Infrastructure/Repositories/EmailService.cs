@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using SchoolAdmission.Domain.Models;
 using MailKit.Net.Smtp;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class EmailService(IOptions<EmailSettings> settings) : IEmailService
 {
     private readonly EmailSettings _settings = settings.Value;
