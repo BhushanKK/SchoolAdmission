@@ -21,12 +21,5 @@ public static class LoginEndpoints
         .AllowAnonymous()
         .WithName("Login")
         .WithSummary("User login and JWT token generation");
-
-        group.MapPost("/refresh-token",
-        async (RefreshTokenCommand command, IMediator mediator) =>
-        {
-            return Results.Ok(await mediator.Send(command));
-        })
-        .AllowAnonymous();
     }
 }

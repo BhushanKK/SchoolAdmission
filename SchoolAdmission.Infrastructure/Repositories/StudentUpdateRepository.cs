@@ -19,7 +19,6 @@ public class StudentUpdateRepository(ApplicationDbContext context) : IStudentUpd
 
         command.Parameters.Add(new SqlParameter("@StudentId", cmd.StudentId));
         command.Parameters.Add(new SqlParameter("@RegistrationNo", (object?)cmd.RegistrationNo ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@SchoolId", (object?)cmd.SchoolId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@AcademicYearId", (object?)cmd.AcademicYearId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FinancialYearId", (object?)cmd.FinancialYearId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@FirstName", (object?)cmd.FirstName ?? DBNull.Value));

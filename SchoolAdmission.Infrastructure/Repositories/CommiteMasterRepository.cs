@@ -9,7 +9,6 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMasterRepository
 {
-    
     public async Task<List<CommiteMaster>> GetAllAsyncEntities(CancellationToken cancellationToken)
     {
         return await context.CommiteMasters
@@ -45,19 +44,19 @@ public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMas
             })
             .FirstOrDefaultAsync(cancellationToken);
     }
-    public async Task AddAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task AddAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        await context.CommiteMasters.AddAsync(division, cancellationToken);
+        await context.CommiteMasters.AddAsync(commite, cancellationToken);
     }
 
-    public async Task UpdateAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task UpdateAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        context.CommiteMasters.Update(division);
+        context.CommiteMasters.Update(commite);
     }
  
-    public async Task DeleteAsync(CommiteMaster division, CancellationToken cancellationToken)
+    public async Task DeleteAsync(CommiteMaster commite, CancellationToken cancellationToken)
     {
-        context.CommiteMasters.Remove(division);
+        context.CommiteMasters.Remove(commite);
     }
 
     public async Task<bool> IsExistsAsync(string CommiteeName, OperationType  operation, int? CommiteeId, CancellationToken cancellationToken)

@@ -10,6 +10,7 @@ public class StudentSignUpDto
     public int RoleId { get; set; }
     [JsonIgnore]
     public Guid? StudentId { get; set; }
+    public int SchoolId { get; set; }
     public string? EmailId { get; set; }
     public string? MobileNo { get; set; }
     public string? PasswordHash { get; set; }

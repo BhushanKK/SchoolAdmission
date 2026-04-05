@@ -3,5 +3,5 @@ using SchoolAdmission.Domain;
 
 namespace SchoolAdmission.Application.Features.SchoolMasters.Queries;
 
-public record GetAllSchoolMasterQuery()
+public record GetAllSchoolMasterQuery(int? CommiteeId)
     : IRequest<ApiResponse<List<SchoolMaster>>>;

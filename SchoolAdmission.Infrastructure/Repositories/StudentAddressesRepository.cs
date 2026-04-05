@@ -5,8 +5,7 @@ using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 
-public class StudentAddressesRepository(ApplicationDbContext context) :
- IStudentAddressesRepository
+public class StudentAddressesRepository(ApplicationDbContext context) : IStudentAddressesRepository
 {
     public async Task<int> SaveStudentAddressesAsync(StudentAddressesDto cmd, CancellationToken ct)
     {
@@ -14,27 +13,42 @@ public class StudentAddressesRepository(ApplicationDbContext context) :
 
         await using var command = connection.CreateCommand();
 
-        command.CommandText = StoreProcedureConstants.StudentAddresses; 
+        command.CommandText = StoreProcedureConstants.StudentAddresses;
         command.CommandType = CommandType.StoredProcedure;
-                
+
+        // Required
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@AddressType", (object?)cmd.AddressType ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Village", (object?)cmd.Village ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@City", (object?)cmd.City ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Taluka", (object?)cmd.Taluka ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@District", (object?)cmd.District ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@State", (object?)cmd.State ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Country", (object?)cmd.Country ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Pincode", (object?)cmd.Pincode ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Landmark", (object?)cmd.Landmark ?? DBNull.Value));
-        
+
+        // Current Address
+        command.Parameters.Add(new SqlParameter("@CVillage", (object?)cmd.CVillage ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CCity", (object?)cmd.CCity ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CTaluka", (object?)cmd.CTaluka ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CDistrict", (object?)cmd.CDistrict ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CState", (object?)cmd.CState ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CCountry", (object?)cmd.CCountry ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CPincode", (object?)cmd.CPincode ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@CLandmark", (object?)cmd.CLandmark ?? DBNull.Value));
+
+        // Permanent Address
+        command.Parameters.Add(new SqlParameter("@PVillage", (object?)cmd.PVillage ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PCity", (object?)cmd.PCity ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PTaluka", (object?)cmd.PTaluka ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PDistrict", (object?)cmd.PDistrict ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PState", (object?)cmd.PState ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PCountry", (object?)cmd.PCountry ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PPincode", (object?)cmd.PPincode ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@PLandmark", (object?)cmd.PLandmark ?? DBNull.Value));
+
+        // Extra
+        command.Parameters.Add(new SqlParameter("@IsSameAddress", (object?)cmd.IsSameAddress ?? DBNull.Value));
+
+        // Output
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
         {
             Direction = ParameterDirection.Output
         };
         command.Parameters.Add(resultParam);
 
-        
         if (connection.State != ConnectionState.Open)
             await connection.OpenAsync(ct);
 

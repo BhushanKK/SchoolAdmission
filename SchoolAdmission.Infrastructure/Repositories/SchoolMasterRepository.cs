@@ -8,10 +8,15 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMasterRepository
 {
-    public async Task<List<SchoolMaster>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.SchoolMasters
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+    public async Task<List<SchoolMaster>> GetAllAsync(int commiteeId, CancellationToken cancellationToken)
+    {
+        var query = context.SchoolMasters.AsNoTracking();
+
+        if (commiteeId != 0)
+            query = query.Where(s => s.CommiteeId == commiteeId);
+            
+        return await query.ToListAsync(cancellationToken);
+    }
 
     public async Task<SchoolMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await context.SchoolMasters
@@ -26,13 +31,13 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
     public async Task DeleteAsync(SchoolMaster school, CancellationToken cancellationToken)
         => context.SchoolMasters.Remove(school);
 
-    public async Task<bool> IsExistsAsync(string SchoolName, OperationType  operation, int? SchoolId, CancellationToken cancellationToken)
+    public async Task<bool> IsExistsAsync(string SchoolName, OperationType operation, int? SchoolId, CancellationToken cancellationToken)
     {
         if (operation == OperationType.Create)
-            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower(), cancellationToken);
-        
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName!.ToLower() == SchoolName.ToLower(), cancellationToken);
+
         else if (operation == OperationType.Update)
-            return await context.SchoolMasters.AnyAsync(x => x.SchoolName.ToLower() == SchoolName.ToLower() && x.SchoolId != SchoolId, cancellationToken);
+            return await context.SchoolMasters.AnyAsync(x => x.SchoolName!.ToLower() == SchoolName.ToLower() && x.SchoolId != SchoolId, cancellationToken);
 
         return false;
     }

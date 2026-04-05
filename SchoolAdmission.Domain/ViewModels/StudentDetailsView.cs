@@ -3,7 +3,6 @@ public class StudentDetailsView
     public Guid StudentId { get; set; }
 
     public long? RegistrationNo { get; set; }   
-
     public string? SchoolName { get; set; }
     public string? AcademicYearName { get; set; }
     public string? FinancialYearName { get; set; }
@@ -51,4 +50,5 @@ public class StudentDetailsView
     public string? ParentEmail { get; set; }
     public decimal? Income { get; set; }
     public string? Occupation { get; set; }
+    public bool? Status { get; set; }
 }

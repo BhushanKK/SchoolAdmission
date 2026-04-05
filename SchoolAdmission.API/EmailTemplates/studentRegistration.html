@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - School Admission</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .header {
+            background-color: #004aad;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+        .content {
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+        .content h2 {
+            color: #004aad;
+        }
+        .info-box {
+            background-color: #f9fafc;
+            border: 1px solid #e6e6e6;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .info-box p {
+            margin: 5px 0;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 20px;
+            background-color: #004aad;
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+            padding: 15px;
+            background-color: #f4f6f8;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- Header -->
+    <div class="header">
+        <h1>Welcome to School Admission Portal</h1>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+        <h2>Hello {{FirstName}} {{LastName}},</h2>
+
+        <p>
+            Thank you for registering with our school. Your account has been created successfully.
+        </p>
+
+        <p><strong>School ID:</strong> {{SchoolId}}</p>
+
+        <div class="info-box">
+            <p><strong>Email:</strong> {{EmailId}}</p>
+            <p><strong>Mobile:</strong> {{MobileNo}}</p>
+            <p><strong>Temporary Password:</strong> {{Password}}</p>
+        </div>
+
+        <p>
+            Please log in to your account to complete your admission process and update your profile.
+        </p>
+
+        <a href="http://127.0.0.1:5500/SchoolAdmission.Frontend/index.html" class="button">
+            Login Now
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2026 ShriYash Computers and IT Solutions Pvt.Ltd. All rights reserved.<br>
+        This is an automated email. Please do not reply.
+    </div>
+
+</div>
+
+</body>
+</html>

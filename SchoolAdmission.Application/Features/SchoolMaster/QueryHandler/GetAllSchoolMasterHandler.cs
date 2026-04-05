@@ -12,12 +12,15 @@ public class GetAllSchoolMasterHandler(ISchoolMasterRepository repository)
     public async Task<ApiResponse<List<SchoolMaster>>> Handle(GetAllSchoolMasterQuery request, 
     CancellationToken cancellationToken)
     {
-        var data = await repository.GetAllAsync(cancellationToken);
+        var data = await repository.GetAllAsync(request.CommiteeId ?? 0, cancellationToken);
 
         return ApiResponse<List<SchoolMaster>>.SuccessResponse(data.Select(x => new SchoolMaster
         {
             SchoolId = x.SchoolId,
-            SchoolName = x.SchoolName
+            SchoolName = x.SchoolName,
+            CommiteeId = x.CommiteeId,
+            Status = x.Status,
+            LogoPath = x.LogoPath
         }).ToList(), MessageHelper.RetrievedSuccessfully(EntityEnum.SchoolMaster), HttpStatusCode.OK.GetHashCode());
     }
 }

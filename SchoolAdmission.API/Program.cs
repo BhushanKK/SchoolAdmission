@@ -8,6 +8,8 @@ using SchoolAdmission.Application;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.API.Extensions;
 using Scalar.AspNetCore;
+using SchoolAdmission.Domain.Models;
+using SchoolAdmission.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,7 +42,13 @@ builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBeh
 
 #region Services
 builder.Services.AddApplicationServices();
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+
+// Register service
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddRepositories();
+
+
 #endregion
 
 #region CORS

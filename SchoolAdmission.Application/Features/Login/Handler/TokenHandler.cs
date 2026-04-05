@@ -51,12 +51,11 @@ public class TokenHandler(
         user.LastLoginDate = DateTime.UtcNow;
 
         var accessToken = await jwtService.GenerateToken(user);
-        var refreshToken = await jwtService.GenerateRefreshToken();
 
         double accessMinutes = Convert.ToDouble(config["Jwt:AccessTokenMinutes"] ?? "60");
 
         user.AccessToken = accessToken;
-        user.RefreshToken = refreshToken;
+        user.RefreshToken = null;
         user.AccessTokenExpiry = DateTime.UtcNow.AddMinutes(accessMinutes);
         user.LastLoginDate = DateTime.UtcNow;
         user.RoleId = user.RoleId;
@@ -68,7 +67,7 @@ public class TokenHandler(
             new LoginResponseDto
             {
                 AccessToken = accessToken,
-                RefreshToken = refreshToken,
+                RefreshToken = null!,
                 AccessTokenExpiry = user.AccessTokenExpiry.Value,
                 UserId = user.UserId,
                 EmailId = user.EmailId,
