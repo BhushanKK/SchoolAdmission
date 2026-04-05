@@ -7,17 +7,8 @@ using static SchoolAdmission.Domain.Utils.CommanEnums;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 
-public class CommiteMasterRepository : ICommiteMasterRepository
+public class CommiteMasterRepository(ApplicationDbContext context) : ICommiteMasterRepository
 {
-    private readonly ApplicationDbContext context;
-    private readonly IEmailService _emailService;
-
-    public CommiteMasterRepository(ApplicationDbContext context, IEmailService emailService)
-    {
-        this.context = context;
-        _emailService = emailService;
-    }
-
     public async Task<List<CommiteMaster>> GetAllAsyncEntities(CancellationToken cancellationToken)
     {
         return await context.CommiteMasters
