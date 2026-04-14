@@ -25,6 +25,7 @@ public static class EndpointExtensions
         app.MapStudentDetailsViewEndpoints();
         app.MapUsersLoginEndpoints();
         app.MapLoginEndpoints();
+        app.MapSubjectMasterEndpoints();
 
         return app;
     }

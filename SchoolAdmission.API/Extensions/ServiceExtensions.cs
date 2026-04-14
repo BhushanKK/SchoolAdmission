@@ -1,5 +1,6 @@
 using FluentValidation;
 using MediatR;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 using SchoolAdmission.Application.Features.CasteMasters.Commands;
 using SchoolAdmission.Application.Mappings;
 using SchoolAdmission.Infrastructure.Interfaces;
@@ -20,6 +21,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(DivisionMasterProfile).Assembly);
         services.AddAutoMapper(typeof(FeesStructureProfile).Assembly);
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
+        services.AddAutoMapper(typeof(SubjectMasterProfile).Assembly);
                  
         services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
@@ -30,6 +32,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<CreateCommiteMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateSchoolMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateBranchMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateSubjectMasterHandler>();
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
@@ -57,6 +60,7 @@ public static class ServiceExtensions
         services.AddScoped<IUserLoginRepository, UserLoginRepository>();
         services.AddScoped<IStudentDetailsViewRepository, StudentDetailsViewRepository>();
         services.AddScoped<IJwtRepository, JwtRepository>();
+        services.AddScoped<ISubjectMasterRepository, SubjectMasterRepository>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserRepository, CurrentUserRepository>();
         

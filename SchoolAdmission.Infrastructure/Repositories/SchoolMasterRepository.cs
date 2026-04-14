@@ -10,8 +10,18 @@ public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMaste
 {
     public async Task<List<SchoolMaster>> GetAllAsync(int commiteeId, CancellationToken cancellationToken)
     {
-        var query = context.SchoolMasters.AsNoTracking();
-
+        var query = from school in context.SchoolMasters.AsNoTracking()
+                    join committee in context.CommiteMasters.AsNoTracking()
+                    on school.CommiteeId equals committee.CommiteeId
+                    select new SchoolMaster
+                    {
+                        SchoolId = school.SchoolId,
+                        SchoolName = school.SchoolName,
+                        CommiteeId = school.CommiteeId,
+                        Status = school.Status,
+                        LogoPath = school.LogoPath,
+                        CommitteeName = committee.CommiteeName
+                    };
         if (commiteeId != 0)
             query = query.Where(s => s.CommiteeId == commiteeId);
             
