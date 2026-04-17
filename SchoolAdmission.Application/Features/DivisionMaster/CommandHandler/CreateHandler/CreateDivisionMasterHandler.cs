@@ -9,6 +9,7 @@ using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
+namespace SchoolAdmission.Application.Features.DivisionMasters.Commands;
 public class CreateDivisionMasterHandler(
     IMapper mapper, 
     ICurrentUserRepository currentUser,IDivisionMasterRepository divisionMasterRepository,

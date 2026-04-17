@@ -1,6 +1,7 @@
 using MediatR;
 using SchoolAdmission.Domain.Utils;
 
+namespace SchoolAdmission.Application.Features.StudentAddresses.Commands;
 public class SaveStudentAddressesHandler(IStudentAddressesRepository repo)
     : IRequestHandler<SaveStudentAddressesCommand, ApiResponse<int>>
 {

@@ -9,6 +9,8 @@ using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
+namespace SchoolAdmission.Application.Features.BranchMasters.Commands;
+
 public class CreateBranchMasterHandler(IMapper mapper, ILogger<CreateBranchMasterHandler> logger,
     ApplicationDbContext context, ICurrentUserRepository currentUser,IBranchMasterRepository branchMasterRepository)
     : IRequestHandler<CreateBranchMasterCommand, ApiResponse<int>>

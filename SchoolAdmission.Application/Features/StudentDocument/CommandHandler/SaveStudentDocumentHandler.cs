@@ -1,6 +1,7 @@
 using MediatR;
 using SchoolAdmission.Domain.Utils;
 
+namespace SchoolAdmission.Application.Features.StudentDocuments.Commands;
 public class SaveStudentDocumentHandler(IStudentDocumentRepository repository)
     : IRequestHandler<SaveStudentDocumentCommand, ApiResponse<int>>
 {

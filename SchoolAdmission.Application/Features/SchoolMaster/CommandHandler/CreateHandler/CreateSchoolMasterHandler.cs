@@ -2,13 +2,13 @@ using MediatR;
 using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Application.Features.SchoolMasters.Commands;
 using Microsoft.Extensions.Logging;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
+namespace SchoolAdmission.Application.Features.SchoolMasters.Commands;
 public class CreateSchoolMasterHandler(
         IMapper mapper, 
         ILogger<CreateSchoolMasterHandler> logger,

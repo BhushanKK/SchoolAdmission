@@ -1,5 +1,8 @@
 using MediatR;
 using SchoolAdmission.Domain.Utils;
+
+namespace SchoolAdmission.Application.Features.StudentAcademicHistory.Commands;
+
 public class SaveStudentAcademicHistoryHandler(IStudentAcademicHistoryRepository repo) 
     : IRequestHandler<SaveStudentAcademicHistoryCommand, ApiResponse<int>>
 {

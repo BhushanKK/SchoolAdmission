@@ -9,6 +9,8 @@ using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
+namespace SchoolAdmission.Application.Features.StandardMasters.Commands;
+
 public class CreateStandardMasterHandler(IMapper mapper,ILogger<CreateStandardMasterHandler> logger,
         ApplicationDbContext context,IStandardMasterRepository standardMasterRepository,
         ICurrentUserRepository currentUser

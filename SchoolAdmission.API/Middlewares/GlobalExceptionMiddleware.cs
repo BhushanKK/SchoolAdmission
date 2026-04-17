@@ -1,6 +1,7 @@
 using FluentValidation;
 using System.Text.Json;
 
+namespace  SchoolAdmission.API.Middlewares;
 public class ExceptionHandlingMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;

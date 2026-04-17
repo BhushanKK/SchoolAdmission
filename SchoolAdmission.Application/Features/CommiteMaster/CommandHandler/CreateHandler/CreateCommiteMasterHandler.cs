@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 using System.Net;
 
+namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 public class CreateCommiteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,ILogger<CreateCommiteMasterHandler> logger,ICommiteMasterRepository commiteMasterRepository,
     ApplicationDbContext context) : IRequestHandler<CreateCommiteMasterCommand, ApiResponse<int>>
 {

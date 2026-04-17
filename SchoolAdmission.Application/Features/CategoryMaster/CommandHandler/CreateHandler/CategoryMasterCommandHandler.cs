@@ -9,6 +9,7 @@ using System.Net;
 using Microsoft.Extensions.Logging;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
+namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 public class CreateCategoryMasterHandler(IMapper mapper,ILogger<CreateCategoryMasterHandler> logger, ICurrentUserRepository currentUser,ICategoryMasterRepository categoryMasterRepository,
     ApplicationDbContext context) : IRequestHandler<CreateCategoryMasterCommand, ApiResponse<int>>
 {

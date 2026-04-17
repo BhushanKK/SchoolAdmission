@@ -2,6 +2,7 @@ using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.Utils;
 
+namespace SchoolAdmission.Application.Features.StudentHealth.Commands;
 public class SaveStudentHealthHandler(IStudentHealthRepository repo)
     : IRequestHandler<SaveStudentHealthCommand, ApiResponse<int>>
 {

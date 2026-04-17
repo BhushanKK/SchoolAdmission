@@ -2,6 +2,8 @@ using FluentValidation;
 using MediatR;
 using FluentValidation.Results;
 
+namespace SchoolAdmission.Application.Behaviors;
+
 public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull

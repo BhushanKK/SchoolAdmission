@@ -2,6 +2,7 @@ using MediatR;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Application.Features.StudentFees.Commands;
 public class SaveStudentFeesHandler(IStudentFeesRepository repo)
     : IRequestHandler<SaveStudentFeesCommand, ApiResponse<int>>
 {

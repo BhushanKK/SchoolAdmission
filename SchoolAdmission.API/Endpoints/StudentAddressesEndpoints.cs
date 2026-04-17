@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Application.Features.StudentAddresses.Commands;
 namespace SchoolAdmission.API.Endpoints;
 
 public static class StudentAddressEndpoints

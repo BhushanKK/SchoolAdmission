@@ -2,6 +2,7 @@ using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.Utils;
 
+namespace SchoolAdmission.Application.Features.StudentParents.Commands;
 public class SaveStudentParentHandler(IStudentParentsRepository repo)
     : IRequestHandler<SaveStudentParentCommand, ApiResponse<int>>
 {

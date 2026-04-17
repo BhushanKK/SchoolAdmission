@@ -3,6 +3,8 @@ using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
+
+
 public class CreateFeesStructureHandler(IMapper mapper,
     ApplicationDbContext context) : IRequestHandler<CreateFeesStructureCommand, int>
 {

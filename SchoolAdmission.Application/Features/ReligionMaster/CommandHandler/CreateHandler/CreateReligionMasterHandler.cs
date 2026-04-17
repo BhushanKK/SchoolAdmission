@@ -8,6 +8,8 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
+
+
 public class CreateReligionMasterHandler(
         IMapper mapper,
         ILogger<CreateReligionMasterHandler> logger,IReligionMasterRepository religionMasterRepository,
