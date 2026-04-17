@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SchoolAdmission.Application.Features.Login.Commands;
 using SchoolAdmission.Domain.Dtos.CommandDto;
+using SchoolAdmission.Domain.ResponseModels;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 

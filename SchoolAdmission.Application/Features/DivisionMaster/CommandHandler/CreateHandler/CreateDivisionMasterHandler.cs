@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using System.Net;
 using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.DivisionMasters.Commands;
 public class CreateDivisionMasterHandler(

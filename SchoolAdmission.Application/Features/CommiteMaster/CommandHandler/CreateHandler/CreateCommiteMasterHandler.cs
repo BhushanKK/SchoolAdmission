@@ -8,6 +8,7 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 using System.Net;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 public class CreateCommiteMasterHandler(IMapper mapper, ICurrentUserRepository currentUser,ILogger<CreateCommiteMasterHandler> logger,ICommiteMasterRepository commiteMasterRepository,

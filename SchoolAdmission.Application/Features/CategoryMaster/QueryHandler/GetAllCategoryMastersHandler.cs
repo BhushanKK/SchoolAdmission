@@ -2,6 +2,7 @@ using MediatR;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Queries;
 

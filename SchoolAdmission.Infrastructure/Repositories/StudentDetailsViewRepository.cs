@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using SchoolAdmission.Domain.ViewModels;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 

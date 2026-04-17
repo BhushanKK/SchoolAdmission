@@ -4,6 +4,7 @@ using MediatR;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.StudentDetails.Queries;
 

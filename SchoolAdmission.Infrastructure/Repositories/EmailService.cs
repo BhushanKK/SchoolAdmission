@@ -2,6 +2,7 @@ using MimeKit;
 using Microsoft.Extensions.Options;
 using SchoolAdmission.Domain.Models;
 using MailKit.Net.Smtp;
+using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
 public class EmailService(IOptions<EmailSettings> settings) : IEmailService

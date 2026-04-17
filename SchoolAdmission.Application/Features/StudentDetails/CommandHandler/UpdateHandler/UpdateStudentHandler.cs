@@ -2,6 +2,7 @@ using MediatR;
 using SchoolAdmission.Application.Features.StudentDetails.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
 
 public class UpdateStudentCommandHandler(IStudentUpdateRepository repo)
     : IRequestHandler<UpdateStudentCommand, ApiResponse<int>>

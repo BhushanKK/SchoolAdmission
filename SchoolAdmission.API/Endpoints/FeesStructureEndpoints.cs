@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Commands;
 using SchoolAdmission.Application.Features.FeesStructureDetails.Queries;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.API.Endpoints;
 

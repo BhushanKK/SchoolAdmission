@@ -6,6 +6,7 @@ using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.CommiteMasters.Commands;
 

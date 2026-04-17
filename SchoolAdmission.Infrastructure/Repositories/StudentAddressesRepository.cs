@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class StudentAddressesRepository(ApplicationDbContext context) : IStudentAddressesRepository
 {
     public async Task<int> SaveStudentAddressesAsync(StudentAddressesDto cmd, CancellationToken ct)

@@ -3,6 +3,7 @@ using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class UserLoginRepository(ApplicationDbContext context) : IUserLoginRepository
 {
     public async Task AddAsync(UsersLogin user, CancellationToken cancellationToken)

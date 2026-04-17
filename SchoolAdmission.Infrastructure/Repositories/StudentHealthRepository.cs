@@ -6,6 +6,7 @@ using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class StudentHealthRepository(ApplicationDbContext context) : IStudentHealthRepository
 {
     public async Task<int> SaveStudentHealthAsync(StudentHealthDto cmd, CancellationToken ct)

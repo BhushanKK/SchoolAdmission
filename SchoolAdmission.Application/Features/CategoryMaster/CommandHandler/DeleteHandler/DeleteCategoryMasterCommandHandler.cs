@@ -1,6 +1,7 @@
 using System.Net;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using SchoolAdmission.Domain.ResponseModels;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;

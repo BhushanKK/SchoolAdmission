@@ -3,6 +3,7 @@ using MediatR;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.SubjectMasters.Queries;
 

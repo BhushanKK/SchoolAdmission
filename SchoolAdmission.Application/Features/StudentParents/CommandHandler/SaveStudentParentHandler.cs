@@ -1,6 +1,7 @@
 using MediatR;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.StudentParents.Commands;
 public class SaveStudentParentHandler(IStudentParentsRepository repo)

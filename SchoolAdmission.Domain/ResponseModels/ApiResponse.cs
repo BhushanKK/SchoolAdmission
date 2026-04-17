@@ -1,3 +1,4 @@
+namespace SchoolAdmission.Domain.ResponseModels;
 public class ApiResponse<T>
 {
     public bool Success { get; set; }

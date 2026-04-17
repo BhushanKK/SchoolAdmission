@@ -1,10 +1,12 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Infrastructure.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class JwtRepository(IConfiguration config) : IJwtRepository
 {
     public async Task<string> GenerateToken(UsersLogin user)

@@ -2,6 +2,8 @@ using System.Net;
 using MediatR;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
+using SchoolAdmission.Domain.ViewModels;
 
 namespace SchoolAdmission.Application.Features.StudentDetails.Queries;
 

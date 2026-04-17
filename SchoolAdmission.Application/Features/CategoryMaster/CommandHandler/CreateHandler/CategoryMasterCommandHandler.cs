@@ -8,6 +8,7 @@ using SchoolAdmission.Domain.Utils;
 using System.Net;
 using Microsoft.Extensions.Logging;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.CategoryMasters.Commands;
 public class CreateCategoryMasterHandler(IMapper mapper,ILogger<CreateCategoryMasterHandler> logger, ICurrentUserRepository currentUser,ICategoryMasterRepository categoryMasterRepository,

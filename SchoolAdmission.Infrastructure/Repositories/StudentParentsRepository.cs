@@ -6,6 +6,7 @@ using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class StudentParentRepository(ApplicationDbContext context) : IStudentParentsRepository
 {
     public async Task<int> SaveStudentParentsAsync(StudentParentsDto cmd, CancellationToken ct)

@@ -1,3 +1,4 @@
+namespace SchoolAdmission.Domain.ViewModels;
 public class StudentDetailsView
 {
     public Guid StudentId { get; set; }

@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class CurrentUserRepository(IHttpContextAccessor httpContextAccessor) : ICurrentUserRepository
 {
     public Task<string?> Email =>

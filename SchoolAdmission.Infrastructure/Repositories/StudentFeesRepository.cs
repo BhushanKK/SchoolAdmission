@@ -6,6 +6,7 @@ using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class StudentFeesRepository(ApplicationDbContext context) : IStudentFeesRepository
 {
     public async Task<int> SaveStudentFeesAsync(StudentFeesDto cmd, CancellationToken ct)

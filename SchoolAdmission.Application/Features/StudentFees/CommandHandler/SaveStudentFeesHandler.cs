@@ -1,6 +1,7 @@
 using MediatR;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.StudentFees.Commands;
 public class SaveStudentFeesHandler(IStudentFeesRepository repo)

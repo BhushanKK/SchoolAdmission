@@ -6,6 +6,7 @@ using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
+namespace SchoolAdmission.Infrastructure.Repositories;
 public class StudentUpdateRepository(ApplicationDbContext context) : IStudentUpdateRepository
 {
     public async Task<int> UpdateStudentUsingSpAsync(UpdateStudentDto cmd, CancellationToken ct)

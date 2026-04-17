@@ -1,5 +1,5 @@
-using SchoolAdmission.Domain.Entities;
 
+namespace SchoolAdmission.Domain.Entities;
 public class UsersLogin
 {
     public Guid UserId { get; set; }
