@@ -26,7 +26,6 @@ public class CreateSubjectMasterHandler(
 
         try
         {
-            // ✅ Duplicate check (SubjectName based)
             var isExist = await subjectMasterRepository.IsExistsAsync(
                 request.SubjectName!,
                 OperationType.Create,
@@ -44,14 +43,11 @@ public class CreateSubjectMasterHandler(
                 };
             }
 
-            // ✅ Mapping
             var subject = mapper.Map<SubjectMaster>(request);
 
-            // ✅ Audit fields
             subject.EntryBy = await currentUser.Email;
             subject.EntryDate = DateTime.UtcNow;
 
-            // ✅ Save
             await context.Subjects.AddAsync(subject, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 

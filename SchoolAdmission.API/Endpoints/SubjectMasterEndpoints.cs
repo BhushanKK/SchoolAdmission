@@ -15,32 +15,24 @@ public static class SubjectMasterEndpoints
         .RequireAuthorization()
         .WithDescription("Endpoints for managing Subject master data");
 
-
-        // ✅ GET ALL
         group.MapGet("/", async (IMediator mediator) =>
         {
             var response = await mediator.Send(new GetAllSubjectMasterQuery());
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-
-        // ✅ GET BY ID
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new GetSubjectMasterByIdQuery(id));
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-
-        // ✅ CREATE
         group.MapPost("/", async ([FromBody] CreateSubjectMasterCommand command, IMediator mediator) =>
         {
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
-
-        // ✅ UPDATE
         group.MapPut("/{id:int}", async (int id,
             [FromBody] UpdateSubjectMasterCommand command, IMediator mediator) =>
         {
@@ -50,11 +42,5 @@ public static class SubjectMasterEndpoints
         });
 
 
-        // ✅ DELETE
-        group.MapDelete("/{id:int}", async (int id, IMediator mediator) =>
-        {
-            var response = await mediator.Send(new DeleteSubjectMasterCommand(id));
-            return Results.Json(response, statusCode: response.StatusCode);
-        });
     }
 }

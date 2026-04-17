@@ -22,6 +22,7 @@ public static class ServiceExtensions
         services.AddAutoMapper(typeof(FeesStructureProfile).Assembly);
         services.AddAutoMapper(typeof(BranchMasterProfile).Assembly);
         services.AddAutoMapper(typeof(SubjectMasterProfile).Assembly);
+        services.AddAutoMapper(typeof(StudentSubjectChoiceProfile).Assembly);
                  
         services.AddValidatorsFromAssemblyContaining<CreateCategoryMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateCasteMasterHandler>();
@@ -33,6 +34,7 @@ public static class ServiceExtensions
         services.AddValidatorsFromAssemblyContaining<CreateSchoolMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateBranchMasterHandler>();
         services.AddValidatorsFromAssemblyContaining<CreateSubjectMasterHandler>();
+        services.AddValidatorsFromAssemblyContaining<CreateStudentSubjectChoiceHandler>();
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
         return services;
@@ -61,6 +63,7 @@ public static class ServiceExtensions
         services.AddScoped<IStudentDetailsViewRepository, StudentDetailsViewRepository>();
         services.AddScoped<IJwtRepository, JwtRepository>();
         services.AddScoped<ISubjectMasterRepository, SubjectMasterRepository>();
+        services.AddScoped<IStudentSubjectChoiceRepository, StudentSubjectChoiceRepository>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserRepository, CurrentUserRepository>();
         

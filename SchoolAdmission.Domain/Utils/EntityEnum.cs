@@ -19,5 +19,7 @@ public enum EntityEnum
     StudentDocument,
     StudentFees,
     StudentHealth,
-    StudentParents
+    StudentParents,
+    StudentSubjectChoice
+
 }

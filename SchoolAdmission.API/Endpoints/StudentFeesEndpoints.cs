@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
+namespace SchoolAdmission.API.Endpoints;
 public static class StudentFeesEndpoints
 {
     public static void MapStudentFeesEndpoints(this IEndpointRouteBuilder app)

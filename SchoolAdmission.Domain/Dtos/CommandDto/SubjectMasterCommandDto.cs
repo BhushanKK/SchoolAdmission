@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+
 namespace SchoolAdmission.Domain.Dto;
 
 public class SubjectMasterCommandDto

@@ -2,22 +2,25 @@ using System.Net;
 using AutoMapper;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using SchoolAdmission.Application.Features.BranchMasters.Commands;
+using SchoolAdmission.Application.Features.StudentSubjectChoice.Commands;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
+using SchoolAdmission.Domain.Entities;
 
-namespace SchoolAdmission.Application.Features.SubjectMasters.CommandHandler.UpdateHandler;
+namespace SchoolAdmission.Application.Features.CommandHandler.UpdateHandler;
 
-public class UpdateSubjectMasterHandler(
-    ISubjectMasterRepository repository,
+public class UpdateStudentSubjectChoiceHandler(
+    IStudentSubjectChoiceRepository repository,
     IMapper mapper,
-    ILogger<UpdateSubjectMasterHandler> logger,
+    ILogger<UpdateStudentSubjectChoiceHandler> logger,
     ApplicationDbContext context
-) : IRequestHandler<UpdateSubjectMasterCommand, ApiResponse<bool>>
+) : IRequestHandler<UpdateStudentSubjectChoiceCommand, ApiResponse<bool>>
 {
-    public async Task<ApiResponse<bool>> Handle(UpdateSubjectMasterCommand request, CancellationToken cancellationToken)
+    public async Task<ApiResponse<bool>> Handle(
+        UpdateStudentSubjectChoiceCommand request,
+        CancellationToken cancellationToken)
     {
         await using var transaction =
             await context.Database.BeginTransactionAsync(cancellationToken);
@@ -25,29 +28,30 @@ public class UpdateSubjectMasterHandler(
         try
         {
             var isExist = await repository.IsExistsAsync(
-                request.SubjectName!,
-                OperationType.Update,
+                request.StudentId!,
                 request.SubjectId,
-                cancellationToken
-            );
+                OperationType.Update,
+                request.ChoiceId,
+                cancellationToken);
 
             if (isExist)
             {
                 return new ApiResponse<bool>
                 {
                     Success = false,
-                    Message = MessageHelper.AlreadyExists(request.SubjectName!),
+                    Message = "Student Subject Choice already exists",
                     StatusCode = HttpStatusCode.Conflict.GetHashCode()
                 };
             }
-            var entity = await repository.GetByIdAsync(request.SubjectId, cancellationToken);
+
+            var entity = await repository.GetByIdAsync(request.ChoiceId, cancellationToken);
 
             if (entity == null)
             {
                 return new ApiResponse<bool>
                 {
                     Success = false,
-                    Message = MessageHelper.NotFound(EntityEnum.SubjectMaster, request.SubjectId),
+                    Message = MessageHelper.NotFound(EntityEnum.StudentSubjectChoice, request.ChoiceId),
                     StatusCode = HttpStatusCode.NotFound.GetHashCode()
                 };
             }
@@ -61,20 +65,22 @@ public class UpdateSubjectMasterHandler(
 
             return ApiResponse<bool>.SuccessResponse(
                 true,
-                MessageHelper.UpdatedSuccessfully(EntityEnum.SubjectMaster),
-                (int)HttpStatusCode.OK
+                MessageHelper.UpdatedSuccessfully(EntityEnum.StudentSubjectChoice),
+                HttpStatusCode.OK.GetHashCode()
             );
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
 
-            logger.LogError(ex, "Error while updating SubjectMaster with Id {Id}", request.SubjectId);
+            logger.LogError(ex,
+                "Error while updating StudentSubjectChoice with Id {Id}",
+                request.ChoiceId);
 
             return new ApiResponse<bool>
             {
                 Success = false,
-                Message = MessageHelper.InternalServerError(EntityEnum.SubjectMaster),
+                Message = MessageHelper.InternalServerError(EntityEnum.StudentSubjectChoice),
                 StatusCode = HttpStatusCode.InternalServerError.GetHashCode()
             };
         }
