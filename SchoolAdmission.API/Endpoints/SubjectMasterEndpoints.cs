@@ -21,6 +21,12 @@ public static class SubjectMasterEndpoints
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
+        group.MapGet("/subjectsByBranchId/{branchId:int}", async (int branchId, IMediator mediator) =>
+        {
+            var response = await mediator.Send(new GetSubjectsGroupedByBranchQuery(branchId));
+            return Results.Json(response, statusCode: response.StatusCode);
+        });
+
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {
             var response = await mediator.Send(new GetSubjectMasterByIdQuery(id));
