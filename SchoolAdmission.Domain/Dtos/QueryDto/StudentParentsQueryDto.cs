@@ -1,6 +1,6 @@
-namespace SchoolAdmission.Domain.Entities;
+namespace SchoolAdmission.Domain.Dtos;
 
-public class StudentParents : AuditableEntity
+public class StudentParentsQueryDto
 {
     public int ParentId { get; set; }
 
@@ -21,5 +21,4 @@ public class StudentParents : AuditableEntity
     public decimal? Income { get; set; }
 
     public string? Occupation { get; set; }
-
 }
