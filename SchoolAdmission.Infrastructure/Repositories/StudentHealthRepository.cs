@@ -2,6 +2,7 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
@@ -41,4 +42,7 @@ public class StudentHealthRepository(ApplicationDbContext context) : IStudentHea
 
         return result;
     }
+    public async Task<StudentHealth?> GetByStudentIdAsync(Guid studentId,CancellationToken cancellationToken)
+        => await context.StudentHealth
+            .FirstOrDefaultAsync(x => x.StudentId == studentId, cancellationToken);
 }
