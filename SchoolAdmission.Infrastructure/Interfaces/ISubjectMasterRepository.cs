@@ -1,3 +1,4 @@
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Entities;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 
@@ -7,6 +8,8 @@ public interface ISubjectMasterRepository
 {
     Task<List<SubjectMaster>> GetAllAsync(CancellationToken cancellationToken);
 
+    Task<GroupedSubjectsDto> GetGroupedByBranchAsync(int branchId, CancellationToken cancellationToken);
+    
     Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken);
 
     Task AddAsync(SubjectMaster subject, CancellationToken cancellationToken);

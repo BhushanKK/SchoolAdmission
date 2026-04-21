@@ -14,11 +14,7 @@ public static class StudentSubjectChoiceEndpoints
         .RequireAuthorization()
         .WithDescription("Endpoints for managing Student Subject Choice data");
 
-        group.MapGet("/", async (IMediator mediator) =>
-        {
-            var response = await mediator.Send(new GetAllStudentSubjectChoiceQuery());
-            return Results.Json(response, statusCode: response.StatusCode);
-        });
+        
 
         group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
         {

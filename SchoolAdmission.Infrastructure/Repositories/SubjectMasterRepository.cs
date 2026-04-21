@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolAdmission.Domain;
+using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
@@ -14,10 +15,44 @@ public class SubjectMasterRepository(ApplicationDbContext context) : ISubjectMas
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
-    public async Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<GroupedSubjectsDto> GetGroupedByBranchAsync(
+    int branchId,
+    CancellationToken cancellationToken)
+{
+    var subjects = await context.Subjects
+        .Where(s => s.BranchId == branchId)
+        .Select(s => new
+        {
+            s.SubjectId,
+            s.SubjectName,
+            s.GroupId
+        })
+        .ToListAsync(cancellationToken);
+
+    var groupedData = subjects
+        .GroupBy(s => s.GroupId ?? 0)
+        .ToDictionary(
+            g => g.Key,
+            g => g
+                .GroupBy(x => x.SubjectId)
+                .Select(x => x.First())
+                .Select(x => new SubjectItemDto
+                {
+                    SubjectId = x.SubjectId,
+                    SubjectName = x.SubjectName
+                }).ToList()
+        );
+
+    return new GroupedSubjectsDto
+    {
+        BranchId = branchId,
+        Groups = groupedData
+    };
+}
+
+public async Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await context.Subjects
             .FindAsync(new object[] { id }, cancellationToken);
-
     public async Task AddAsync(SubjectMaster subject, CancellationToken cancellationToken)
         => await context.Subjects.AddAsync(subject, cancellationToken);
 

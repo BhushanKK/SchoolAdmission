@@ -1,11 +1,12 @@
-namespace SchoolAdmission.Domain.Entities;
+namespace SchoolAdmission.Domain.Dtos;
 
-public class StudentAddresses : AuditableEntity
+public class StudentAddressesQueryDto
 {
     public int AddressId { get; set; }
 
     public Guid StudentId { get; set; }
 
+    /* Current Address */
     public string? CVillage { get; set; }
     public string? CCity { get; set; }
     public string? CTaluka { get; set; }
@@ -15,6 +16,7 @@ public class StudentAddresses : AuditableEntity
     public string? CPincode { get; set; }
     public string? CLandmark { get; set; }
 
+    /* Permanent Address */
     public string? PVillage { get; set; }
     public string? PCity { get; set; }
     public string? PTaluka { get; set; }

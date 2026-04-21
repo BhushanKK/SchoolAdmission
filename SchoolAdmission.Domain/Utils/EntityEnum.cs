@@ -20,6 +20,6 @@ public enum EntityEnum
     StudentFees,
     StudentHealth,
     StudentParents,
-    StudentSubjectChoice
+    StudentSubjectChoice,
 
 }
