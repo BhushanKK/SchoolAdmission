@@ -1,6 +1,5 @@
-namespace SchoolAdmission.Domain.Entities;
-
-public class StudentAcademicHistory : AuditableEntity
+namespace SchoolAdmission.Domain.Dtos;
+public class StudentAcademicHistoryQueryDto
 {
     public long AcademicHistoryId { get; set; }
     public Guid StudentId { get; set; }

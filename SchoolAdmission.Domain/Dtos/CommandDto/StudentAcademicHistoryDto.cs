@@ -9,6 +9,6 @@ public class StudentAcademicHistoryDto
     public string? Behaviour { get; set; }
     public int? PassingYear { get; set; }
     public string? SeatNo { get; set; }
-    public int? TotalMarks { get; set; }
+    public decimal? TotalMarks { get; set; }
     public decimal? Percentage { get; set; }
 }

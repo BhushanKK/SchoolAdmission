@@ -25,4 +25,5 @@ public class StudentAddresses : AuditableEntity
     public string? PLandmark { get; set; }
 
     public bool IsSameAddress { get; set; }
+
 }

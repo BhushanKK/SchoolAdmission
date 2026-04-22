@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolAdmission.Application.Features.StudentAcademicHistory.Commands;
+using SchoolAdmission.Application.Features.StudentAcademicHistory.Queries;
 
 namespace SchoolAdmission.API.Endpoints;
 
@@ -19,6 +20,12 @@ public static class StudentAcademicHistoryEndpoints
         {
             var result = await mediator.Send(command);
             return Results.Json(result, statusCode: result.StatusCode);
+        });
+
+        group.MapGet("/{studentId:guid}", async (Guid studentId, IMediator mediator) =>
+        {
+            var response = await mediator.Send(new GetStudentAcademicHistoryByStudentIdQuery(studentId));
+            return Results.Json(response, statusCode: response.StatusCode);
         });
     }
 }
