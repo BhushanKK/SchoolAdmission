@@ -15,13 +15,13 @@ public static class StudentSubjectChoiceEndpoints
         .WithDescription("Endpoints for managing Student Subject Choice data");
 
         
-
-        group.MapGet("/{id:int}", async (int id, IMediator mediator) =>
+        group.MapGet("/{studentId:guid}", async (Guid studentId, IMediator mediator) =>
         {
-            var response = await mediator.Send(new GetStudentSubjectChoiceByIdQuery(id));
+            var response = await mediator.Send(
+                new GetStudentSubjectChoiceByStudentIdQuery(studentId));
+
             return Results.Json(response, statusCode: response.StatusCode);
         });
-
 
         group.MapPost("/", async ([FromBody] CreateStudentSubjectChoiceCommand command, IMediator mediator) =>
         {

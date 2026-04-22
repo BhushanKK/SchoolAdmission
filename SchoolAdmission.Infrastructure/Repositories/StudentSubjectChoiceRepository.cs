@@ -8,11 +8,13 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class StudentSubjectChoiceRepository(ApplicationDbContext context)
     : IStudentSubjectChoiceRepository
-{
-    public async Task<List<StudentSubjectChoice>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.studentSubjectChoice
-            .AsNoTracking()
+{   
+    public async Task<List<StudentSubjectChoice>> GetByStudentIdAsync(Guid studentId,CancellationToken cancellationToken)
+    {
+        return await context.studentSubjectChoice
+            .Where(x => x.StudentId == studentId)
             .ToListAsync(cancellationToken);
+    }
 
     public async Task<StudentSubjectChoice?> GetByIdAsync(int id, CancellationToken cancellationToken)
         => await context.studentSubjectChoice

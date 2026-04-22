@@ -4,5 +4,5 @@ using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.StudentSubjectChoice.Queries;
 
-public record GetStudentSubjectChoiceByIdQuery(int Id)
-    : IRequest<ApiResponse<StudentSubjectChoiceQueryDto?>>;
+public record GetStudentSubjectChoiceByStudentIdQuery(Guid StudentId)
+    : IRequest<ApiResponse<List<StudentSubjectChoiceQueryDto>>>;

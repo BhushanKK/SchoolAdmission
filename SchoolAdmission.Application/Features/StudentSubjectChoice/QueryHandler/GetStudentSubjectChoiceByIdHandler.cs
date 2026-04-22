@@ -7,31 +7,38 @@ using SchoolAdmission.Domain.ResponseModels;
 
 namespace SchoolAdmission.Application.Features.StudentSubjectChoice.Queries;
 
-public class GetStudentSubjectChoiceByIdHandler(
+public class GetStudentSubjectChoiceByStudentIdHandler(
     IStudentSubjectChoiceRepository repository)
-    : IRequestHandler<GetStudentSubjectChoiceByIdQuery, ApiResponse<StudentSubjectChoiceQueryDto?>>
+    : IRequestHandler<GetStudentSubjectChoiceByStudentIdQuery,
+        ApiResponse<List<StudentSubjectChoiceQueryDto>>>
 {
-    public async Task<ApiResponse<StudentSubjectChoiceQueryDto?>> Handle(
-        GetStudentSubjectChoiceByIdQuery request,
+    public async Task<ApiResponse<List<StudentSubjectChoiceQueryDto>>> Handle(
+        GetStudentSubjectChoiceByStudentIdQuery request,
         CancellationToken cancellationToken)
     {
-        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var entities = await repository.GetByStudentIdAsync(
+            request.StudentId,
+            cancellationToken);
 
-        if (entity is null)
-            return ApiResponse<StudentSubjectChoiceQueryDto?>.FailureResponse(
-                MessageHelper.NotFound(EntityEnum.StudentSubjectChoice, request.Id),
-                HttpStatusCode.NotFound.GetHashCode()
-            );
+        if (entities == null || !entities.Any())
+        {
+            return ApiResponse<List<StudentSubjectChoiceQueryDto>>.FailureResponse(
+                MessageHelper.NotFound(EntityEnum.StudentSubjectChoice, request.StudentId),
+                HttpStatusCode.NotFound.GetHashCode());
+        }
 
-        return ApiResponse<StudentSubjectChoiceQueryDto?>.SuccessResponse(
-            new StudentSubjectChoiceQueryDto
-            {
-                ChoiceId = (int)entity.ChoiceId,
-                StudentId = entity.StudentId,
-                SubjectId = entity.SubjectId
-            },
+        var result = entities.Select(x => new StudentSubjectChoiceQueryDto
+        {
+            ChoiceId = x.ChoiceId ?? 0,
+            StudentId = x.StudentId,
+            BranchId = x.BranchId,
+            SubjectId = x.SubjectId,
+            GroupId = x.GroupId
+        }).ToList();
+
+        return ApiResponse<List<StudentSubjectChoiceQueryDto>>.SuccessResponse(
+            result,
             MessageHelper.RetrievedSuccessfully(EntityEnum.StudentSubjectChoice),
-            HttpStatusCode.OK.GetHashCode()
-        );
+            HttpStatusCode.OK.GetHashCode());
     }
 }
