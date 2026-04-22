@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using SchoolAdmission.Application.Features.StudentDocument.Queries;
 using SchoolAdmission.Application.Features.StudentDocuments.Commands;
 
 namespace SchoolAdmission.API.Endpoints;
@@ -20,5 +21,11 @@ public static class StudentDocumentEndpoints
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         }).DisableAntiforgery();
+
+        group.MapGet("/{studentId:guid}", async (Guid studentId, IMediator mediator) =>
+        {
+            var response = await mediator.Send(new GetStudentDocumentByStudentIdQuery(studentId));
+            return Results.Json(response, statusCode: response.StatusCode);
+        });
     }
 }
