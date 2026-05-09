@@ -12,7 +12,7 @@ public static class BranchMasterEndpoints
         var group = app.MapGroup("/api/Branchmasters")
         .WithTags("Branch Master")
         .RequireAuthorization()
-        .WithDescription("Endpoints for managing Branch master data");
+        .WithDescription("Endpoints for managing Branch master data-By BhushanK");
 
         
         group.MapGet("/", async (IMediator mediator) =>
