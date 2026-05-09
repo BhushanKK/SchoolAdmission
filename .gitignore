@@ -15,7 +15,7 @@ Logs/
 Thumbs.db
 
 # Environment specific
-appsettings.Development.json
+# appsettings.Development.json
 
 # Publish output
 publish/
