@@ -13,10 +13,20 @@ using SchoolAdmission.Infrastructure.Repositories;
 using SchoolAdmission.Application.Behaviors;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.API.Middlewares;
+using Azure.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
+// Add Azure Key Vault
+//var keyVaultUrl = new Uri("https://learningblogvaults.vault.azure.net/");
 
+// builder.Configuration.AddAzureKeyVault(
+//     keyVaultUrl,
+//     new DefaultAzureCredential()
+// );
+
+//var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+//var jwtKeyFromVault = builder.Configuration["Jwt:key"];
 #region Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
