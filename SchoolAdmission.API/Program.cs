@@ -18,12 +18,12 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add Azure Key Vault
-var keyVaultUrl = new Uri("https://schooladmission.vault.azure.net/");
+// var keyVaultUrl = new Uri("https://schooladmission.vault.azure.net/");
 
-builder.Configuration.AddAzureKeyVault(
-    keyVaultUrl,
-    new DefaultAzureCredential()
-);
+// builder.Configuration.AddAzureKeyVault(
+//     keyVaultUrl,
+//     new DefaultAzureCredential()
+// );
  var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 #region Serilog
 Log.Logger = new LoggerConfiguration()
