@@ -34,15 +34,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Roles> Roles => Set<Roles>();
     public DbSet<Administration> Administrations => Set<Administration>();
     public DbSet<UsersLogin> UsersLogins => Set<UsersLogin>();
-    public DbSet<StudentDetailsStep> StudentDetailsSteps => Set<StudentDetailsStep>();
+
     public DbSet<StudentDetailsView> StudentDetailsView { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<StudentDetailsView>(entity =>
-        {
-            entity.ToTable("StudentDetailsView");
-            entity.HasKey(e => e.StudentId);
-        });
         modelBuilder.Entity<CasteMaster>(entity =>
         {
             entity.ToTable("CasteMaster");

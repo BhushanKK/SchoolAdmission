@@ -21,6 +21,5 @@ public enum EntityEnum
     StudentHealth,
     StudentParents,
     StudentSubjectChoice,
-    StudentDetailsSteps
 
 }

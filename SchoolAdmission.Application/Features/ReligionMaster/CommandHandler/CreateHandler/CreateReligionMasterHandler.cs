@@ -10,6 +10,7 @@ using SchoolAdmission.Domain.Utils;
 using static SchoolAdmission.Domain.Utils.CommanEnums;
 using SchoolAdmission.Domain.ResponseModels;
 
+
 public class CreateReligionMasterHandler(
         IMapper mapper,
         ILogger<CreateReligionMasterHandler> logger,IReligionMasterRepository religionMasterRepository,
