@@ -18,7 +18,7 @@ using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add Azure Key Vault
-var keyVaultUrl = new Uri("https://learningblogvaults.vault.azure.net/");
+var keyVaultUrl = new Uri("https://schooladmission.vault.azure.net/");
 
 builder.Configuration.AddAzureKeyVault(
     keyVaultUrl,
