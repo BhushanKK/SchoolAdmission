@@ -14,5 +14,6 @@ public static class StoreProcedureConstants
     public const string StudentFees = "USP_StudentFees";
 
     public const string StudentAcademicHistory = "USP_StudentAcademicHistory";
+    public const string USP_StudentDetailsStep = "USP_StudentDetailsStep";
     
 }
