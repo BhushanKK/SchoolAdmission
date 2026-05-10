@@ -15,15 +15,16 @@ using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.API.Middlewares;
 using Azure.Identity;
 
-var builder = WebApplication.CreateBuilder(args);
 
-var keyVaultUrl = new Uri("https://schooladmission.vault.azure.net/");
+var builder = WebApplication.CreateBuilder(args);
+// Add Azure Key Vault
+var keyVaultUrl = new Uri("https://learningblogvaults.vault.azure.net/");
 
 builder.Configuration.AddAzureKeyVault(
     keyVaultUrl,
     new DefaultAzureCredential()
 );
-
+ var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 #region Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -58,6 +59,7 @@ builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Emai
 // Register service
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddRepositories();
+
 
 #endregion
 
@@ -103,11 +105,8 @@ app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-    app.MapScalarApiReference();
-}
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.MapMasterEndpoints();
 app.UseStaticFiles();
