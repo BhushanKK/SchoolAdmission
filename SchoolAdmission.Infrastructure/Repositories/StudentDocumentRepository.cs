@@ -43,6 +43,6 @@ public class StudentDocumentRepository(ApplicationDbContext context) : IStudentD
         return result;
     }
     public async Task<List<StudentDocument>> GetByStudentIdAsync(Guid studentId,CancellationToken cancellationToken)
-        => await context.StudentDocuments
+        => await context.StudentDocument
             .Where(x => x.StudentId == studentId).ToListAsync(cancellationToken);
 }

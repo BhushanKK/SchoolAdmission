@@ -11,7 +11,7 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 public class SubjectMasterRepository(ApplicationDbContext context) : ISubjectMasterRepository
 {
     public async Task<List<SubjectMaster>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.Subjects
+        => await context.SubjectMaster
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 
@@ -19,7 +19,7 @@ public class SubjectMasterRepository(ApplicationDbContext context) : ISubjectMas
     int branchId,
     CancellationToken cancellationToken)
 {
-    var subjects = await context.Subjects
+    var subjects = await context.SubjectMaster
         .Where(s => s.BranchId == branchId)
         .Select(s => new
         {
@@ -51,25 +51,25 @@ public class SubjectMasterRepository(ApplicationDbContext context) : ISubjectMas
 }
 
 public async Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
-        => await context.Subjects
+        => await context.SubjectMaster
             .FindAsync(new object[] { id }, cancellationToken);
     public async Task AddAsync(SubjectMaster subject, CancellationToken cancellationToken)
-        => await context.Subjects.AddAsync(subject, cancellationToken);
+        => await context.SubjectMaster.AddAsync(subject, cancellationToken);
 
     public async Task UpdateAsync(SubjectMaster subject, CancellationToken cancellationToken)
-        => context.Subjects.Update(subject);
+        => context.SubjectMaster.Update(subject);
 
     public async Task DeleteAsync(SubjectMaster subject, CancellationToken cancellationToken)
-        => context.Subjects.Remove(subject);
+        => context.SubjectMaster.Remove(subject);
 
     public async Task<bool> IsExistsAsync(string subjectName, OperationType operation, int? subjectId, CancellationToken cancellationToken)
     {
         if (operation is OperationType.Create)
-            return await context.Subjects
+            return await context.SubjectMaster
                 .AnyAsync(x => x.SubjectName!.ToLower() == subjectName.ToLower(), cancellationToken);
 
         else if (operation is OperationType.Update)
-            return await context.Subjects
+            return await context.SubjectMaster
                 .AnyAsync(x => x.SubjectName!.ToLower() == subjectName.ToLower() && x.SubjectId != subjectId, cancellationToken);
 
         return false;

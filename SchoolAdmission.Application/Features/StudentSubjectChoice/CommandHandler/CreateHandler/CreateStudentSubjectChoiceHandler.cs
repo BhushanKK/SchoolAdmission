@@ -15,7 +15,8 @@ public class CreateStudentSubjectChoiceHandler(
     IMapper mapper,
     ILogger<CreateStudentSubjectChoiceHandler> logger,
     ApplicationDbContext context,
-    IStudentSubjectChoiceRepository studentSubjectChoiceRepository
+    IStudentSubjectChoiceRepository studentSubjectChoiceRepository,
+    IStudentSubjectStepRepository studentSubjectStepRepository
 ) : IRequestHandler<CreateStudentSubjectChoiceCommand, ApiResponse<int>>
 {
     public async Task<ApiResponse<int>> Handle(
@@ -46,8 +47,8 @@ public class CreateStudentSubjectChoiceHandler(
             var entity = mapper.Map<StudentSubjectChoice>(request);
             
             await context.studentSubjectChoice.AddAsync(entity, cancellationToken);
+            await studentSubjectStepRepository.SaveStudentSubjectAsync(request.StudentId, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-
             await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(

@@ -14,6 +14,7 @@ namespace SchoolAdmission.Application.Features.CommandHandler.UpdateHandler;
 
 public class UpdateStudentSubjectChoiceHandler(
     IStudentSubjectChoiceRepository repository,
+    IStudentSubjectStepRepository studentSubjectStepRepository,
     IMapper mapper,
     ILogger<UpdateStudentSubjectChoiceHandler> logger,
     ApplicationDbContext context
@@ -60,6 +61,7 @@ public class UpdateStudentSubjectChoiceHandler(
             mapper.Map(request, entity);
 
             await repository.UpdateAsync(entity, cancellationToken);
+            await studentSubjectStepRepository.SaveStudentSubjectAsync(request.StudentId, cancellationToken); 
             await context.SaveChangesAsync(cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);

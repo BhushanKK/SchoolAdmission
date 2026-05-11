@@ -26,8 +26,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<StudentAddresses> StudentAddresses => Set<StudentAddresses>();
     public DbSet<StudentParents> StudentParents => Set<StudentParents>();
     public DbSet<StudentHealth> StudentHealth => Set<StudentHealth>();
-    public DbSet<StudentDocument> StudentDocuments => Set<StudentDocument>();
-    public DbSet<SubjectMaster> Subjects => Set<SubjectMaster>();
+    public DbSet<StudentDocument> StudentDocument => Set<StudentDocument>();
+    public DbSet<SubjectMaster> SubjectMaster => Set<SubjectMaster>();
     public DbSet<StudentSubjectChoice> studentSubjectChoice => Set <StudentSubjectChoice>();
     public DbSet<StudentFees> StudentFees => Set<StudentFees>();
     public DbSet<StudentAcademicHistory> StudentAcademicHistorys => Set<StudentAcademicHistory>();
@@ -94,7 +94,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<SubjectMaster>(entity =>
         {
-            entity.ToTable("Subjects");
+            entity.ToTable("SubjectMaster");
             entity.HasKey(e => e.SubjectId);
         });
 
@@ -130,7 +130,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<StudentDocument>(entity =>
         {
-            entity.ToTable("StudentDocuments");
+            entity.ToTable("StudentDocument");
             entity.HasKey(e => e.StudentId);
         });
 

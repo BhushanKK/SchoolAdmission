@@ -49,7 +49,7 @@ public class CreateSubjectMasterHandler(
             subject.EntryBy = await currentUser.Email;
             subject.EntryDate = DateTime.UtcNow;
 
-            await context.Subjects.AddAsync(subject, cancellationToken);
+            await context.SubjectMaster.AddAsync(subject, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);
