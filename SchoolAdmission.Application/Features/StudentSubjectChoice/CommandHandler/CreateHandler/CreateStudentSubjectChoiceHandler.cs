@@ -1,6 +1,5 @@
 using MediatR;
 using AutoMapper;
-using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Application.Features.StudentSubjectChoice.Commands;
 using Microsoft.Extensions.Logging;

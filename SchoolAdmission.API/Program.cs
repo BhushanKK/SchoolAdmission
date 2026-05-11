@@ -13,7 +13,6 @@ using SchoolAdmission.Infrastructure.Repositories;
 using SchoolAdmission.Application.Behaviors;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.API.Middlewares;
-using Azure.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);

@@ -2,7 +2,6 @@ using MediatR;
 using AutoMapper;
 using SchoolAdmission.Domain;
 using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Application.Features.DivisionMasters.Commands;
 using SchoolAdmission.Infrastructure.Interfaces;
 using Microsoft.Extensions.Logging;
 using System.Net;
