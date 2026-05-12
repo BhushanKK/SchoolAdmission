@@ -1,7 +1,10 @@
+using System.Text.Json.Serialization;
+
 namespace SchoolAdmission.Domain.Dto;
 
 public class StudentSubjectChoiceCommandDto
 {
+    [JsonIgnore]
     public int ChoiceId { get; set; }
     public int BranchId { get; set; }
     public int SubjectId { get; set; }

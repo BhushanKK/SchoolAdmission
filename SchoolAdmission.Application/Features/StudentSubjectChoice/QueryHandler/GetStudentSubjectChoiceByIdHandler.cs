@@ -29,7 +29,7 @@ public class GetStudentSubjectChoiceByStudentIdHandler(
 
         var result = entities.Select(x => new StudentSubjectChoiceQueryDto
         {
-            ChoiceId = x.ChoiceId ?? 0,
+            ChoiceId = x.ChoiceId,
             StudentId = x.StudentId,
             BranchId = x.BranchId,
             SubjectId = x.SubjectId,

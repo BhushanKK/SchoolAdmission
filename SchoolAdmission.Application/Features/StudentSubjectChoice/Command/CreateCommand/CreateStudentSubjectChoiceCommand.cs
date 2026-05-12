@@ -5,4 +5,4 @@ using SchoolAdmission.Domain.ResponseModels;
 namespace SchoolAdmission.Application.Features.StudentSubjectChoice.Commands;
 
 public class CreateStudentSubjectChoiceCommand 
-    : StudentSubjectChoiceCommandDto, IRequest<ApiResponse<int>>;
+    : List<StudentSubjectChoiceCommandDto>, IRequest<ApiResponse<int>>;
