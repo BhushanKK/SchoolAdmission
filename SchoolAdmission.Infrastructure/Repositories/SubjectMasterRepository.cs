@@ -9,49 +9,66 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SubjectMasterRepository(ApplicationDbContext context) : ISubjectMasterRepository
 {
-    public async Task<List<SubjectMaster>> GetAllAsync(CancellationToken cancellationToken)
-        => await context.SubjectMaster
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
+    public async Task<List<SubjectMasterDto>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        return await
+        (
+            from s in context.SubjectMaster
+            join b in context.BranchMasters
+                on s.BranchId equals b.BranchId into sb
+            from b in sb.DefaultIfEmpty()
+
+            select new SubjectMasterDto
+            {
+                SubjectId = s.SubjectId,
+                BranchId = s.BranchId,
+                GroupId = s.GroupId,
+                SubjectName = s.SubjectName,
+                BranchName = b != null ? b.BranchName : null,
+                GroupName = s.GroupId == 1 ? "Mandatory" : s.GroupId == 2 ? "Optional-Group1"
+                            : s.GroupId == 3 ? "Optional-Group2" : null
+            }
+        ).AsNoTracking().ToListAsync(cancellationToken);
+    }
 
     public async Task<GroupedSubjectsDto> GetGroupedByBranchAsync(
     int branchId,
     CancellationToken cancellationToken)
-{
-    var subjects = await context.SubjectMaster
-        .Where(s => s.BranchId == branchId)
-        .Select(s => new
-        {
-            s.SubjectId,
-            s.SubjectName,
-            s.GroupId
-        })
-        .ToListAsync(cancellationToken);
-
-    var groupedData = subjects
-        .GroupBy(s => s.GroupId ?? 0)
-        .ToDictionary(
-            g => g.Key,
-            g => g
-                .GroupBy(x => x.SubjectId)
-                .Select(x => x.First())
-                .Select(x => new SubjectItemDto
-                {
-                    SubjectId = x.SubjectId,
-                    SubjectName = x.SubjectName
-                }).ToList()
-        );
-
-    return new GroupedSubjectsDto
     {
-        BranchId = branchId,
-        Groups = groupedData
-    };
-}
+        var subjects = await context.SubjectMaster
+            .Where(s => s.BranchId == branchId)
+            .Select(s => new
+            {
+                s.SubjectId,
+                s.SubjectName,
+                s.GroupId
+            })
+            .ToListAsync(cancellationToken);
 
-public async Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
-        => await context.SubjectMaster
-            .FindAsync(new object[] { id }, cancellationToken);
+        var groupedData = subjects
+            .GroupBy(s => s.GroupId ?? 0)
+            .ToDictionary(
+                g => g.Key,
+                g => g
+                    .GroupBy(x => x.SubjectId)
+                    .Select(x => x.First())
+                    .Select(x => new SubjectItemDto
+                    {
+                        SubjectId = x.SubjectId,
+                        SubjectName = x.SubjectName
+                    }).ToList()
+            );
+
+        return new GroupedSubjectsDto
+        {
+            BranchId = branchId,
+            Groups = groupedData
+        };
+    }
+
+    public async Task<SubjectMaster?> GetByIdAsync(int id, CancellationToken cancellationToken)
+            => await context.SubjectMaster
+                .FindAsync(new object[] { id }, cancellationToken);
     public async Task AddAsync(SubjectMaster subject, CancellationToken cancellationToken)
         => await context.SubjectMaster.AddAsync(subject, cancellationToken);
 

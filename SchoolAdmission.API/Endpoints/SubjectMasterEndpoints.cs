@@ -46,7 +46,5 @@ public static class SubjectMasterEndpoints
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         });
-
-
     }
 }

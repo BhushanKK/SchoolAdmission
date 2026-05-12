@@ -3,30 +3,29 @@ using MediatR;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.ResponseModels;
-using SchoolAdmission.Domain.Dtos;
+using SchoolAdmission.Domain.Entities;
 
 namespace SchoolAdmission.Application.Features.SubjectMasters.Queries;
 
-public class GetSubjectsGroupedByBranchHandler(ISubjectMasterRepository repository)
-    : IRequestHandler<GetSubjectsGroupedByBranchQuery, ApiResponse<GroupedSubjectsDto>>
+public class GetSubjectMasterByIdHandler(ISubjectMasterRepository repository)
+        : IRequestHandler<GetSubjectMasterByIdQuery, ApiResponse<SubjectMaster>>
 {
-    public async Task<ApiResponse<GroupedSubjectsDto>> Handle(
-        GetSubjectsGroupedByBranchQuery request,
+    public async Task<ApiResponse<SubjectMaster>> Handle(
+        GetSubjectMasterByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var result = await repository.GetGroupedByBranchAsync(request.BranchId, cancellationToken);
+        var data = await repository.GetByIdAsync(request.SubjectId,cancellationToken);
 
-        // Optional: treat empty groups as not found
-        if (result == null || result.Groups.Count == 0)
+        if (data == null)
         {
-            return ApiResponse<GroupedSubjectsDto>.FailureResponse(
-                MessageHelper.NotFound(EntityEnum.SubjectMaster, request.BranchId),
+            return ApiResponse<SubjectMaster>.FailureResponse(
+                MessageHelper.NotFound(EntityEnum.SubjectMaster,request.SubjectId),
                 HttpStatusCode.NotFound.GetHashCode()
             );
         }
 
-        return ApiResponse<GroupedSubjectsDto>.SuccessResponse(
-            result,
+        return ApiResponse<SubjectMaster>.SuccessResponse(
+            data,
             MessageHelper.RetrievedSuccessfully(EntityEnum.SubjectMaster),
             HttpStatusCode.OK.GetHashCode()
         );
