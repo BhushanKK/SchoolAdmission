@@ -8,6 +8,7 @@ public class StudentHealthDto
 
     public decimal? Weight { get; set; }
 
-    public int? HandicappedTypeId { get; set; }
+    public long? HandicappedTypeId { get; set; }
+    public bool? IsHandicapped { get; set; } = false;
 }
 
