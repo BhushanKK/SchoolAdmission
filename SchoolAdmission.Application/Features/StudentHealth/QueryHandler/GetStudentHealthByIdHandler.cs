@@ -15,7 +15,6 @@ public class GetStudentHealthByStudentIdHandler(IStudentHealthRepository reposit
         CancellationToken cancellationToken)
     {
         var entity = await repository.GetByStudentIdAsync(request.StudentId, cancellationToken);
-
         if (entity is null)
             return ApiResponse<StudentHealthQueryDto?>.FailureResponse(
                 MessageHelper.NotFound(EntityEnum.StudentHealth, request.StudentId),
@@ -28,6 +27,7 @@ public class GetStudentHealthByStudentIdHandler(IStudentHealthRepository reposit
                 StudentId = entity.StudentId,
                 Height = entity.Height,
                 Weight = entity.Weight,
+                IsHandicapped = entity.IsHandicapped ?? false,
                 HandicappedTypeId = entity.HandicappedTypeId
             },
             MessageHelper.RetrievedSuccessfully(EntityEnum.StudentHealth),
