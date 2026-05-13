@@ -6,7 +6,7 @@ namespace SchoolAdmission.Infrastructure.Interfaces;
 
 public interface ISubjectMasterRepository
 {
-    Task<List<SubjectMaster>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<SubjectMasterDto>> GetAllAsync(CancellationToken cancellationToken);
 
     Task<GroupedSubjectsDto> GetGroupedByBranchAsync(int branchId, CancellationToken cancellationToken);
     

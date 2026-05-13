@@ -1,21 +1,19 @@
 using MediatR;
 using AutoMapper;
-using SchoolAdmission.Domain;
-using SchoolAdmission.Infrastructure.Data;
-using SchoolAdmission.Application.Features.StudentSubjectChoice.Commands;
-using Microsoft.Extensions.Logging;
-using SchoolAdmission.Infrastructure.Interfaces;
 using System.Net;
-using SchoolAdmission.Domain.Utils;
-using static SchoolAdmission.Domain.Utils.CommanEnums;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using SchoolAdmission.Domain.Entities;
 using SchoolAdmission.Domain.ResponseModels;
+using SchoolAdmission.Domain.Utils;
+using SchoolAdmission.Infrastructure.Data;
+using SchoolAdmission.Infrastructure.Interfaces;
+using SchoolAdmission.Application.Features.StudentSubjectChoice.Commands;
 
 public class CreateStudentSubjectChoiceHandler(
     IMapper mapper,
     ILogger<CreateStudentSubjectChoiceHandler> logger,
     ApplicationDbContext context,
-    IStudentSubjectChoiceRepository studentSubjectChoiceRepository,
     IStudentSubjectStepRepository studentSubjectStepRepository
 ) : IRequestHandler<CreateStudentSubjectChoiceCommand, ApiResponse<int>>
 {
@@ -23,50 +21,33 @@ public class CreateStudentSubjectChoiceHandler(
         CreateStudentSubjectChoiceCommand request,
         CancellationToken cancellationToken)
     {
-        await using var transaction = await context.Database.BeginTransactionAsync(cancellationToken);
-
         try
         {
-            var isExist = await studentSubjectChoiceRepository.IsExistsAsync(
-                request.StudentId,
-                request.SubjectId,
-                OperationType.Create,
-                request.ChoiceId,
-                cancellationToken);
+            var studentId = request.First().StudentId;
 
-            if (isExist)
-            {
-                return new ApiResponse<int>
-                {
-                    Success = false,
-                    Message = "Student Subject Choice already exists",
-                    StatusCode = HttpStatusCode.Conflict.GetHashCode()
-                };
-            }
+            await context.studentSubjectChoice
+                .Where(x => x.StudentId == studentId)
+                .ExecuteDeleteAsync(cancellationToken);
 
-            var entity = mapper.Map<StudentSubjectChoice>(request);
-            
-            await context.studentSubjectChoice.AddAsync(entity, cancellationToken);
-            await studentSubjectStepRepository.SaveStudentSubjectAsync(request.StudentId, cancellationToken);
+            var entities = mapper.Map<List<StudentSubjectChoice>>(request);
+
+            await context.studentSubjectChoice.AddRangeAsync(entities, cancellationToken);
+            await studentSubjectStepRepository.SaveStudentSubjectAsync(studentId, cancellationToken);
             await context.SaveChangesAsync(cancellationToken);
-            await transaction.CommitAsync(cancellationToken);
 
             return ApiResponse<int>.SuccessResponse(
-                entity.SubjectId,
+                studentId.GetHashCode(),
                 MessageHelper.CreatedSuccessfully(EntityEnum.StudentSubjectChoice),
-                HttpStatusCode.Created.GetHashCode()
-            );
+                HttpStatusCode.Created.GetHashCode());
         }
         catch (Exception ex)
         {
-            await transaction.RollbackAsync(cancellationToken);
-
-            logger.LogError(ex, "Error while creating StudentSubjectChoice");
+            logger.LogError(ex, "Error while creating StudentSubjectChoice for StudentId: {StudentId}",
+                request?.FirstOrDefault()?.StudentId);
 
             return ApiResponse<int>.FailureResponse(
                 MessageHelper.InternalServerError(EntityEnum.StudentSubjectChoice),
-                HttpStatusCode.InternalServerError.GetHashCode()
-            );
+                HttpStatusCode.InternalServerError.GetHashCode());
         }
     }
 }

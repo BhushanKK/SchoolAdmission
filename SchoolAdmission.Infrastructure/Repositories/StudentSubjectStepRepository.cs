@@ -6,26 +6,34 @@ using SchoolAdmission.Infrastructure.Data;
 using SchoolAdmission.Infrastructure.Interfaces;
 
 namespace SchoolAdmission.Infrastructure.Repositories;
+
 public class StudentSubjectStepRepository(ApplicationDbContext context) : IStudentSubjectStepRepository
 {
     public async Task<int> SaveStudentSubjectAsync(Guid studentId, CancellationToken ct)
     {
-        var connection = context.Database.GetDbConnection();
+        int returnValue = 0;
+        try
+        {
+            var connection = context.Database.GetDbConnection();
 
-        await using var command = connection.CreateCommand();
+            await using var command = connection.CreateCommand();
 
-        command.CommandText = StoreProcedureConstants.USP_StudentDetailsStep;
-        command.CommandType = CommandType.StoredProcedure;
+            command.CommandText = StoreProcedureConstants.USP_StudentDetailsStep;
+            command.CommandType = CommandType.StoredProcedure;
 
-        command.Parameters.Add(new SqlParameter("@StudentId", (object?)studentId ?? DBNull.Value));
-        command.Parameters.Add(new SqlParameter("@Step", "Step6"));
+            command.Parameters.Add(new SqlParameter("@StudentId", (object?)studentId ?? DBNull.Value));
+            command.Parameters.Add(new SqlParameter("@Step", "Step6"));
 
-        if (connection.State != ConnectionState.Open)
-            await connection.OpenAsync(ct);
+            if (connection.State != ConnectionState.Open)
+                await connection.OpenAsync(ct);
 
-        await command.ExecuteNonQueryAsync(ct);
-        await connection.CloseAsync();
-
-        return 1;
+            returnValue = await command.ExecuteNonQueryAsync(ct);
+            await connection.CloseAsync();
+        }
+        catch (Exception)
+        {
+            returnValue = -1;
+        }
+        return returnValue;
     }
 }

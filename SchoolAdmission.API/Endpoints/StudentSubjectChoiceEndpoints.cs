@@ -28,16 +28,5 @@ public static class StudentSubjectChoiceEndpoints
             var response = await mediator.Send(command);
             return Results.Json(response, statusCode: response.StatusCode);
         });
-
-        group.MapPut("/{id:int}", async (int id,
-            [FromBody] UpdateStudentSubjectChoiceCommand command,
-            IMediator mediator) =>
-        {
-            command.ChoiceId = id;
-
-            var response = await mediator.Send(command);
-            return Results.Json(response, statusCode: response.StatusCode);
-        });
-
     }
 }

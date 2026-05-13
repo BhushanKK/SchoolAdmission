@@ -1,5 +1,3 @@
-using System;
-
 namespace SchoolAdmission.Domain.Entities
 {
     public class StudentDetails : AuditableEntity

@@ -1,5 +1,4 @@
 using System.Net;
-using AutoMapper;
 using MediatR;
 using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;

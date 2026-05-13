@@ -47,6 +47,11 @@ public static class SubjectMasterEndpoints
             return Results.Json(response, statusCode: response.StatusCode);
         });
 
+        group.MapDelete("/{id:int}", static async (int id, IMediator mediator) =>
+        {
+            var response = await mediator.Send(new DeleteSubjectMasterCommand(id));
 
+            return Results.Json(response, statusCode: response.StatusCode);
+        });
     }
 }

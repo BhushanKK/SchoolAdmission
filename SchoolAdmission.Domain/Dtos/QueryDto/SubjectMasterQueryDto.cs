@@ -19,3 +19,13 @@ public class SubjectItemDto
     public int SubjectId { get; set; }
     public string SubjectName { get; set; } = string.Empty;
 }
+
+public class SubjectMasterDto
+{
+    public int SubjectId { get; set; }   
+    public int? BranchId { get; set; }   
+    public int? GroupId { get; set; }   
+    public string? SubjectName { get; set; }
+    public string? GroupName { get; set; }
+    public string? BranchName { get; set; } 
+}
