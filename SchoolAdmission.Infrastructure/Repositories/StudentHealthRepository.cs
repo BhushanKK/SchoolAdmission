@@ -22,6 +22,7 @@ public class StudentHealthRepository(ApplicationDbContext context) : IStudentHea
         command.Parameters.Add(new SqlParameter("@StudentId", (object?)cmd.StudentId ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Height", (object?)cmd.Height ?? DBNull.Value));
         command.Parameters.Add(new SqlParameter("@Weight", (object?)cmd.Weight ?? DBNull.Value));
+        command.Parameters.Add(new SqlParameter("@IsHandicapped", (object?)cmd.IsHandicapped ?? false));
         command.Parameters.Add(new SqlParameter("@HandicappedTypeId", (object?)cmd.HandicappedTypeId ?? DBNull.Value));
 
         var resultParam = new SqlParameter("@Result", SqlDbType.Int)
