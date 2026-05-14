@@ -22,6 +22,12 @@ public static class StudentSubjectChoiceEndpoints
 
             return Results.Json(response, statusCode: response.StatusCode);
         });
+        group.MapGet("/GetStandard/{studentId:guid}", async (Guid studentId, IMediator mediator) =>
+        {
+            var response = await mediator.Send(
+                new GetStudentStandardByStudentIdQuery(studentId));
+            return Results.Json(response, statusCode: response.StatusCode);
+        });
 
         group.MapPost("/", async ([FromBody] CreateStudentSubjectChoiceCommand command, IMediator mediator) =>
         {
