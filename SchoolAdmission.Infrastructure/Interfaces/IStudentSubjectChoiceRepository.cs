@@ -5,7 +5,7 @@ namespace SchoolAdmission.Infrastructure.Interfaces;
 
 public interface IStudentSubjectChoiceRepository
 {
-    Task<StudentSubjectChoice?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task<StudentSubjectChoice?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 
     Task<List<StudentSubjectChoice>> GetByStudentIdAsync( Guid studentId, CancellationToken cancellationToken);
     Task AddAsync(StudentSubjectChoice studentSubjectChoice, CancellationToken cancellationToken);
