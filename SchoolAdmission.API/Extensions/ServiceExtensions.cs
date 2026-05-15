@@ -73,7 +73,6 @@ public static class ServiceExtensions
         services.AddScoped<IStudentSubjectStepRepository, StudentSubjectStepRepository>();
         services.AddHttpContextAccessor();
         services.AddScoped<ICurrentUserRepository, CurrentUserRepository>();
-        
         return services;
     }
 }

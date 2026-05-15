@@ -2,12 +2,10 @@ version=1
 
 # This file caches language service data to improve the performance of C# Dev Kit.
 # It is not intended for manual editing. It can safely be deleted and will be
-# regenerated automatically.
+# regenerated automatically. For more information, see https://aka.ms/lscache
 #
-# To exclude from version control, add *.lscache to your .gitignore file.
-#
-# To disable caching, add the following to your VS Code settings:
-#   "dotnet.projectsystem.enableLanguageServiceCache": false
+# To control where cache files are stored, use the following VS Code setting:
+#   "dotnet.projectsystem.cacheInProjectFolder": true
 
 [project]
 language=C#
@@ -205,9 +203,13 @@ Features/
  StudentAcademicHistroy/
   Command/SaveStudentAcademicHistroyCommand.cs
   CommandHandler/SaveStudentAcademicHistoryHandler.cs
+  Query/GetStudentAcademicHistoryByIdQuery.cs
+  QueryHandler/GetStudentAcademicHistoryByIdHandler.cs
  StudentAddresses/
   Command/SaveStudentAddressesCommand.cs
   CommandHandler/SaveStudentAddressesHandler.cs
+  Query/GetStudentAddressesByIdQuery.cs
+  QueryHandler/GetStudentAddressesByIdHandler.cs
  StudentDetails/Command/
   CreateCommand/CreateStudentSignUpCommand.cs
   UpdateCommand/UpdateStudentCommand.cs
@@ -217,21 +219,56 @@ Features/
  StudentDetails/Query/
   GetAllStudentDetailsQuery.cs
   GetStudentDetailsByIdQuery.cs
+  GetStudentReportQuery.cs
  StudentDetails/QueryHandler/
   GetAllStudentDetailsHandler.cs
   GetStudentDetailsByIdHandler.cs
+  GetStudentReportHandler.cs
  StudentDocument/
   Command/SaveStudentDocumentCommand.cs
   CommandHandler/SaveStudentDocumentHandler.cs
+  Query/GetStudentDocumentByIdQuery.cs
+  QueryHandler/GetStudentDocumentByIdHandler.cs
  StudentFees/
   Command/SaveStudentFeesCommand.cs
   CommandHandler/SaveStudentFeesHandler.cs
  StudentHealth/
   Command/SaveStudentHealthCommand.cs
   CommandHandler/SaveStudentHealthHandler.cs
+  Query/GetStudentHealthByIdQuery.cs
+  QueryHandler/GetStudentHealthByIdHandler.cs
  StudentParents/
   Command/SaveStudentParentCommand.cs
   CommandHandler/SaveStudentParentHandler.cs
+  Query/GetStudentParentsByIdQuery.cs
+  QueryHandler/GetStudentParentsByIdHandler.cs
+ StudentSubjectChoice/Command/
+  CreateCommand/CreateStudentSubjectChoiceCommand.cs
+  UpdateCommand/UpdateStudentSubjectChoiceCommand.cs
+ StudentSubjectChoice/
+  CommandHandler/CreateHandler/CreateStudentSubjectChoiceHandler.cs
+  Query/
+   GetStudentStandardByStudentIdQuery.cs
+   GetStudentSubjectChoiceByIdQuery.cs
+  QueryHandler/
+   GetStudentStandardByStudentIdHandler.cs
+   GetStudentSubjectChoiceByIdHandler.cs
+ SubjectMaster/Command/
+  CreateCommand/CreateSubjectMasteCommand.cs
+  DeleteCommand/DeleteSubjectMasterCommand.cs
+  UpdateCommand/UpdateSubjectMasteCommand.cs
+ SubjectMaster/CommandHandler/
+  CreateHandler/CreateSubjectMasterHandler.cs
+  DeleteHandler/DeleteSubjectMasterHandler.cs
+  UpdateHandler/UpdateSubjectMasterHandler.cs
+ SubjectMaster/Query/
+  GetAllSubjectMasterQuery.cs
+  GetSubjectMasterByIdQuery.cs
+  GetSubjectsGroupedByBranchQuery.cs
+ SubjectMaster/QueryHandler/
+  GetAllSubjectMasterHandler.cs
+  GetSubjectMasterByIdHandler.cs
+  GetSubjectsGroupedByBranchQuery.cs
 Mappers/
  BranchMasterProfile.cs
  CasteMasterProfile.cs
@@ -242,6 +279,8 @@ Mappers/
  ReligionMasterProfile.cs
  SchoolMasterProfile.cs
  StandardMasterProfile.cs
+ StudentSubjectChoiceProfile.cs
+ SubjectMasterProfile.cs
 obj/Debug/net10.0/
  .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
  SchoolAdmission.Application.AssemblyInfo.cs
@@ -251,42 +290,7 @@ obj/Debug/net10.0/
 ../
  SchoolAdmission.Domain/obj/Debug/net10.0/ref/SchoolAdmission.Domain.dll
  SchoolAdmission.Infrastructure/obj/Debug/net10.0/ref/SchoolAdmission.Infrastructure.dll
-<NUGET>/
- automapper.extensions.microsoft.dependencyinjection/12.0.1/lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
- automapper/12.0.1/lib/netstandard2.1/AutoMapper.dll
- azure.core/1.47.1/lib/net8.0/Azure.Core.dll
- azure.identity/1.14.2/lib/net8.0/Azure.Identity.dll
- bcrypt.net-next/4.1.0/lib/net10.0/BCrypt.Net-Next.dll
- bouncycastle.cryptography/2.6.2/lib/net6.0/BouncyCastle.Cryptography.dll
- fluentvalidation.dependencyinjectionextensions/12.1.1/lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll
- fluentvalidation/12.1.1/lib/net8.0/FluentValidation.dll
- mailkit/4.15.1/lib/net10.0/MailKit.dll
- mediatr.contracts/2.0.1/lib/netstandard2.0/MediatR.Contracts.dll
- mediatr/14.0.0/lib/net10.0/MediatR.dll
- microsoft.aspnetcore.authentication.jwtbearer/10.0.5/lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
- microsoft.bcl.asyncinterfaces/8.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll
- microsoft.bcl.cryptography/9.0.4/lib/net9.0/Microsoft.Bcl.Cryptography.dll
- microsoft.data.sqlclient/6.1.1/ref/net9.0/Microsoft.Data.SqlClient.dll
- microsoft.entityframeworkcore.abstractions/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll
- microsoft.entityframeworkcore.relational/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll
- microsoft.entityframeworkcore.sqlserver/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll
- microsoft.entityframeworkcore/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.dll
- microsoft.identity.client.extensions.msal/4.73.1/lib/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
- microsoft.identity.client/4.73.1/lib/net8.0/Microsoft.Identity.Client.dll
- microsoft.identitymodel.abstractions/8.16.0/lib/net10.0/Microsoft.IdentityModel.Abstractions.dll
- microsoft.identitymodel.jsonwebtokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.JsonWebTokens.dll
- microsoft.identitymodel.logging/8.16.0/lib/net10.0/Microsoft.IdentityModel.Logging.dll
- microsoft.identitymodel.protocols.openidconnect/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
- microsoft.identitymodel.protocols/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.dll
- microsoft.identitymodel.tokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.Tokens.dll
- microsoft.sqlserver.server/1.0.0/lib/netstandard2.0/Microsoft.SqlServer.Server.dll
- mimekit/4.15.1/lib/net10.0/MimeKit.dll
- system.clientmodel/1.5.1/lib/net8.0/System.ClientModel.dll
- system.identitymodel.tokens.jwt/8.16.0/lib/net10.0/System.IdentityModel.Tokens.Jwt.dll
- system.memory.data/8.0.1/lib/net8.0/System.Memory.Data.dll
- system.security.cryptography.pkcs/10.0.0/lib/net10.0/System.Security.Cryptography.Pkcs.dll
- system.security.cryptography.protecteddata/9.0.4/lib/net9.0/System.Security.Cryptography.ProtectedData.dll
-C:/Program Files/dotnet/packs/Microsoft.AspNetCore.App.Ref/10.0.3/ref/net10.0/
+<DOTNET>/packs/Microsoft.AspNetCore.App.Ref/10.0.7/ref/net10.0/
  Microsoft.AspNetCore.Antiforgery.dll
  Microsoft.AspNetCore.Authentication.Abstractions.dll
  Microsoft.AspNetCore.Authentication.BearerToken.dll
@@ -427,7 +431,7 @@ C:/Program Files/dotnet/packs/Microsoft.AspNetCore.App.Ref/10.0.3/ref/net10.0/
  System.Formats.Cbor.dll
  System.Security.Cryptography.Xml.dll
  System.Threading.RateLimiting.dll
-C:/Program Files/dotnet/packs/Microsoft.NETCore.App.Ref/10.0.3/ref/net10.0/
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.7/ref/net10.0/
  Microsoft.CSharp.dll
  Microsoft.VisualBasic.Core.dll
  Microsoft.VisualBasic.dll
@@ -595,12 +599,44 @@ C:/Program Files/dotnet/packs/Microsoft.NETCore.App.Ref/10.0.3/ref/net10.0/
  System.Xml.XPath.dll
  System.Xml.XPath.XDocument.dll
  WindowsBase.dll
+<NUGET>/
+ automapper.extensions.microsoft.dependencyinjection/12.0.1/lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+ automapper/12.0.1/lib/netstandard2.1/AutoMapper.dll
+ azure.core/1.47.1/lib/net8.0/Azure.Core.dll
+ azure.identity/1.14.2/lib/net8.0/Azure.Identity.dll
+ bcrypt.net-next/4.1.0/lib/net10.0/BCrypt.Net-Next.dll
+ bouncycastle.cryptography/2.6.2/lib/net6.0/BouncyCastle.Cryptography.dll
+ fluentvalidation.dependencyinjectionextensions/12.1.1/lib/net8.0/FluentValidation.DependencyInjectionExtensions.dll
+ fluentvalidation/12.1.1/lib/net8.0/FluentValidation.dll
+ mailkit/4.15.1/lib/net10.0/MailKit.dll
+ mediatr.contracts/2.0.1/lib/netstandard2.0/MediatR.Contracts.dll
+ mediatr/14.0.0/lib/net10.0/MediatR.dll
+ microsoft.aspnetcore.authentication.jwtbearer/10.0.5/lib/net10.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+ microsoft.bcl.asyncinterfaces/8.0.0/lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll
+ microsoft.bcl.cryptography/9.0.4/lib/net9.0/Microsoft.Bcl.Cryptography.dll
+ microsoft.data.sqlclient/6.1.1/ref/net9.0/Microsoft.Data.SqlClient.dll
+ microsoft.entityframeworkcore.abstractions/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.Abstractions.dll
+ microsoft.entityframeworkcore.relational/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll
+ microsoft.entityframeworkcore.sqlserver/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.SqlServer.dll
+ microsoft.entityframeworkcore/10.0.3/lib/net10.0/Microsoft.EntityFrameworkCore.dll
+ microsoft.identity.client.extensions.msal/4.73.1/lib/net8.0/Microsoft.Identity.Client.Extensions.Msal.dll
+ microsoft.identity.client/4.73.1/lib/net8.0/Microsoft.Identity.Client.dll
+ microsoft.identitymodel.abstractions/8.16.0/lib/net10.0/Microsoft.IdentityModel.Abstractions.dll
+ microsoft.identitymodel.jsonwebtokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.JsonWebTokens.dll
+ microsoft.identitymodel.logging/8.16.0/lib/net10.0/Microsoft.IdentityModel.Logging.dll
+ microsoft.identitymodel.protocols.openidconnect/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+ microsoft.identitymodel.protocols/8.0.1/lib/net9.0/Microsoft.IdentityModel.Protocols.dll
+ microsoft.identitymodel.tokens/8.16.0/lib/net10.0/Microsoft.IdentityModel.Tokens.dll
+ microsoft.sqlserver.server/1.0.0/lib/netstandard2.0/Microsoft.SqlServer.Server.dll
+ mimekit/4.15.1/lib/net10.0/MimeKit.dll
+ system.clientmodel/1.5.1/lib/net8.0/System.ClientModel.dll
+ system.identitymodel.tokens.jwt/8.16.0/lib/net10.0/System.IdentityModel.Tokens.Jwt.dll
+ system.memory.data/8.0.1/lib/net8.0/System.Memory.Data.dll
+ system.security.cryptography.pkcs/10.0.0/lib/net10.0/System.Security.Cryptography.Pkcs.dll
+ system.security.cryptography.protecteddata/9.0.4/lib/net9.0/System.Security.Cryptography.ProtectedData.dll
 
 [analyzerReferences]
-<NUGET>/
- microsoft.entityframeworkcore.analyzers/10.0.3/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
- system.clientmodel/1.5.1/analyzers/dotnet/cs/System.ClientModel.SourceGeneration.dll
-C:/Program Files/dotnet/packs/Microsoft.AspNetCore.App.Ref/10.0.3/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.AspNetCore.App.Ref/10.0.7/analyzers/dotnet/cs/
  Microsoft.AspNetCore.App.Analyzers.dll
  Microsoft.AspNetCore.App.CodeFixes.dll
  Microsoft.AspNetCore.App.SourceGenerators.dll
@@ -608,18 +644,21 @@ C:/Program Files/dotnet/packs/Microsoft.AspNetCore.App.Ref/10.0.3/analyzers/dotn
  Microsoft.Extensions.Logging.Generators.dll
  Microsoft.Extensions.Options.SourceGeneration.dll
  Microsoft.Extensions.Validation.ValidationsGenerator.dll
-C:/Program Files/dotnet/packs/Microsoft.NETCore.App.Ref/10.0.3/analyzers/dotnet/cs/
+<DOTNET>/packs/Microsoft.NETCore.App.Ref/10.0.7/analyzers/dotnet/cs/
  Microsoft.Interop.ComInterfaceGenerator.dll
  Microsoft.Interop.JavaScript.JSImportGenerator.dll
  Microsoft.Interop.LibraryImportGenerator.dll
  Microsoft.Interop.SourceGeneration.dll
  System.Text.Json.SourceGeneration.dll
  System.Text.RegularExpressions.Generator.dll
-C:/Program Files/dotnet/sdk/10.0.103/Sdks/Microsoft.NET.Sdk/analyzers/
+<DOTNET>/sdk/10.0.107/Sdks/Microsoft.NET.Sdk/analyzers/
  Microsoft.CodeAnalysis.CSharp.NetAnalyzers.dll
  Microsoft.CodeAnalysis.NetAnalyzers.dll
+<NUGET>/
+ microsoft.entityframeworkcore.analyzers/10.0.3/analyzers/dotnet/cs/Microsoft.EntityFrameworkCore.Analyzers.dll
+ system.clientmodel/1.5.1/analyzers/dotnet/cs/System.ClientModel.SourceGeneration.dll
 
 [analyzerConfigFiles]
 ../.editorconfig
-C:/Program Files/dotnet/sdk/10.0.103/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
+<DOTNET>/sdk/10.0.107/Sdks/Microsoft.NET.Sdk/analyzers/build/config/analysislevel_10_default.globalconfig
 obj/Debug/net10.0/SchoolAdmission.Application.GeneratedMSBuildEditorConfig.editorconfig

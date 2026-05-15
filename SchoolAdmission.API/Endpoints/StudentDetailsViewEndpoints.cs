@@ -16,5 +16,11 @@ public static class StudentDetailsViewEndpoints
             var response = await mediator.Send(new GetAllStudentDetailsQuery());
             return Results.Json(response, statusCode: response.StatusCode);
         });
+
+        group.MapGet("/{studentId}", async (IMediator mediator, Guid studentId) =>
+        {
+            var response = await mediator.Send(new GetStudentReportQuery(studentId));
+            return Results.Json(response, statusCode: response.StatusCode);
+        });
     }
 }
