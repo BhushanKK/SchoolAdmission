@@ -108,6 +108,7 @@ app.MapOpenApi();
 app.MapScalarApiReference();
 
 app.MapMasterEndpoints();
+
 app.UseStaticFiles();
 
 app.Run();

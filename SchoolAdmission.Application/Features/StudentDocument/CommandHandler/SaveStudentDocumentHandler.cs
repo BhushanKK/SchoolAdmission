@@ -42,7 +42,7 @@ public class SaveStudentDocumentHandler(IStudentDocumentRepository repository)
                 );
             }
 
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "Uploads");
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot", "Uploads");
 
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);

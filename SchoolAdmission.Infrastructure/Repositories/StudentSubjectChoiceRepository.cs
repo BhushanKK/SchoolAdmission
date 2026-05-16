@@ -16,9 +16,13 @@ public class StudentSubjectChoiceRepository(ApplicationDbContext context)
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<StudentSubjectChoice?> GetByIdAsync(int id, CancellationToken cancellationToken)
-        => await context.studentSubjectChoice
-            .FindAsync(new object[] { id }, cancellationToken);
+    public async Task<StudentSubjectChoice?> GetByIdAsync(
+    Guid studentId,
+    CancellationToken cancellationToken)
+    => await context.studentSubjectChoice
+        .FirstOrDefaultAsync(
+            x => x.StudentId == studentId,
+            cancellationToken);
 
     public async Task AddAsync(StudentSubjectChoice studentSubjectChoice, CancellationToken cancellationToken)
         => await context.studentSubjectChoice.AddAsync(studentSubjectChoice, cancellationToken);

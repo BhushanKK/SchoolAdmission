@@ -27,5 +27,12 @@ public static class StudentDocumentEndpoints
             var response = await mediator.Send(new GetStudentDocumentByStudentIdQuery(studentId));
             return Results.Json(response, statusCode: response.StatusCode);
         });
+
+        group.MapDelete("/{documentId:long}", async (long documentId,IMediator mediator) =>
+        {
+            var response = await mediator.Send(new DeleteStudentDocumentCommand(documentId));
+            return Results.Json(response, statusCode: response.StatusCode );
+        });
+
     }
 }

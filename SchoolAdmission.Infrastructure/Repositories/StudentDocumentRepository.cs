@@ -45,4 +45,16 @@ public class StudentDocumentRepository(ApplicationDbContext context) : IStudentD
     public async Task<List<StudentDocument>> GetByStudentIdAsync(Guid studentId,CancellationToken cancellationToken)
         => await context.StudentDocument
             .Where(x => x.StudentId == studentId).ToListAsync(cancellationToken);
+
+    public async Task DeleteAsync(StudentDocument studentDocument,CancellationToken cancellationToken)
+    {
+        context.StudentDocument.Remove(studentDocument);
+    }
+    public async Task<StudentDocument?> GetByIdAsync(long documentId,CancellationToken cancellationToken)
+    {
+        return await context.StudentDocument.FirstOrDefaultAsync(
+                x => x.DocumentId == documentId,
+                cancellationToken
+            );
+    }
 }

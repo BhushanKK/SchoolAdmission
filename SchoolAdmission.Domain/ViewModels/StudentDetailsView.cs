@@ -3,8 +3,9 @@ public class StudentDetailsView
 {
     public Guid StudentId { get; set; }
 
-    public long? RegistrationNo { get; set; }   
+    public string? RegistrationNo { get; set; }   
     public string? SchoolName { get; set; }
+    public string? CommiteeName { get; set; }
     public string? AcademicYearName { get; set; }
     public string? FinancialYearName { get; set; }
     public string? StudentName { get; set; }
@@ -16,6 +17,7 @@ public class StudentDetailsView
     public string? MotherTongue { get; set; }
     public string? Religion { get; set; }
     public string? Caste { get; set; }
+    public string? Category { get; set; }
     public string? IsMinority { get; set; }
     public string? IsHandicapped { get; set; }
     public string? IsBpl { get; set; }
@@ -24,6 +26,7 @@ public class StudentDetailsView
 
     public string? PhotoPath { get; set; }
     public string? BranchName { get; set; }
+    public string? StandardName { get; set; }
     public string? PermanentAddress { get; set; }
     public string? CurrentAddress { get; set; }
 
