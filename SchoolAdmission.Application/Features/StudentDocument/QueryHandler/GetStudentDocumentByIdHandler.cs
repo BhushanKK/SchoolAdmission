@@ -31,7 +31,7 @@ public class GetStudentDocumentByStudentIdHandler(IStudentDocumentRepository rep
         }).ToList();
 
         return ApiResponse<List<StudentDocumentQueryDto?>>.SuccessResponse(
-            result,
+            result!,
             MessageHelper.RetrievedSuccessfully(EntityEnum.StudentDocument),
             HttpStatusCode.OK.GetHashCode());
     }
