@@ -16,6 +16,6 @@ Thumbs.db
 
 # Environment specific
 # appsettings.Development.json
-
+appsettings.json
 # Publish output
 publish/
