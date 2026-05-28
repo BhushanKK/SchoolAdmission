@@ -8,7 +8,7 @@ namespace SchoolAdmission.Infrastructure.Repositories;
 
 public class SchoolMasterRepository(ApplicationDbContext context) : ISchoolMasterRepository
 {
-    public async Task<List<SchoolMaster>> GetAllAsync(int commiteeId, CancellationToken cancellationToken)
+    public async Task<List<SchoolMaster>> GetAllAsync(int? commiteeId, CancellationToken cancellationToken)
     {
         var query = from school in context.SchoolMasters.AsNoTracking()
                     join committee in context.CommiteMasters.AsNoTracking()

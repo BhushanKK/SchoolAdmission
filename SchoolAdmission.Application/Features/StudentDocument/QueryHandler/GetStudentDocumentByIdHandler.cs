@@ -4,10 +4,11 @@ using SchoolAdmission.Domain.Dtos;
 using SchoolAdmission.Domain.Utils;
 using SchoolAdmission.Infrastructure.Interfaces;
 using SchoolAdmission.Domain.ResponseModels;
+using Microsoft.AspNetCore.Http;
 
 namespace SchoolAdmission.Application.Features.StudentDocument.Queries;
 
-public class GetStudentDocumentByStudentIdHandler(IStudentDocumentRepository repository)
+public class GetStudentDocumentByStudentIdHandler(IStudentDocumentRepository repository,IHttpContextAccessor httpContextAccessor)
     : IRequestHandler<GetStudentDocumentByStudentIdQuery, ApiResponse<List<StudentDocumentQueryDto?>>>
 {
     public async Task<ApiResponse<List<StudentDocumentQueryDto?>>> Handle(
@@ -15,6 +16,9 @@ public class GetStudentDocumentByStudentIdHandler(IStudentDocumentRepository rep
         CancellationToken cancellationToken)
     {
         var entities = await repository.GetByStudentIdAsync(request.StudentId, cancellationToken);
+        var httpRequest = httpContextAccessor.HttpContext!.Request;
+
+        string baseUrl = $"{httpRequest.Scheme}://{httpRequest.Host}";
 
         if (entities == null || !entities.Any())
             return ApiResponse<List<StudentDocumentQueryDto?>>.FailureResponse(
@@ -26,7 +30,7 @@ public class GetStudentDocumentByStudentIdHandler(IStudentDocumentRepository rep
             DocumentId = entity.DocumentId,
             StudentId = entity.StudentId,
             DocumentType = entity.DocumentType,
-            DocumentPath = entity.DocumentPath,
+            DocumentPath = baseUrl + "/" + entity.DocumentPath,
             UploadedDate = entity.UploadedDate
         }).ToList();
 

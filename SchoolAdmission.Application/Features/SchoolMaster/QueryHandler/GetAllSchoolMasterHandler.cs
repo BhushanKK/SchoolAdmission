@@ -13,7 +13,7 @@ public class GetAllSchoolMasterHandler(ISchoolMasterRepository repository)
     public async Task<ApiResponse<List<SchoolMaster>>> Handle(GetAllSchoolMasterQuery request, 
     CancellationToken cancellationToken)
     {
-        var data = await repository.GetAllAsync(request.CommiteeId ?? 0, cancellationToken);
+        var data = await repository.GetAllAsync(request.CommiteeId, cancellationToken);
 
         return ApiResponse<List<SchoolMaster>>.SuccessResponse(data.Select(x => new SchoolMaster
         {
